@@ -1,0 +1,252 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% if orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID') %}
+    {% set header = "L'accompagnement financier" %}
+{% elseif orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_PREZ_PROJECT_FORMULA_ID') %}
+    {% set header = "Présentation de projet" %}
+{% else %}
+    {% set header = "Demande de service" %}
+{% endif %}
+
+{% block nav_header_addon %}
+        {% if bp.isTrial %}
+        <div class="btn-small izy-color-secondary-bg white-text bp-trial-information">
+            {% if bp.isTrialExpired %}
+                <span>Période d'essai {{ bp.catalog.name }} expirée</span>
+            {% else %}
+                <span>Essai {{ bp.catalog.name }} {{date() .diff(bp.service.expireTrialDate).days}} jours</span>
+            {% endif %}
+            <a class='white-text' href="{{ path('promotion_catalog_one', {'bpHash': bp.hash}) }}">En savoir plus</a>
+        </div>
+    {% endif %}
+{% endblock nav_header_addon %}
+
+{% block nav_content %}
+    {% include 'BPBundle:Frontend:_components/bp-menu.html.twig' %}
+{% endblock nav_content %}
+
+{% block body %}
+    <div class="row">
+        <div class="col s12 m10 offset-m1 l8 offset-l2">
+            {% if orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID') %}
+                <div class="row">
+                    <div class="col s12">
+                        <p>Prenez rendez-vous avec nos experts financier pour échanger par téléphone pendant 1H00 sur votre Business Plan Financier et obtenez tous les conseils nécessaires à la réussite de votre demande de financement.
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row col s12">
+                {{ form_start(form, {'attr': {'id':'joorney_order'} }) }}
+                <div class="input-field col s12 hidden">
+                    {{ form_widget (form.catalog) }}
+                    {{ form_label  (form.catalog) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.user.email) }}
+                    {{ form_errors (form.user.email) }}
+                    {{ form_label  (form.user.email) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.user.firstname) }}
+                    {{ form_errors (form.user.firstname) }}
+                    {{ form_label  (form.user.firstname) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.user.lastname) }}
+                    {{ form_errors (form.user.lastname) }}
+                    {{ form_label  (form.user.lastname) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.user.phoneNumber) }}
+                    {{ form_errors (form.user.phoneNumber) }}
+                    {{ form_label  (form.user.phoneNumber) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.preferedTime) }}
+                    {{ form_label  (form.preferedTime) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.activityField) }}
+                    {{ form_errors (form.activityField) }}
+                    {{ form_label  (form.activityField) }}
+                </div>
+
+                <div class="input-field col s12">
+                    {{ form_widget (form.activityDescription) }}
+                    {{ form_errors (form.activityDescription) }}
+                    {{ form_label  (form.activityDescription) }}
+                </div>
+
+            </div>
+
+            {% if orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID') and bp.catalog.nbAdviceHour < 1  %}
+                <div class="row no-margin">
+                    <span class="col s12 right-align offset-m8 m4">L'accompagnement financier fait partie de la formule Pro et nécessite de passer à la formule supérieure.</span>
+                </div>
+            {% elseif orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_PREZ_PROJECT_FORMULA_ID') and not bp.catalog.hasWording %}
+                <div class="row no-margin">
+                    <span class="col s12 right-align offset-m8 m4">La présentation projet fait partie de la formule Premium et nécessite de passer à la formule supérieure.</span>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn-large izy-color-secondary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">
+                        Envoyez votre demande</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock body %}
+
+
+{% block modal %}
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-formula-change-acc',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Souscrivez à la formule Pro'} %}    
+        {% block modal_title %}
+            <h4>Profitez de notre Formule Pro et de l’aide d’un de nos experts pour remplir votre Business Plan en ligne</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Mettez toutes les chances de votre coté pour décrocher votre financement grâce à 1H00 de conseil par téléphone.</p>
+            <p>Posez toutes vos questions et obtenez des réponses concrètes sur :  
+                <ul>
+                    <li>Les chiffres de votre Business Plan</li>
+                    <li>La cohérence de vos chiffres par rapport à votre secteur</li>
+                    <li>Les arguments pour défendre vos chiffres auprès de vos partenaires</li>
+                </ul>
+            </p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-formula-end-trial-acc',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Réglez votre formule'} %}    
+        {% block modal_title %}
+            <h4>Votre demande de rendez-vous de conseil financier</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Votre période d'essai vous permet de modifier gratuitement votre Business Plan Financier.</p>
+            <p>Pour transmettre votre demande de rendez-vous d'1H00 de conseil téléphonique vous devrez procéder au réglement de votre formule</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-more-hour',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Commandez'} %}
+        {% block modal_title %}
+            <h4>Vous avez déjà bénéficié de votre heure de conseil téléphonique avec un expert financier</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Vous avez encore des questions ?<br/>
+                Besoin d'appronfondir certains points ?<br/>
+                Aucun problème ! Vous pouvez commander 1H00 de conseil supplémentaire.<br/>
+                Tarif: {{catalog.price}} €
+            </p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-formula-change-wording',
+        'type': 'information-left-align-content',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Souscrivez à la formule Premium'} %}
+        {% block modal_title %}
+            <h4>La présentation projet fait partie de la formule Premium</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Soyez convainquant et décrochez vos besoins en financement grâce à une présentation personnalisée et détaillée de votre projet.</p>
+            
+            <p>Dans ce document retrouvez :
+                <ul class='browser-default'>
+                    <li><b>La rédaction personnalisée de projet :</b><br/>Produits et services, Proposition de valeur, Cibles, Stratégie commerciale, Stratégie de distribution, Stratégie de communication, Equipe, Besoin de financement</li>
+                    <li>
+                        <b>Une étude de marché sectorielle et locale :</b>
+                        <ul class='browser-default'>
+                            <li><u>Evolution secteur :</u> Informations et chiffres clés de votre secteur d’activité (Croissance de votre secteur, les déterminants de l’activité,  …)</li>
+                            <li><u>Etude locale :</u> Données démographiques, principaux concurrents (dénomination, CA, effectifs), CSP de la zone géographique, ratios financier du secteur, investissements nécessaires à votre activité.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-formula-end-trial-wording',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Réglez votre formule'} %}
+        {% block modal_title %}
+            <h4>Votre demande de présentation projet</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Votre période d'essai vous permet de modifier gratuitement votre Business Plan Financier.</p>
+            <p>Pour transmettre votre demande de rprésentation personnalisée vous devrez procéder au réglement de votre formule</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-more-wording',
+        'targetCTAUrl': path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalog.id}),
+        'targetCTACaption': 'Commandez'} %}
+        {% block modal_title %}
+            <h4>Vous avez déjà transmis les informations nécessaires à la création de votre présentation projet</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>
+                Vous souhaitez mettre à jour votre présentation personnalisée ?<br/>
+                Aucun problème !<br/>
+                Vous pouvez demander une mise à jour de votre document.<br/>
+                Tarif: {{catalog.price}} €
+            </p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'purchase-confirm-on-order',
+        'targetCTACaption': 'Envoyez votre demande',
+        'targetCloseCaption':'Modifiez votre formulaire'} %}
+        {% block modal_title %}
+            <h4>Votre achat a été réalisé avec succès</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>
+                Toute l'équipe Planoo vous remercie pour votre confiance.<br/>
+                Vous pouvez soit modifier votre demande, soit l'envoyer directement.
+            </p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+
+{% endblock modal %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $( document ).ready( function (){ 
+            var form = document.getElementById("joorney_order");
+            document.getElementById("purchase-confirm-on-order-cta").addEventListener("click", function () {
+            form.submit();
+            });
+
+        {% set paidCart=getPaidCart() %}
+        {% if popup %}
+            openModal( "#{{ popup }}" );        
+        {% elseif paidCart %}
+            openModal( "#purchase-confirm-on-order" );
+        {% endif %} 
+
+        } );
+    </script>
+{% endblock javascripts %}

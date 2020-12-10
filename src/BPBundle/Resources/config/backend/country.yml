@@ -1,0 +1,24 @@
+back_country_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/Country:index" }
+    methods:  GET
+
+
+back_country_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/Country:new" }
+    methods:  [GET, POST]
+
+back_country_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/Country:edit" }
+    methods:  [GET, POST]
+
+back_country_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/Country:delete" }
+    methods:  DELETE
+
+back_country_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/Country:deleted" }

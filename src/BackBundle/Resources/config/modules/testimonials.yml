@@ -1,0 +1,28 @@
+back_testimonials_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Testimonials:index" }
+    methods:  GET
+
+back_testimonials_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Testimonials:show" }
+    methods:  GET
+
+back_testimonials_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Testimonials:new" }
+    methods:  [GET, POST]
+
+back_testimonials_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Testimonials:edit" }
+    methods:  [GET, POST]
+
+back_testimonials_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Testimonials:delete" }
+    methods:  DELETE
+
+back_testimonials_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BackBundle:Testimonials:deleted" }

@@ -1,0 +1,167 @@
+/* BPPromotion Catalog */
+.catalog-description {
+  padding-bottom: 40px;
+  font-size: 14px;
+}
+
+.catalog-container {
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  display: flex;
+  margin: 0;
+  padding-top: 30px;
+
+  .col {
+    padding-bottom: 25px;
+
+    @media screen and (max-width: 1015px) {
+      width: 100%;
+    }
+
+    &.upgrade {
+      margin-right: 75px;
+      margin-left: 75px;
+    }
+  }
+
+  * {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .catalog-header {
+    padding: 16px;
+    flex: 1;
+    position: relative;
+    width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &:not(.izy-color-secondary-bg) {
+      border-top: white 1px solid;
+      border-right: white 1px solid;
+      border-left: white 1px solid;
+    }
+
+    h2 {
+      font-size: 30px;
+
+      &.upgrade {
+        margin-top: 16px !important;
+        margin-bottom: 16px !important;
+      }
+    }
+
+    h5 {
+      font-size: 25px;
+
+      &.upgrade {
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+      }
+    }
+
+    .catalog-item-highlight-corner,
+    .catalog-item-highlight-text {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .catalog-item-highlight-text {
+      text-transform: uppercase;
+      font-size: 10px !important;
+      margin-right: 5px;
+      margin-top: 5px;
+    }
+
+    .catalog-item-highlight-corner {
+      display: inline-block;
+      height: 0;
+      width: 0;
+      right: -1px;
+      top: -1px;
+      border-top: 80px solid #ffbf00;
+      border-left: 110px solid transparent;
+    }
+
+    img {
+      width: auto;
+      height: 60px;
+      margin: 10px;
+    }
+
+    hr {
+      width: 50%;
+      margin-block-start: 7px;
+      margin-block-end: 7px;
+    }
+
+    .sub-text {
+      font-size: 12px;
+    }
+  }
+
+  .catalog-item-description {
+    padding: 12px 32px;
+    border-left: grey 1px solid;
+    border-right: grey 1px solid;
+    width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+
+    p:not(.no-padding) {
+      margin-top: 0px;
+    }
+
+    ul {
+      margin-bottom: 0px;
+    }
+
+    ul:not(.no-padding),
+    p:not(.no-padding) {
+      padding-left: 32px;
+    }
+
+    p.no-margin-bottom {
+      margin-bottom: 0;
+    }
+
+    ul,
+    p {
+      font-size: 11px;
+    }
+
+    li {
+      display: list-item;
+      list-style-type: circle;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    .pull_low {
+      padding-top: 12px;
+    }
+  }
+
+  .btn-flat {
+    text-transform: none;
+    width: 310px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 13px;
+  }
+}
+
+.catalog-back-to-projects {
+  margin-top: 20px;
+}
+
+nav.catalog-nav {
+  .nav-wrapper {
+    min-height: 128px !important;
+  }
+}

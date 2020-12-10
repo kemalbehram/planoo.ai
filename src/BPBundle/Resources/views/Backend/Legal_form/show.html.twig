@@ -1,0 +1,43 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>LegalForm</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ legalForm.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ legalForm.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ legalForm.code }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                {% for country in legalForm.countries %}
+                    <td>{{ country.name }}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_legalform_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_legalform_edit', { 'id': legalForm.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

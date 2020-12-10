@@ -1,0 +1,36 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <h1>ChargeType</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chargeType.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ chargeType.translate.name }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ chargeType.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_chargeType_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_chargeType_edit', { 'id': chargeType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

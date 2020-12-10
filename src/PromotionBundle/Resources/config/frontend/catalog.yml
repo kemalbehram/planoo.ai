@@ -1,0 +1,21 @@
+promotion_catalog_index:
+    path:     /
+    defaults: { _controller: PromotionBundle:Frontend/Catalog:index, bpHash:null }
+
+promotion_catalog_one:
+    path:     /{bpHash}
+    defaults: { _controller: PromotionBundle:Frontend/Catalog:index }
+
+
+promotion_catalog_add_item:
+    path:     /add-item/{catalogId}/{businessPlanId}
+    defaults: { _controller: PromotionBundle:Frontend/Catalog:addCatalogItem, businessPlanId: null }
+    options:
+        expose: true
+
+promotion_catalog_remove_item:
+    path:     /remove-item/{itemId}
+    defaults: { _controller: PromotionBundle:Frontend/Catalog:removeCatalogItem }
+    options:
+        expose: true
+

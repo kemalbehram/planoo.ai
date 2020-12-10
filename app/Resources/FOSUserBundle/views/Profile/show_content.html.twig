@@ -1,0 +1,9 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row profil-id">
+    <div class="col s6 center-align"><p>{{ 'profile.show.username'|trans }}: {{ user.username|capitalize }} </p></div>
+    <div class="col s6 center-align">
+        <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+        <p><a href="{{ path('fos_user_profile_edit') }}">Consultez vos infos personnelles</a></p>
+    </div>
+</div>

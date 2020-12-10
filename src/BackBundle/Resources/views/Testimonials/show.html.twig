@@ -1,0 +1,45 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>Testimonials</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ testimonial.id }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ testimonial.content }}</td>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <td>{{ testimonial.author }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if testimonial.createdAt %}{{ testimonial.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ testimonial.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_testimonials_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_testimonials_edit', { 'id': testimonial.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

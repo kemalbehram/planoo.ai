@@ -1,0 +1,64 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% set header = "Demande de facture" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col s12 m10 offset-m1 l8 offset-l2">
+            <div class="row">
+                <div class="col s12">
+                    {{ form_start(form) }}
+
+                    <div class="input-field col s12">
+                        {{ form_widget (form.company) }}
+                        {{ form_errors (form.company) }}
+                        {{ form_label  (form.company) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Adresse de facturation</h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.street) }}
+                        {# input #}
+                        {{ form_errors (form.address.street) }}
+                        {{ form_label  (form.address.street) }}
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.codePostal) }}
+                        {# input #}
+                        {{ form_errors (form.address.codePostal) }}
+                        {{ form_label  (form.address.codePostal) }}
+                    </div>
+                    <!-- ville & domiciliation-->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.city) }}
+                        {# input #}
+                        {{ form_errors (form.address.city) }}
+                        {{ form_label  (form.address.city) }}
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.country) }}
+                        {# input #}
+                        {{ form_label  (form.address.country) }}
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn-large izy-color-secondary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">
+                            Envoyez votre demande</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

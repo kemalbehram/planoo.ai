@@ -1,0 +1,329 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+{% block content %}
+    <div
+        class="col s12 m10 offset-m1">
+        <!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h5 class="header2 bold ">1 - Informations sur la société
+                        </h5>
+                    </div>
+                </div>
+                <br>
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="file-field input-field col s12 m6">
+                        <div class="btn izy-color-primary-bg">
+                            <span>
+                                <i class="material-icons">photo_camera</i>
+                            </span>
+                            {{ form_widget (form.file) }}
+                            {# input #}
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Logo">
+                            {{ form_errors (form.file) }}
+                            {# Affiche les erreurs #}
+                        </div>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.nameCorporate) }}
+                        {# input #}
+                        {{ form_errors (form.nameCorporate) }}
+                        {{ form_label  (form.nameCorporate) }}
+                    </div>
+
+                </div>
+                <!-- Dénomination & juridique-->
+                <div class="row">
+
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.legalForm) }}
+                        {# input #}
+                        {{ form_label  (form.legalForm) }}
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">account_balance</i>
+                        {{ form_widget (form.ir) }}
+                        {# input #}
+                        {{ form_label  (form.ir) }}
+                    </div>
+                </div>
+                <!-- forme  & nom & prénom-->
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">account_circle</i>
+                        {{ form_widget (form.firstnameOwner) }}
+                        {# input #}
+                        {{ form_errors (form.firstnameOwner) }}
+                        {{ form_label  (form.firstnameOwner) }}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">account_circle</i>
+                        {{ form_widget (form.lastnameOwner) }}
+                        {# input #}
+                        {{ form_errors (form.lastnameOwner) }}
+                        {{ form_label  (form.lastnameOwner) }}
+                    </div>
+                </div>
+                <!-- adresse & code postal-->
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.street) }}
+                        {# input #}
+                        {{ form_errors (form.address.street) }}
+                        {{ form_label  (form.address.street) }}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.codePostal) }}
+                        {# input #}
+                        {{ form_errors (form.address.codePostal) }}
+                        {{ form_label  (form.address.codePostal) }}
+                    </div>
+                </div>
+                <!-- ville & domiciliation-->
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">business</i>
+                        {{ form_widget (form.address.city) }}
+                        {# input #}
+                        {{ form_errors (form.address.city) }}
+                        {{ form_label  (form.address.city) }}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.address.country) }}
+                        {# input #}
+                        {{ form_label  (form.address.country) }}
+                    </div>
+                </div>
+                <!-- ===== Informations sur l'activité ====-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <h5 class="header2 bold ">2 - Informations sur l'activité
+                        </h5>
+                    </div>
+                </div>
+                <!-- métier & franchise-->
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.activity) }}
+                        {# input #}
+                        {{ form_label  (form.activity) }}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.activityDetail) }}
+                        {# input #}
+                        {{ form_errors (form.activityDetail) }}
+                        {{ form_label  (form.activityDetail) }}
+                    </div>
+
+                </div>
+                <!-- nom franchise & emplacement-->
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">account_balance</i>
+                        {{ form_widget (form.franchise) }}
+                        {# input #}
+                        {{ form_label  (form.franchise) }}
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.nameFranchise) }}
+                        {# input #}
+                        {{ form_errors (form.nameFranchise) }}
+                        {{ form_label  (form.nameFranchise) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.location) }}
+                        {# input #}
+                        {{ form_label  (form.location) }}
+                    </div>
+                </div>
+                <!--button-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit">Enregistrez et continuez</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function getActivityList( idActivityCategory ) {
+            $.ajax( {
+                url: "{{ path('ajax_legal_form_ir') }}",
+                data: "idActivityCategory=" + idActivityCategory,
+                dataType: "json",
+                success: function ( data ) {
+                    $selectActivity = $( "#information_activity" );
+                    var $selectedActivity = $selectedActivity.val();
+                    $selectedActivity.empty();
+                    data.activities.each( function ( index ) {
+                        $selectedActivity.append( "<option value=\"" + $( this ).id + "\" selected=\"selected\">" + $( this ).id + "</option>" );
+                    } );
+                }
+            } );
+        }
+
+        function getIrSelector( idLegalForm ) {
+            $.ajax( {
+                url: "{{ path('ajax_legal_form_ir') }}",
+                data: "id-legal-form=" + idLegalForm,
+                dataType: "json"
+            } ).success( function ( data ) {
+                $selectIR = $( "#information_ir" );
+                var $selectedIR = $selectIR.val();
+                $selectIR.empty();
+                if ( data.isIS && data.isIR ) {
+                    $selectIR.append( "<option value=\"0\" selected=\"selected\">IS</option>" );
+                    $selectIR.append( "<option value=\"1\">IR</option>" );
+                } else {
+                    if ( data.isIS ) {
+                        $selectIR.append( "<option value=\"0\" selected=\"selected\">IS</option>" );
+                    }
+                    if ( data.isIR ) {
+                        $selectIR.append( "<option value=\"1\" selected=\"selected\">IR</option>" );
+                    }
+                }
+                $selectIR.formSelect();
+                $( "#information_ir  option" ).each( function () {
+                    if ( $selectedIR && this.value === $selectedIR ) {
+                        $( "#information_ir" ).val( $selectedIR ).change();
+                        $( "#information_ir" ).formSelect();
+                    }
+                } );
+                var $selectedFormJuri = $selectFormJuri.val();
+            } ).complete( function () {
+                $( ".loader" ).remove();
+            } );
+        }
+
+        function getFormJuridiqueByCountry( idCountry ) {
+            $selectFormJuri.before( "<span class=\"loader\"></span>" );
+            $.ajax( {
+                url: "{{ path('ajax_country_legal_form') }}",
+                data: "id-country=" + idCountry,
+                dataType: "json"
+            } ).success( function ( data ) {
+                if ( data.html ) {
+                    var $selectFormJuri = $( "#information_legalForm" );
+                    var $selectedFormJuri = $selectFormJuri.val();
+                    $selectFormJuri.html( data.html );
+                } else {
+                    $selectFormJuri.empty();
+                } $selectFormJuri.formSelect();
+                $( "#information_legalForm  option" ).each( function () {
+                    if ( $selectedFormJuri && this.value === $selectedFormJuri ) {
+                        $( "#information_legalForm" ).val( $selectedFormJuri ).change();
+                        $( "#information_legalForm" ).formSelect();
+                    }
+                } );
+            } ).complete( function () {
+                $( ".loader" ).remove();
+            } );
+        }
+
+        var $selectCountry = $( "#information_address_country" );
+        var $selectFormJuri = $( "#information_legalForm" );
+
+        $( document ).ready( function () {
+
+            getFormJuridiqueByCountry( $selectCountry.val() );
+            $selectCountry.change( function () {
+                getFormJuridiqueByCountry( $( this ).val() );
+            } );
+            var fileInput = $( "#information_file" );
+            var trigger = document.querySelector( "#clearLogo" )
+            function clear() {
+                fileInput.replaceWith( fileInput.val( "" ).clone( true ) );
+                trigger.removeEventListener( "transtionend", clear )
+            }
+
+            $selectFormJuri.change( function () {
+                getIrSelector( $( this ).val() );
+            } );
+        } );
+    </script>
+
+
+    
+    {% if bp.isNew and currentRoute == 'financial_information_index' %}
+        <script>
+            $( document ).ready( () => {
+                openModal( "#welcome-popup" );
+            } )
+    
+        </script>
+    {% endif %}
+{% endblock javascripts %}
+
+
+{% block modal %}
+    {{parent()}}
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'welcome-popup',
+        'targetCTACaption': 'Commencez votre projet',
+        'targetCTA2Caption': bp.catalog.nbAdviceHour > 0 ? 'Faites votre demande d\'accompagnement' : null,
+        'targetCTA2Url': path('back_order_BP_internal_service', {'idBusinessPlan': bp.id,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID')}),} %}
+        {% block modal_title %}
+            <p>
+            <h4 class="izy-color-primary-font bold">Vous avez sélectionné la {{ bp.catalog.name }}</h4>
+            </p>
+        {% endblock modal_title %}
+        {% block modal_content %}           
+            <p class="bold text-center">Profitez de 15 jours d'essai gratuit jusqu'au {{bp.service.expireTrialDate |localizeddate('none', 'none', null, null, 'dd MMMM Y')}}</p>
+            <p class="text-center"><b><u>Votre essai inclut</u></b><br/>
+            Votre business Plan Financier<br/>
+            {% if  bp.catalog.nbAdviceHour > 0 %}Un accompagnement financier d'1h avec nos experts<br/>{% endif %}
+            {% if  bp.catalog.hasWording %}Votre présentation de projet personnalisée{% endif %}
+            
+            <p class="text-center">Pour visualiser l’ensemble des étapes de votre Business Plan, 
+            il est nécessaire de remplir les 2 premières étapes pour configurer mon Business Plan.</p>
+            
+            <p class="text-center"> Vous pouvez modifier et télécharger votre Business Plan 
+            en illimité sans aucune limite dans le temps</p>
+        
+            <p class="text-center">......</p>
+
+            {% if  bp.catalog.nbAdviceHour <= 0 %}
+            <p  class="text-center">Si vous rencontrez des difficultés pour remplir votre Business Plan
+            Profitez de notre Formule Pro et de l’aide d’un de nos experts 
+            pour remplir votre Business Plan en ligne</p>
+            {% else %}
+            <p  class="text-center">Si vous rencontrez des difficultés pour remplir votre Business Plan, 
+            Faites votre demande d’accompagnement à tout moment et profitez de l’aide d’un de nos experts pour remplir votre Business Plan en ligne</p>
+            {% endif %}
+            
+            <p class="text-center">Vous pouvez désormais profiter pleinement de l'expérience Planoo.<br/>{% if  bp.catalog.nbAdviceHour > 0 and bp.catalog.hasWording %}</br>{% endif %}
+            {% if  bp.catalog.nbAdviceHour > 0 or bp.catalog.hasWording %}
+            Il est à noter que lors de votre demande {% if  bp.catalog.nbAdviceHour > 0 %}de RDV {% endif %}{% if  bp.catalog.nbAdviceHour > 0 and bp.catalog.hasWording %}et <br/>{% endif %}{% if  bp.catalog.hasWording %}de présentation de projet{% endif %}, le réglement de votre formule vous sera demandé<br/>
+            {% endif %}
+            Vous pouvez à tout moment faire évoluer votre formule</p>
+        {% endblock modal_content %}
+    {% endembed %}
+{% endblock modal %}
+
+
+                    

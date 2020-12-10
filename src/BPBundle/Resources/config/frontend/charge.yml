@@ -1,0 +1,58 @@
+financial_charge_index:
+    path:     /step.html
+    methods:    [GET]
+    defaults: { _controller: BPBundle:Frontend/Default:charge }
+
+financial_charge_update:
+    path:        /{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Charge:update
+    requirements:
+        id: '[0-9]*'
+
+financial_charge_create:
+    path:        /{idBusinessPlan}
+    methods:     [POST]
+    controller:  BPBundle:Frontend/Charge:create
+    requirements:
+        idBusinessPlan: '[0-9]*'
+ 
+financial_charge_delete:
+    path:        /{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Charge:delete
+    requirements:
+        id: '[0-9]*'
+        
+financial_charge_show:
+    path:        /{id}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Charge:show
+    requirements:
+        id: '[0-9]*'
+        
+    
+financial_charge_list:
+    path:        /list.{_format}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Charge:list
+    defaults:
+        _format: json
+    requirements:
+        _format:  html|json
+
+
+financial_charge_add_form:
+    path:        /{idBusinessPlan}/add.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Charge:getAddForm
+    requirements:
+        idBusinessPlan: '[0-9]*'
+        
+        
+financial_charge_edit_form:
+    path:        /{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Charge:getEditForm
+    requirements:
+        id: '[0-9]*'

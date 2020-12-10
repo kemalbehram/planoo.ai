@@ -1,0 +1,25 @@
+{% use "form_div_layout.html.twig" %}
+
+
+{% block checkbox_widget -%}
+    <p>
+        <label>
+            {{ parent() }}
+            <span>{{ form.vars.value }}</span>
+        </label>
+    </p>
+    {%- endblock checkbox_widget %}
+
+    {% block form_errors %}
+        {% spaceless %}
+            <span class="helper-text" data-error="{% if errors|length > 0 %}{% for error in errors %}{{ error.message }}{% endfor %}{%else%}Cette valeur n'est pas valide.{% endif %}"></span>
+        {% endspaceless %}
+    {% endblock form_errors %}
+
+    {%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {% if errors|length > 0 %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' error invalid')|trim}) %}
+    {% endif %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {%- endblock form_widget_simple -%}

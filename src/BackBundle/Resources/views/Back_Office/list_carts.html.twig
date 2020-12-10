@@ -1,0 +1,143 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            {% if (sold and sold == 'true') %}Ventes{% else %}Paniers abandonnés{% endif %}
+            <small>{% if isAdminView %}Global{% else %}{{partner.customDomain}}{% endif %}</small>
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table id='sales-dataTable' class="table table-striped dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Heure</th>
+                                    <th>Propriétaire</th>
+                                    <th>Email</th>
+                                    <th>Montant (HT)</th>
+                                    <th>Coupon</th>
+                                    <th>Articles</th>
+                                    <th>Partenaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var buttonCommon = {
+                exportOptions: {
+                    format: {
+                        body: function (data, row, column, node) {
+                            //remove html tags
+                            data = data.replace(/<a.*">/g, '');
+                            data = data.replace(/<\/a>/g, '');
+                            data = data.replace(/<\/td>/g, '');
+                            data = data.replace(/<div>/g, '');
+                            data = data.replace(/<\/div>/g, '. ');
+
+                            //hide action buttons
+                            if (column === 5) {
+                                data = '';
+                            }
+
+                            return data;
+
+                        },
+                        header: function (data, row, column, node) {
+                            //hide action buttons
+                            if (column === 5) {
+                                data = '';
+                            }
+
+                            return data;
+
+                        }
+                    }
+                }
+            };
+
+            $(function () {
+                var table = $("#sales-dataTable").DataTable({
+                    "columnDefs": [
+                        {type: "date-uk", targets: 0}
+                    ],
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": "{{ path('back_ajax_backOffice_carts', { 'isAdminView': isAdminView?isAdminView:'false','sold': sold }) }}",
+                    "sAjaxDataProp": "data",
+                    "pageLength": 10,
+                    "ordering": false,
+                    "responsive": true,
+                    "order": [[0, "desc"],[1, "desc"]],
+                    "columns": [
+                        {"data": "date"},
+                        {"data": "time"},
+                        {"data": "owner"},
+                        {"data": "mail"},
+                        {"data": "amount"},
+                        {"data": "promotion"},
+                        {"data": "articles"},
+                        {"data": "partner"}
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                    },
+                    dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-6'l><'col-sm-6'p>>" +
+                            "<'row'<'col-sm-12'i>>",
+                    "buttons": [
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'excelHtml5',
+                            text: 'Export Excel',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        }),
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'pdfHtml5',
+                            text: 'Export PDF',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        }),
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'csvHtml5',
+                            text: 'Export CSV',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        })
+                    ]
+                });
+            }
+            );
+        });
+    </script>
+{% endblock javascripts %}
+

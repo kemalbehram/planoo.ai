@@ -1,0 +1,157 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    {% for message in app.session.flashbag.get("info") %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <section class="content-header">
+        <div class="col-xs-6">
+            <h1>
+                Promotion
+                <small>Liste des coupons de réduction</small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="{{ path('promotion_admin_coupon_new') }}" class="btn btn-app pull-right"><i class="fa fa-plus-square-o"></i>Créer</a>
+                <a href="{{ path('promotion_admin_coupon_new_partner') }}" class="btn btn-app pull-right"><i class="fa fa-plus-square-o"></i>Créer coupon(s) partenaire</a>
+            </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table id='coupons-dataTable' class="table table-striped dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Code</th>
+                                    <th>Portée</th>
+                                    <th>Valeur</th>
+                                    <th>Debut</th>
+                                    <th>Fin</th>
+                                    <th>Nb Utilisé</th>
+                                    <th>Partenaire</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var buttonCommon = {
+                exportOptions: {
+                    format: {
+                        body: function (data, row, column, node) {
+                            //remove html tags
+                            data = data.replace(/<a.*">/g, '');
+                            data = data.replace(/<\/a>/g, '');
+                            data = data.replace(/<\/td>/g, '');
+                            data = data.replace(/<div>/g, '');
+                            data = data.replace(/<\/div>/g, '. ');
+
+                            //hide action buttons
+                            if (column === 9) {
+                                data = '';
+                            }
+
+                            return data;
+
+                        },
+                        header: function (data, row, column, node) {
+                            //hide action buttons
+                            if (column === 9) {
+                                data = '';
+                            }
+
+                            return data;
+
+                        }
+                    }
+                }
+            };
+
+            $(function () {
+                var table = $("#coupons-dataTable").DataTable({
+                    "columnDefs": [
+                        {type: "date-uk", targets: 4},
+                        {type: "date-uk", targets: 5},
+                    ],
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": "{{ path('promotion_admin_ajax_coupons', { 'isAdminView': isAdminView?isAdminView:'false' }) }}",
+                    "sAjaxDataProp": "data",
+                    "pageLength": 10,
+                    "ordering": false,
+                    "responsive": true,
+                    "order": [[0, "desc"]],
+                    "columns": [
+                        {"data": "name"},
+                        {"data": "code"},
+                        {"data": "range"},
+                        {"data": "value"},
+                        {"data": "begin"},
+                        {"data": "end"},
+                        {"data": "used"},
+                        {"data": "partner"},
+                        {"data": "actions"}
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                    },
+                    dom: "<'row'<'col-sm-6'B><'col-sm-6'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-6'l><'col-sm-6'p>>" +
+                            "<'row'<'col-sm-12'i>>",
+                    "buttons": [
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'excelHtml5',
+                            text: 'Export Excel',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        }),
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'pdfHtml5',
+                            text: 'Export PDF',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        }),
+                        $.extend(true, {}, buttonCommon, {
+                            extend: 'csvHtml5',
+                            text: 'Export CSV',
+                            className: 'btn btn-primary',
+                            init: function (api, node, config) {
+                                $(node).removeClass('dt-button')
+                            }
+                        })
+                    ]
+                });
+            }
+            );
+        });
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,195 @@
+
+/*style page =====================*/
+html { 
+    font-size: 12px; 
+    zoom:0.75; /* used by linux phantomJs*/
+} 
+
+.card{
+    position: relative;
+    page-break-after: always;
+    margin: 0;
+    padding: 0;
+    height: 20.981cm;
+    width: 29.7cm;
+    /*   overflow: hidden;*/
+    font-family: 'Lato', sans-serif !important;
+}
+
+.card .card-content {
+    height: 20cm;
+    width: 29.7cm;
+}
+
+.card .card-action {
+    height: 1cm;
+    padding: 0.25cm;
+    padding-left: 0.8cm;
+    padding-right: 0.8cm;
+}
+
+.logo{
+    text-align: center;
+}
+
+.logo.main-title{
+    margin-top: 1.5cm;
+}
+
+.logo > img{
+    max-width: 7cm;
+    max-height: 4cm;
+    width: auto;
+    height: auto;
+}
+
+.logo-client > img{
+    display: block;
+    max-width: 15cm;
+    max-height: 7cm;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1cm;
+}
+
+.card-content .btn-floating {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.card-content .btn-floating i {
+    width: inherit;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    line-height: 25px;
+}
+
+.card-content .collection .collection-item {
+    padding: 8px 20px;
+    margin: 0;
+}
+/*style table =========================*/
+
+table{
+    font-size: 0.6rem !important;
+}
+
+td, th{
+    padding: 2px 2px;
+    border-radius: 0px;
+    text-align: right;
+}
+
+tr th:first-child,
+tr td:first-child {
+    text-align: left
+}
+
+.collection {
+    border: 0px;
+}
+
+.collection.with-header .collection-header {
+    border-bottom: 0px ;
+}
+
+.collection .collection-item {
+    border-bottom: 0px ;
+}
+
+.main-title.center{
+    margin: 0 auto;
+    margin-top: 5cm
+}
+
+.center{
+    margin: 0 auto;
+    margin-top: 7cm
+}
+
+.num{
+    font-style: normal;
+    font-weight: 200;
+    font-size: 1rem !important;
+}
+
+.text_cgv{
+    font-size: 0.9rem;
+}
+
+p .padding_block{
+    padding: 10px 10px;
+}
+
+h1{
+    width: fit-content;
+    font-size: 45px;
+    font-weight: 400;
+    line-height: 60px;
+}
+
+h3{
+    width: fit-content;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 40px;
+}
+
+h4{
+    width: fit-content;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 40px;
+}
+
+hr{
+    border: 0;
+    height: 1px;
+}
+
+.row {
+    margin-bottom: 5px;
+}
+
+.top_bar{border-top: 1px solid #000;}
+.bold{font-weight: bold;}
+.bold_sp{font-weight: bold; border-bottom: 3px solid}
+.bold_bilon{font-weight: bold; border-bottom: 1px solid}
+.pull_top{margin-top:-2rem;}
+
+
+.highcharts-credits {
+    display:none;
+}
+
+.highcharts-button-symbol {
+    display:none;
+}
+
+.highcharts-button-box {
+    display:none;
+}
+
+.card-content i.text_color.num.left {
+    width: 45px;
+}
+
+.card-content .col.s6.info {
+    margin-top: 40px;
+}
+
+tr.bold_sp > td {
+    height: 22px;
+    vertical-align: bottom;
+}

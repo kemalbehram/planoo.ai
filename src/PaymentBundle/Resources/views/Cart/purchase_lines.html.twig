@@ -1,0 +1,38 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Formule</th>
+            <th class="center-align">Prix unitaire</th>
+            <th class="center-align">Supprimer</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for commandeCatalog in cart.commandeCatalogs %}
+            <tr>
+                <td>
+                    <div class="bold">{{ commandeCatalog.catalog.name|raw }}</div>
+                    {% if commandeCatalog.businessPlan %}
+                        <i class="purchase-line-bp">Business plan associé :
+                            {{commandeCatalog.businessPlan.getDisplayName()}}</i>
+                    {% endif %}
+                </td>
+                <td class="center-align">{{ commandeCatalog.catalog.price }}€</td>
+
+                <td class="center-align">
+                    <a href="{{path('promotion_catalog_remove_item', {'itemId': commandeCatalog.catalog.id, 'idCart': cart.id })}}" class="right btn-floating cart waves-effect izy-color-primary-dark-bg izy-color-primary-fg">
+                        <i class="material-icons">clear</i>
+                    </a>
+                    {# <form action="#">
+                        <p>
+                            <label>
+                                <input class="with-gap" name="group1" type="radio" onclick="location.href = '{{ path('promotion_catalog_add_item', {'cartId': cart.id,'itemId': commandeCatalog.catalog.id}) }}'"/>
+                                <span>&nbsp;</span>
+                            </label>
+                        </p>
+                    </form> #}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

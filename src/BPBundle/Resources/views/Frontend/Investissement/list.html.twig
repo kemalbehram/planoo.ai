@@ -1,0 +1,32 @@
+<div>
+    {% if invests %}
+        <table class="table responsive-table" id="invest-list">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in invests %}
+                    <tr>
+                        <td>
+                            &nbsp;<a href="#" class="dropdown-trigger izy-color-primary-font left bold" data-target='dropdown2{{entity.id}}'>{% if entity.chargeLabel %}{{ entity.chargeLabel.translate.name|capitalize }}{% endif %}<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id='dropdown2{{entity.id}}' class='dropdown-content izy-dropdown-action' >
+                                <li><a onclick="initEditFormModal({{ entity.id }});"><i class="material-icons izy-color-primary-font">edit</i>Modifier</a></li>
+                                <li><a onclick="deleteAction({{ entity.id }});"><i class="material-icons izy-color-primary-font">delete</i>Supprimer</a></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <span class="name"></span>
+                            <span>{{ entity.date|date('d/m/Y') }}</span>
+
+                        </td>
+                        <td>{{ entity.amount }} €</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

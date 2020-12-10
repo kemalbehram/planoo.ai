@@ -1,0 +1,270 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .modal {
+            top: 5em;
+        }
+        .table th{
+            width: calc(100% / 5)
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                <div class="row"><!--==== Financements ====-->
+                    <div class="col s12 center">
+                        <button onclick="initAddFormModal(false);" class="btn izy-color-primary-bg"><i class="material-icons left">library_add</i>Ajoutez un financement</button>
+                    </div>
+                </div>
+
+                <div id="edit-modal" class="modal modal-fixed-footer"><!-- Modal Structure -->
+                    <form></form>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        {{ render(controller('BPBundle:Frontend/Funding:list', {_format: 'html'})) }}
+                    </div>
+                </div>
+
+                <div class="row"><!--button-->
+                    <div class="input-field col s12 center">
+                       <a onclick="downloadBpPdf('{{bp.hash}}', '{{bp.id}}', '{{bp.catalog.id}}', {{bp.isTrial}});" class="btn-large izy-color-secondary-bg waves-effect waves-light z-depth-0"><i class="material-icons white-text left">cloud_download</i>Téléchargez votre PDF</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src='{{ asset("bundles/fosjsrouting/js/router.js") }}'></script>
+    <script>
+                            function updateForm() {
+                                var form = $('#edit-modal>form');
+                                //var chargeLabelId = $(this).val();
+                                $('.progress').show();
+
+                                var method = 'post';
+
+                                //asynchronous creation
+                                $.ajax({
+                                    method: method,
+                                    url: '{{ path('financial_funding_update_form') }}',
+                                    data: form.serialize(),
+                                    success: function (html) {
+                                        $('form').replaceWith(
+                                                $(html).find('form')
+                                                );
+
+                                        $('select').formSelect();
+                                        M.updateTextFields();
+
+                                        tmpDatepickerDefaultOptions = Object.assign({}, datepickerDefaultOptions);
+                                        tmpDatepickerDefaultOptions.container = $('.main').get();
+                                        tmpDatepickerDefaultOptions.minDate = new Date("{{ dateStartActivity|date('Y-m-d') }}");
+                                        tmpDatepickerDefaultOptions.maxDate = new Date("{{ dateEndActivity|date('Y-m-d') }}");
+                                        var $input = $('form').find('#funding_createdAt').datepicker(tmpDatepickerDefaultOptions);
+                                        $('form').find('#funding_createdAt').attr("readonly", false);
+
+
+                                        $('form').find('[name="funding[chargeLabel]"]').on('change', updateForm);
+
+                                        $('.progress').hide();
+                                    },
+                                    error: function (request, status, error) {
+                                        alert('Erreur inconnue');
+                                        $('.progress').hide();
+                                    }
+                                });
+                            }
+
+
+                            $(document).ready(function () {
+                                $('.modal').modal(modalDefaultOptions);
+                            });
+
+                            function initAddFormModal() {
+                                $('.progress').show();
+
+                                $.ajax({
+                                    url: '{{ path('financial_funding_add_form', {idBusinessPlan:idBusinessPlan}) }}',
+                                    type: 'GET',
+                                    success: function (html) {
+                                        $('form').replaceWith(
+                                                $(html).find('form')
+                                                );
+
+                                        $('#edit-modal').modal('open');
+                                        $('select').formSelect();
+                                        M.updateTextFields();
+
+                                        tmpDatepickerDefaultOptions = Object.assign({}, datepickerDefaultOptions);
+                                        tmpDatepickerDefaultOptions.container = $('.main').get();
+                                        tmpDatepickerDefaultOptions.minDate = new Date("{{ dateStartActivity|date('Y-m-d') }}");
+                                        tmpDatepickerDefaultOptions.maxDate = new Date("{{ dateEndActivity|date('Y-m-d') }}");
+                                        var $input = $('form').find('#funding_createdAt').datepicker(tmpDatepickerDefaultOptions);
+                                        $('form').find('#funding_createdAt').attr("readonly", false);
+
+                                        // Constraintes choice charge label
+                                        $('form').find('[name="funding[chargeLabel]"]').on('change', updateForm);
+
+                                        $('.progress').hide();
+                                    },
+                                    error: function (html) {
+
+                                        $('.progress').hide();
+                                    }
+                                });
+                            }
+
+                            function initEditFormModal(idFunding) {
+                                $('.progress').show();
+
+                                $.ajax({
+                                    url: '{{ path('financial_funding_edit_form', {id:999999999999}) }}'.replace('999999999999', idFunding),
+                                    type: 'GET',
+                                    success: function (html) {
+                                        $('form').replaceWith(
+                                                $(html).find('form')
+                                                );
+                                        $('#edit-modal').modal('open');
+
+                                        $('select').formSelect();
+                                        M.updateTextFields();
+                                        tmpDatepickerDefaultOptions = Object.assign({}, datepickerDefaultOptions);
+                                        tmpDatepickerDefaultOptions.container = $('.main').get();
+                                        tmpDatepickerDefaultOptions.minDate = new Date("{{ dateStartActivity|date('Y-m-d') }}");
+                                        tmpDatepickerDefaultOptions.maxDate = new Date("{{ dateEndActivity|date('Y-m-d') }}");
+                                        var $input = $('form').find('#funding_createdAt').datepicker(tmpDatepickerDefaultOptions);
+                                        $('form').find('#funding_createdAt').attr("readonly", false);
+
+                                        // Constraintes choice charge label
+                                        $('form').find('[name="funding[chargeLabel]"]').on('change', updateForm);
+
+                                        $('.progress').hide();
+                                    },
+                                    error: function (html) {
+                                        $('.progress').hide();
+                                    }
+                                });
+                            }
+
+                            function saveAction(e, action) {
+
+                                $('.progress').show();
+                                var urlForm = $(e).attr('data-url');
+
+                                var method = 'PUT';
+                                if (action === 'create') {
+                                    method = 'POST';
+                                }
+
+                                var form = $('#edit-modal>form');
+                                if (!form[0].checkValidity()) {
+                                    form.find('input').each(function ()
+                                    {
+                                        if (!this.validity.valid)
+                                        {
+                                            $(this).focus();
+                                            $('#submit').click();
+                                            return false;
+                                        }
+                                    });
+                                    $('.progress').hide();
+                                    return false;
+                                }
+
+                                //asynchronous creation
+                                $.ajax({
+                                    method: method,
+                                    url: urlForm,
+                                    data: form.serialize(),
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        //asynchronous reloading of the list of elements
+                                        $.ajax({
+                                            method: 'GET',
+                                            url: "{{ path('financial_funding_list', {_format:'html'}) }}",
+                                            success: function (html) {
+                                                //replace list of element
+                                                $('#funding-list').replaceWith(
+                                                        $(html).find('#funding-list')
+                                                        );
+                                                $('.dropdown-trigger').dropdown();
+                                                $('#edit-modal').modal('close');
+                                                $('.progress').hide();
+                                            },
+                                            error: function (request, status, error) {
+                                                alert('Erreur inconnue');
+                                            }
+                                        });
+                                    },
+                                    error: function (request, status, error) {
+                                        for (var key in request.responseJSON.errors) {
+                                            for (var i = 0; i < request.responseJSON.errors[key].length; i++) {
+                                                if (typeof (request.responseJSON.errors[key][i]) !== "string") {
+                                                    for (var childKey in request.responseJSON.errors[key][i]) {
+                                                        $element = $('#edit-modal [name="funding[' + key + '][' + i + '][' + childKey + ']"]');
+                                                        $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key][i][childKey]);
+                                                        $element.addClass('invalid');
+                                                    }
+                                                } else {
+                                                    $element = $('#edit-modal [name="funding[' + key + ']"]');
+                                                    $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key]);
+                                                    $element.addClass('invalid');
+                                                }
+                                            }
+                                        }
+                                        $('.progress').hide();
+                                    }
+                                });
+                            }
+
+                            function deleteAction(idFunding) {
+                                if (confirm('Etes-vous sûr de vouloir supprimer cet élément ? Sa suppression sera définitive.')) {
+                                    $('.progress').show();
+
+                                    //asynchronous deletion
+                                    $.ajax({
+                                        method: 'DELETE',
+                                        url: '{{ path('financial_funding_delete', {id:999999999999}) }}'.replace('999999999999', idFunding),
+                                        success: function (result) {
+                                            //asynchronous reloading of the list of elements
+                                            $.ajax({
+                                                method: 'GET',
+                                                url: "{{ path('financial_funding_list', {_format:'html'}) }}",
+                                                success: function (html) {
+                                                    //replace list of element
+                                                    $('#funding-list').replaceWith(
+                                                            $(html).find('#funding-list')
+                                                            );
+                                                    $('.dropdown-trigger').dropdown();
+                                                    $('.progress').hide();
+                                                },
+                                                error: function (request, status, error) {
+                                                    alert('Erreur inconnue');
+                                                }
+                                            });
+                                        }
+                                        ,
+                                        error: function (request, status, error) {
+                                            alert('Erreur inconnue');
+                                        }
+                                    }
+                                    );
+                                }
+                            }
+
+
+    </script>
+{% endblock %}

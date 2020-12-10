@@ -1,0 +1,494 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+
+
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Tableau de bord
+            <small>{{partner.customDomain}}</small>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Utilisateurs</span>
+                        <span class="info-box-number">{{ all_time_created_users }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Visiteurs</span>
+                        <span id="all-visitors-data" class="info-box-number">-</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Ventes</span>
+                        <span class="info-box-number">{{ all_time_nb_purchase }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="ion ion-social-euro-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Chiffre d'affaire</span>
+                        <span class="info-box-number">{{all_time_amount_purchase|formatNumber('€',0)}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Rapport Mensuel</a></li>
+                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Rapport Annuel</a></li>
+                    </ul>
+                    <!-- /.box-header -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-10">
+                                    <p class="text-center">
+                                        <strong>Ventes: depuis le 1er du mois</strong>
+                                    </p>
+                                    <div id="chart-container-revenue-mounth"></div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <div class="row">
+
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-red"><i class="fa fa-caret-down"></i> 17%</div>#}
+                                            <h5 class="description-header">{{this_mounth_amount_purchase|formatNumber('€',0)}}</h5>
+                                            <div class="description-text">Chiffre d'affaire</div>
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</div>#}
+                                            <h5 class="description-header">{{this_mounth_nb_purchase}}</h5>
+                                            <div class="description-text">Ventes</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</div>#}
+                                            <h5 class="description-header">{{this_mounth_nb_aband_cart}}</h5>
+                                            <div class="description-text">Paniers abandonnés</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</div>#}
+                                            <h5 id="conversion-rate-data-mounth" class="description-header">- %</h5>
+                                            <div class="description-text">Taux de conversion</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-10">
+                                    <p class="text-center">
+                                        <strong>Ventes: depuis le 1er Janvier</strong>
+                                    </p>
+                                    <div id="chart-container-revenue-year" ></div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <div class="row">
+
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-red"><i class="fa fa-caret-down"></i> 17%</div>#}
+                                            <h5 class="description-header">{{this_year_amount_purchase|formatNumber('€',0)}}</h5>
+                                            <div class="description-text">Chiffre d'affaire</div>
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</div>#}
+                                            <h5 class="description-header">{{this_year_nb_purchase}}</h5>
+                                            <div class="description-text">Ventes</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</div>#}
+                                            <h5 class="description-header">{{this_year_nb_aband_cart}}</h5>
+                                            <div class="description-text">Paniers abandonnés</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+                                            {#                                    <div class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</div>#}
+                                            <h5 id="conversion-rate-data-year" class="description-header">- %</h5>
+                                            <div class="description-text">Taux de conversion</div>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./box-body -->
+
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Main row -->
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-8">
+                <!-- MAP & BOX PANE -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Rapport Visiteurs</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-8">
+                                <div class="pad">
+                                    <div id="chart-container-sessions"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <div class="pad box-pane-right bg-green">
+                                    <h4><center>CE MOIS-CI</center></h4>
+                                    <hr/>
+                                    <div class="description-block margin-bottom">
+                                        <div><i class="fa fa-users fa-2x"></i></div>
+                                        <h5 id="visitor-data-this-mounth" class="description-header">-</h5>
+                                        <span class="description-text">Visiteurs</span>
+                                    </div>
+                                    <div class="description-block margin-bottom">
+                                        <div><i class="fa fa-user fa-2x"></i></div>
+                                        <h5 id="new-visitor-data-this-mounth" class="description-header">-</h5>
+                                        <span class="description-text">Nouveaux Visiteurs</span>
+                                    </div>
+                                    <div class="description-block">
+                                        <div><i class="fa fa-user-plus fa-2x"></i></div>
+                                        <h5 class="description-header">{{this_mounth_created_users}}</h5>
+                                        <span class="description-text">Nouveaux utilisateurs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Source du traffic</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="chart-responsive">
+                                    <div id="chart-container-traffic-medium"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        /**
+         * Extend the Embed APIs `gapi.analytics.report.Data` component to
+         * return a promise the is fulfilled with the value returned by the API.
+         * @param {Object} params The request parameters.
+         * @return {Promise} A promise.
+         */
+        function query(params) {
+            return new Promise(function (resolve, reject) {
+                var data = new gapi.analytics.report.Data({query: params});
+                data.once('success', function (response) {
+                    resolve(response);
+                })
+                        .once('error', function (response) {
+                            reject(response);
+                        })
+                        .execute();
+            });
+        }
+
+        var ids = '{{gaIdView}}';
+        var partnerUrl = '{{partner.customDomain}}';
+        var partnerCreationDate = '{{partner.createdAt|date('Y-m-d')}}';
+        var thisMounthStartDate = '{{this_mounth_start_date}}';
+        var thisYearStartDate = '{{this_year_start_date}}';
+        (function (w, d, s, g, js, fs) {
+            g = w.gapi || (w.gapi = {});
+            g.analytics = {q: [], ready: function (f) {
+                    this.q.push(f);
+                }};
+            js = d.createElement(s);
+            fs = d.getElementsByTagName(s)[0];
+            js.src = 'https://apis.google.com/js/platform.js';
+            fs.parentNode.insertBefore(js, fs);
+            js.onload = function () {
+
+                gapi.load('analytics');
+            };
+        }(window, document, 'script'));
+        gapi.analytics.ready(function () {
+            gapi.analytics.auth.authorize({
+                'serverAuth': {
+                    'access_token': '{{ gaAccessToken }}'
+                }
+            });
+            var sessionsChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:users,ga:newUsers',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'LINE',
+                    container: 'chart-container-sessions',
+                    options: {
+                        title: 'Nombre d\'utilisateurs (par mois)',
+                        legend: 'bottom',
+                        width: '100%',
+                        minValue: 0
+                    }
+                }
+            });
+            sessionsChart.execute();
+
+            var referalTrafficMediumChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:medium',
+                    'metrics': 'ga:users',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'PIE',
+                    container: 'chart-container-traffic-medium',
+                    options: {
+                        title: 'Source du trafic',
+                        width: '100%'
+                    }
+                }
+            });
+            referalTrafficMediumChart.execute();
+
+            var revenuePerTransactionChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:revenuePerTransaction',
+                    'filters': 'ga:affiliation=={{partner.nom}}',
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'LINE',
+                    container: 'chart-container-average-cart',
+                    options: {
+                        title: 'Panier moyen (par mois)',
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: 'currency',
+                            minValue: 0
+                        }
+                    }
+                }
+            });
+            revenuePerTransactionChart.execute();
+
+            var totalValueChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:date',
+                    'metrics': 'ga:transactionRevenue',
+                    'filters': 'ga:affiliation=={{partner.nom}}',
+                    'start-date': thisMounthStartDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'COLUMN',
+                    container: 'chart-container-revenue-mounth',
+                    options: {
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: 'currency',
+                            minValue: 0
+                        }
+                    }
+                }
+            });
+            totalValueChart.execute();
+
+            var totalValueChart2 = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:date',
+                    'metrics': 'ga:transactionRevenue',
+                    'filters': 'ga:affiliation=={{partner.nom}}',
+                    'start-date': thisYearStartDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'COLUMN',
+                    container: 'chart-container-revenue-year',
+                    options: {
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: 'currency',
+                            minValue: 0
+                        }
+                    }
+                }
+            });
+
+            //all users
+            query({
+                'ids': ids,
+                'metrics': 'ga:users',
+                'filters': 'ga:hostname==' + partnerUrl,
+                'start-date': '2005-01-01',
+                'end-date': 'today'
+            }).then(function (response) {
+                $('#all-visitors-data').text(response.rows[0][0]);
+            });
+
+            query({
+                'ids': ids,
+                'metrics': 'ga:users',
+                'filters': 'ga:hostname==' + partnerUrl,
+                'start-date': thisMounthStartDate,
+                'end-date': 'today'
+            }).then(function (response) {
+                $('#visitor-data-this-mounth').text(response.rows[0][0]);
+            });
+
+            query({
+                'ids': ids,
+                'metrics': 'ga:newUsers',
+                'filters': 'ga:hostname==' + partnerUrl,
+                'start-date': thisMounthStartDate,
+                'end-date': 'today'
+            }).then(function (response) {
+                $('#new-visitor-data-this-mounth').text(response.rows[0][0]);
+            });
+
+
+            query({
+                'ids': ids,
+                'metrics': 'ga:goal1ConversionRate',
+                'filters': 'ga:hostname==' + partnerUrl,
+                'start-date': thisMounthStartDate,
+                'end-date': 'today',
+            }).then(function (response) {
+                $('#conversion-rate-data-mounth').text(parseFloat(response.rows[0][0]).toFixed(2) + ' %');
+            });
+
+            query({
+                'ids': ids,
+                'metrics': 'ga:goal1ConversionRate',
+                'filters': 'ga:hostname==' + partnerUrl,
+                'start-date': thisMounthStartDate,
+                'end-date': 'today',
+            }).then(function (response) {
+                $('#conversion-rate-data-year').text(parseFloat(response.rows[0][0]).toFixed(2) + ' %');
+            });
+
+            $('.nav-tabs a').on('shown.bs.tab', function (event) {
+                totalValueChart.execute();
+                totalValueChart2.execute();
+            });
+
+            $(window).resize(function () {
+                sessionsChart.execute();
+                referalTrafficMediumChart.execute();
+                revenuePerTransactionChart.execute();
+                totalValueChart.execute();
+                totalValueChart2.execute();
+            });
+        });
+    </script>
+{% endblock javascripts %}

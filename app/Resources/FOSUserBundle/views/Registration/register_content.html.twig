@@ -1,0 +1,49 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+<input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
+<input type="hidden" name="p" value="{{ app.request.get('p') }}" />
+<div class="row">
+    <div class="col s12">
+        <div class="form-group">
+            {{ form_label(form.email) }} 
+            {{ form_widget(form.email, {'attr' : {'class' : 'form-control', 'autocomplete' : 'email'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first, {'attr' : {'class' : 'form-control', 'autocomplete' : 'new-password'}}) }}
+            <label class="" id="passwordStrength"></label>
+        </div>
+
+        <div class="form-group pull_top">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second, {'attr' : {'class' : 'form-control', 'autocomplete' : 'new-password'}}) }}
+            <label class="" id="passwordMatch"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <label>
+            <input type="checkbox" id="newsletterAccepted" name="newsletterAccepted" value="on" />
+            <span for="newsletterAccepted">J'accepte de recevoir la newsletter</span>
+        </label>
+    </div>
+    <div class="col s12">
+        <label>
+            <input type="checkbox" id="commercialAccepted" name="commercialAccepted" value="on" />
+            <span for="commercialAccepted">J'accepte de recevoir les offres commerciales et promotionnelles.</span>
+        </label>
+
+    </div>
+</div>
+<div class="col s12">
+    <div class="row">
+        <div class="center-align">
+            <button type="submit" id="_submit" name="_submit" style="width: 100%;" class="btn izy-color-primary-bg waves-effect waves-light disabled" >
+                {{ 'registration.submit'|trans }}
+            </button>
+        </div>
+    </div>
+</div>      
+{{ form_end(form) }}

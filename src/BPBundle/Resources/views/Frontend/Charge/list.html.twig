@@ -1,0 +1,59 @@
+<div>
+    {% if charges %}
+        <table class="table responsive-table" id="charge-list">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                        {% for i in accountingDate|date('Y')..accountingDate|date('Y')+accountingNbPeriod-1 %}
+                        <th class="right-align">
+                            {{ i }}
+                        </th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in charges %}
+                    <tr>
+                        <td>
+                            &nbsp;<a href="#" class="dropdown-trigger izy-color-primary-font left bold" data-target='dropdown2{{entity.id}}'>
+                                {% if entity.otherChoice %}
+                                    {{ entity.otherChoice }}
+                                {% else %}
+                                    {% if entity.chargeLabel %}{{ entity.chargeLabel.translate.name|capitalize }}{% endif %}
+                                {% endif %}
+                                <i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id='dropdown2{{entity.id}}' class='dropdown-content izy-dropdown-action' >
+                                <li><a onclick="initEditFormModal({{ entity.id }});"><i class="material-icons izy-color-primary-font">edit</i>Modifier</a></li>
+                                <li><a onclick="deleteAction({{ entity.id }});"><i class="material-icons izy-color-primary-font">delete</i>Supprimer</a></li>
+                            </ul>
+                        </td>
+
+                        {% if entity.taux %}
+                            <td></td>
+                            <td class="right-align">
+                                {{ entity.taux|formatNumber('%',1) }} du CA
+                            </td>
+                            <td></td>
+                        {% else %}
+                            {% for info in entity.infoCharges %}
+                                <td class="{{ loop.index }} right-align">
+                                    {{ info.cout ? info.cout|formatNumber('€',0) : '' }}
+                                </td>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <th>Total</th>
+                        {% for total in totalCharge %}
+                        <th class="right-align">
+                            {{ total |formatNumber('€',0) }}
+                        </th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+</div>

@@ -1,0 +1,57 @@
+back_homepage:
+    path:     /
+    defaults: { _controller: BackBundle:Default:index }
+
+
+back_sidebar:
+    path:     /sidebar
+    defaults: { _controller: BackBundle:Default:sidebar }
+
+# ******************************** USER *********************************
+back_user:
+    resource: "@BackBundle/Resources/config/modules/user.yml"
+    prefix:   /user
+
+# ******************************** TESTIMONIALS *********************************
+back_testimonials:
+    resource: "@BackBundle/Resources/config/modules/testimonials.yml"
+    prefix:   /testimonials
+
+# ******************************** PARTNER *********************************
+back_partner:
+    resource: "@BackBundle/Resources/config/modules/partner.yml"
+    prefix:   /partner
+
+# ******************************** PAGE *********************************
+back_page:
+    resource: "@BackBundle/Resources/config/modules/page.yml"
+    prefix:   /page
+
+# ******************************** PRESS *********************************
+back_press:
+    resource: "@BackBundle/Resources/config/modules/press.yml"
+    prefix:   /press
+
+# ******************************** CONCEPT *********************************
+back_concept:
+    resource: "@BackBundle/Resources/config/modules/concept.yml"
+    prefix:   /concept
+# ******************************** DEFINITION *********************************
+back_definition:
+    resource: "@BackBundle/Resources/config/modules/definition.yml"
+    prefix:   /definition
+
+# ******************************** BACK OFFICE *********************************
+back_backOffice:
+    resource: "@BackBundle/Resources/config/modules/back_office.yml"
+    prefix:   /back_office
+
+# ******************************** BACK OFFICE *********************************
+back_socialcharge:
+    resource: "@BackBundle/Resources/config/modules/socialcharge.yml"
+    prefix:   /social_charge
+
+# ******************************** BENEFIT *********************************
+back_benefit:
+    resource: "@BackBundle/Resources/config/modules/benefit.yml"
+    prefix:   /benefit

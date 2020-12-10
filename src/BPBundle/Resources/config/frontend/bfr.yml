@@ -1,0 +1,3 @@
+financial_bfr_index:
+    path:     /
+    defaults: { _controller: BPBundle:Frontend/Default:bfr }

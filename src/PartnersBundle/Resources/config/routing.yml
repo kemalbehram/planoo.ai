@@ -1,0 +1,4 @@
+# ******************************** CATALOG ADMIN *********************************
+promotion_back_catalog:
+    resource: "@PartnersBundle/Resources/config/backend/partner.yml"
+    prefix:   /admin/partners

@@ -1,0 +1,36 @@
+{% macro catalogTitle(item, title, isCurrentOrLowerFormula, isAnUpgrade) %}
+    <div class="{{isCurrentOrLowerFormula ? 'izy-color-primary-bg' : 'izy-color-secondary-bg'}} white-text center catalog-header">
+        {% if item.highlight %}
+            <div class="catalog-item-highlight-corner"></div>
+            <div class="sub-text bold catalog-item-highlight-text">
+                Le plus<br/>populaire
+            </div>
+        {% endif %}
+
+        {% if not isAnUpgrade %}
+        <img src="{{ asset('build/images/' ~ item.icon ~ '.svg' ) }}" alt="logo">
+        <h5 class="no-margin bold">{{ title }}</h5>
+        {% endif %}
+
+        {% if not isAnUpgrade %}
+        <span class="sub-text">{{item.pickupline}}</span>
+        {% else %}
+        <h5 class="no-margin bold upgrade">{{ item.pickupline }}</h5>
+        {% endif %}
+
+        <hr class="upgrade"/>
+
+        <h2 class="no-margin bold  {% if isAnUpgrade %}upgrade{% endif %}">{{ item.price }}
+            €</h2>
+        {% if not isAnUpgrade %}
+        <span class="sub-text">Téléchargements PDF et modifications illimités</span>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro catalogItem(item, buttonText, buttonTarget) %}
+    <div class="catalog-item-description">
+        {{ item.description | raw }}
+    </div>
+    <a class="btn-flat waves-effect waves-light izy-color-secondary-bg white-text center-align no-margin" href="{{buttonTarget}}">{{buttonText|upper}}</a>
+{% endmacro %}

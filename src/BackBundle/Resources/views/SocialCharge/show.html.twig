@@ -1,0 +1,41 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>SocialCharge</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ socialCharge.id }}</td>
+            </tr>
+            <tr>
+                <th>Chargesalariale</th>
+                <td>{{ socialCharge.chargeSalariale }}</td>
+            </tr>
+            <tr>
+                <th>Chargepatronale</th>
+                <td>{{ socialCharge.chargePatronale }}</td>
+            </tr>
+            <tr>
+                <th>Cice</th>
+                <td>{{ socialCharge.cice }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_socialcharge_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_socialcharge_edit', { 'id': socialCharge.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

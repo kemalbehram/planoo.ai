@@ -1,0 +1,28 @@
+back_press_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Press:index" }
+    methods:  GET
+
+back_press_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Press:show" }
+    methods:  GET
+
+back_press_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Press:new" }
+    methods:  [GET, POST]
+
+back_press_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Press:edit" }
+    methods:  [GET, POST]
+
+back_press_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Press:delete" }
+    methods:  DELETE
+
+back_press_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BackBundle:Press:deleted" }

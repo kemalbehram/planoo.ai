@@ -1,0 +1,591 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% set ca = 0 %}
+{% set marge = 0 %}
+{% set tauxMarge= 0 %}
+{% set total = 0 %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .modal {
+            Z-INDEX: 10;
+        }
+        .prefix ~ label {
+            margin-left: 1rem;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                <!--==== service====-->
+                <div class="row">
+                    <div class="col s12 center">
+                        <button onclick="initAddFormModal(false);" class="btn izy-color-primary-bg"><i class="material-icons left">library_add</i>Ajoutez un produit/service</button>
+                    </div>
+                    <!-- ======================================================== -->
+                    <!-- MODAL FORM CREATION  ================================== -->
+                    <!-- ======================================================== -->
+                    <div id="edit-modal" class="modal modal-fixed-footer"><!-- Modal Structure -->
+                        <form></form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        {{ render(controller('BPBundle:Frontend/Income:list', {_format: 'html'})) }}
+                    </div>
+                </div>
+
+                <div class="row"><!--button-->
+                    <div class="input-field col s12">
+                        <a href="{{ path('financial_charge_index') }}" class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- FIN FORM STEP 4 -->
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            // Set the Total
+            var array_year = [];
+            var array = document.querySelectorAll('.year')
+            for (var i = 0; i < array.length; i++) {
+                array_year.push(array[i].textContent)
+            }
+
+            var array_total = {}
+            var array_mount_ca = [];
+            for (var i = 0; i < array_year.length; i++) {
+
+
+                caByYear(array_year[i])
+                console.log(array_year[i])
+            }
+            console.log(array_mount_ca)
+
+            function caByYear(year, ref) {
+                array_mount = document.querySelectorAll('.ca-' + year)
+                var index = 0
+                var tab_0 = []
+                for (var j = 0; j < array_mount.length; j++) {
+                    if (index % ref != 0) {
+                        array_mount_ca.push(array_mount[j].textContent)
+                    }
+                }
+            }
+
+            $('.modal').modal(modalDefaultOptions);
+        }
+        );
+
+
+        function initAddFormModal(isAdvanceMode) {
+            $('.progress').show();
+
+            var data = {};
+            data['isAdvanceMode'] = isAdvanceMode;
+
+            $.ajax({
+                url: '{{ path('financial_income_add_form', {idBusinessPlan:idBusinessPlan}) }}',
+                type: 'GET',
+                data: data,
+                success: function (html) {
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+                    $('select').formSelect();
+
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+        function initEditFormModal(idProduit, isAdvanceMode) {
+            $('.progress').show();
+
+            var data = {};
+            data['isAdvanceMode'] = isAdvanceMode;
+
+            $.ajax({
+                url: '{{ path('financial_income_edit_form', {id:999999999999}) }}'.replace('999999999999', idProduit),
+                type: 'GET',
+                data: data,
+                success: function (html) {
+                    // Replace current position field ...
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+                    $('select').formSelect();
+
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function initEditProductSeasonsFormModal(idProduit, isAddAction) {
+            if (!isAddAction || confirm('Etes-vous sûr de vouloir définir une saisonnalité personnalisée pour ce produit ?')) {
+                $('.progress').show();
+
+                var data = {};
+
+                $.ajax({
+                    url: '{{ path('financial_income_product_seasons_edit_form', {id:999999999999}) }}'.replace('999999999999', idProduit),
+                    type: 'GET',
+                    data: data,
+                    success: function (html) {
+                        // Replace current position field ...
+                        $('form').replaceWith(
+                                $(html).find('form')
+                                );
+                        $('#edit-modal').modal('open');
+                        M.updateTextFields();
+                        initSliders();
+                        $('.progress').hide();
+                    },
+                    error: function (html) {
+                        $('.progress').hide();
+                    }
+                });
+            }
+        }
+
+        function initEditProductStockSeasonsFormModal(idProduit, isAddAction) {
+            if (!isAddAction || confirm('Etes-vous sûr de vouloir définir une saisonnalité de stock personnalisée pour ce produit ?')) {
+                $('.progress').show();
+
+                var data = {};
+
+                $.ajax({
+                    url: '{{ path('financial_income_product_stock_seasons_edit_form', {id:999999999999}) }}'.replace('999999999999', idProduit),
+                    type: 'GET',
+                    data: data,
+                    success: function (html) {
+                        // Replace current position field ...
+                        $('form').replaceWith(
+                                $(html).find('form')
+                                );
+                        $('#edit-modal').modal('open');
+                        M.updateTextFields();
+                        initStockSliders();
+                        $('.progress').hide();
+                    },
+                    error: function (html) {
+                        $('.progress').hide();
+                    }
+                });
+            }
+        }
+
+        function changeToAdvanceMode(elmnt, action, idProduit) {
+            var isAdvanceMode = elmnt.checked;
+            if (action === 'create') {
+                initAddFormModal(isAdvanceMode);
+            } else {
+                initEditFormModal(idProduit, isAdvanceMode);
+            }
+        }
+
+        function saveAction(e, action) {
+
+            $('.progress').show();
+            var urlForm = $(e).attr('data-url');
+
+            if ($('#formModeSwitch').is(':checked')) {
+                urlForm = urlForm + '?isAdvanceMode';
+            }
+
+            var method = 'PUT';
+            if (action === 'create') {
+                method = 'POST';
+            }
+
+            var form = $('#edit-modal>form');
+            if (!form[0].checkValidity()) {
+                form.find('input').each(function ()
+                {
+                    if (!this.validity.valid)
+                    {
+                        $(this).focus();
+                        $('#submit').click();
+                        return false;
+                    }
+                });
+                $('.progress').hide();
+                return false;
+            }
+
+            //asynchronous creation
+            $.ajax({
+                method: method,
+                url: urlForm,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    //asynchronous reloading of the list of elements
+                    $.ajax({
+                        method: 'GET',
+                        url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                        success: function (html) {
+                            //replace list of element
+                            $('#product-list').replaceWith(
+                                    $(html).find('#product-list')
+                                    );
+                            $('.dropdown-trigger').dropdown();
+                            $('#edit-modal').modal('close');
+                            $('.progress').hide();
+                        },
+                        error: function (request, status, error) {
+                            alert('Erreur inconnue');
+                        }
+                    });
+                },
+                error: function (request, status, error) {
+                    for (var key in request.responseJSON.errors) {
+                        for (var i = 0; i < request.responseJSON.errors[key].length; i++) {
+                            if (typeof (request.responseJSON.errors[key][i]) !== "string") {
+                                for (var childKey in request.responseJSON.errors[key][i]) {
+                                    $element = $('#edit-modal [name="produit[' + key + '][' + i + '][' + childKey + ']"]');
+                                    $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key][i][childKey]);
+                                    $element.addClass('invalid');
+                                }
+                            } else {
+                                $element = $('#edit-modal [name="produit[' + key + ']"]');
+                                $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key]);
+                                $element.addClass('invalid');
+                            }
+                        }
+                    }
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function saveProductSeasonsAction(e, action) {
+
+            $('.progress').show();
+            var urlForm = $(e).attr('data-url');
+
+            var method = 'PUT';
+
+            var form = $('#edit-modal>form');
+
+            //asynchronous creation
+            $.ajax({
+                method: method,
+                url: urlForm,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    //asynchronous reloading of the list of elements
+                    $.ajax({
+                        method: 'GET',
+                        url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                        success: function (html) {
+                            //replace list of element
+                            $('#product-list').replaceWith(
+                                    $(html).find('#product-list')
+                                    );
+                            $('.dropdown-trigger').dropdown();
+                            $('#edit-modal').modal('close');
+                            $('.progress').hide();
+                        },
+                        error: function (request, status, error) {
+                            alert('Erreur inconnue');
+                        }
+                    });
+                },
+                error: function (request, status, error) {
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function deleteProductSeasonsAction(e) {
+            if (confirm('Etes-vous sûr de vouloir réinitialiser la saisonnalité de ce produit (La saisonnalité du business plan lui sera appliquée) ?')) {
+                $('.progress').show();
+
+                var urlForm = $(e).attr('data-url');
+
+                //asynchronous deletion
+                $.ajax({
+                    method: 'DELETE',
+                    url: urlForm,
+                    success: function (result) {
+                        //asynchronous reloading of the list of elements
+                        $.ajax({
+                            method: 'GET',
+                            url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                            success: function (html) {
+                                //replace list of element
+                                $('#product-list').replaceWith(
+                                        $(html).find('#product-list')
+                                        );
+                                $('.dropdown-trigger').dropdown();
+                                $('.progress').hide();
+                            },
+                            error: function (request, status, error) {
+                                alert('Erreur inconnue');
+                            }
+                        });
+                    }
+                    ,
+                    error: function (request, status, error) {
+                        alert('Erreur inconnue');
+                    }
+                }
+                );
+            }
+        }
+
+        function saveProductStockSeasonsAction(e, action) {
+
+            $('.progress').show();
+            var urlForm = $(e).attr('data-url');
+
+            var method = 'PUT';
+
+            var form = $('#edit-modal>form');
+
+            //asynchronous creation
+            $.ajax({
+                method: method,
+                url: urlForm,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    //asynchronous reloading of the list of elements
+                    $.ajax({
+                        method: 'GET',
+                        url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                        success: function (html) {
+                            //replace list of element
+                            $('#product-list').replaceWith(
+                                    $(html).find('#product-list')
+                                    );
+                            $('.dropdown-trigger').dropdown();
+                            $('#edit-modal').modal('close');
+                            $('.progress').hide();
+                        },
+                        error: function (request, status, error) {
+                            alert('Erreur inconnue');
+                        }
+                    });
+                },
+                error: function (request, status, error) {
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function deleteProductStockSeasonsAction(e) {
+            if (confirm('Etes-vous sûr de vouloir réinitialiser la saisonnalité de stock de ce produit (La saisonnalité de stock du business plan lui sera appliquée) ?')) {
+                $('.progress').show();
+
+                var urlForm = $(e).attr('data-url');
+
+                //asynchronous deletion
+                $.ajax({
+                    method: 'DELETE',
+                    url: urlForm,
+                    success: function (result) {
+                        //asynchronous reloading of the list of elements
+                        $.ajax({
+                            method: 'GET',
+                            url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                            success: function (html) {
+                                //replace list of element
+                                $('#product-list').replaceWith(
+                                        $(html).find('#product-list')
+                                        );
+                                $('.dropdown-trigger').dropdown();
+                                $('.progress').hide();
+                            },
+                            error: function (request, status, error) {
+                                alert('Erreur inconnue');
+                            }
+                        });
+                    }
+                    ,
+                    error: function (request, status, error) {
+                        alert('Erreur inconnue');
+                    }
+                }
+                );
+            }
+        }
+
+        function deleteAction(idProduit) {
+            if (confirm('Etes-vous sûr de vouloir supprimer cet élément ? Sa suppression sera définitive.')) {
+                $('.progress').show();
+
+                //asynchronous deletion
+                $.ajax({
+                    method: 'DELETE',
+                    url: '{{ path('financial_income_delete', {id:999999999999}) }}'.replace('999999999999', idProduit),
+                    success: function (result) {
+                        //asynchronous reloading of the list of elements
+                        $.ajax({
+                            method: 'GET',
+                            url: "{{ path('financial_income_list', {_format:'html'}) }}",
+                            success: function (html) {
+                                //replace list of element
+                                $('#product-list').replaceWith(
+                                        $(html).find('#product-list')
+                                        );
+                                $('.dropdown-trigger').dropdown();
+                                $('.progress').hide();
+                            },
+                            error: function (request, status, error) {
+                                alert('Erreur inconnue');
+                            }
+                        });
+                    }
+                    ,
+                    error: function (request, status, error) {
+                        alert('Erreur inconnue');
+                    }
+                }
+                );
+            }
+        }
+    </script>
+
+    <script>
+
+        function initSliders() {
+            // Range design on inputs form
+            var sliders = document.getElementsByClassName('slider');
+            for (var i = 0; i < sliders.length; i++) {
+                var input = document.getElementById('product_season_bp_productSeasons_' + i + '_saisonCA');
+                if (i < sliders.length - 1) {
+                    noUiSlider.create(sliders[i], {
+                        start: input.value, // 4 handles, starting at...
+                        connect: [true, false], // Display a colored bar between the handles
+                        direction: 'rtl', // Put '0' at the bottom of the slider
+                        orientation: 'vertical', // Orient the slider vertically
+                        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                        step: 10,
+                        tooltips: false,
+                        range: {
+                            'min': 0,
+                            'max': 100
+                        }
+                    });
+                } else {
+                    noUiSlider.create(sliders[i], {
+                        start: input.value, // 4 handles, starting at...
+                        connect: [true, false], // Display a colored bar between the handles
+                        direction: 'rtl', // Put '0' at the bottom of the slider
+                        orientation: 'vertical', // Orient the slider vertically
+                        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                        step: 10,
+                        tooltips: false,
+                        range: {
+                            'min': 0,
+                            'max': 100
+                        },
+                        pips: {// Show a scale with the slider
+                            mode: 'positions',
+                            values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                            stepped: true,
+                            density: 4
+                        }
+                    });
+                }
+                document.getElementById('product_season_bp_productSeasons_' + i + '_saisonCA').style.display = 'none';
+                sliders[i].noUiSlider.on('change', function (values, handle) {
+                    var input = document.getElementById('product_season_bp_productSeasons_' + this.target.id.substring(7) + '_saisonCA');
+                    input.value = values[handle];
+                });
+            }
+
+            // labels on inputs form
+            var labels = $('.required');
+            var months = ['Janvier', 'Fév.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.']
+
+            for (var i = 0; i < labels.length; i++) {
+                labels[i].innerHTML = months[i];
+            }
+        }
+
+        function initStockSliders() {
+            // Range design on inputs form
+            var sliders = document.getElementsByClassName('slider');
+            for (var i = 0; i < sliders.length; i++) {
+                var input = document.getElementById('product_stock_season_bp_productStockSeasons_' + i + '_saisonNbStockDays');
+                if (i < sliders.length - 1) {
+                    noUiSlider.create(sliders[i], {
+                        start: input.value, // 4 handles, starting at...
+                        connect: [true, false], // Display a colored bar between the handles
+                        direction: 'rtl', // Put '0' at the bottom of the slider
+                        orientation: 'vertical', // Orient the slider vertically
+                        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                        step: 5,
+                        tooltips: false,
+                        range: {
+                            'min': 0,
+                            'max': 365
+                        }
+                    });
+                } else {
+                    noUiSlider.create(sliders[i], {
+                        start: input.value, // 4 handles, starting at...
+                        connect: [true, false], // Display a colored bar between the handles
+                        direction: 'rtl', // Put '0' at the bottom of the slider
+                        orientation: 'vertical', // Orient the slider vertically
+                        behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                        step: 5,
+                        tooltips: false,
+                        range: {
+                            'min': 0,
+                            'max': 365
+                        },
+                        pips: {// Show a scale with the slider
+                            mode: 'positions',
+                            values: [0, 8.4, 16.8, 25.2, 50, 100],
+                            stepped: true,
+                            density: 4
+                        }
+                    });
+                }
+                document.getElementById('product_stock_season_bp_productStockSeasons_' + i + '_saisonNbStockDays').style.display = 'none';
+                sliders[i].noUiSlider.on('change', function (values, handle) {
+                    var input = document.getElementById('product_stock_season_bp_productStockSeasons_' + this.target.id.substring(7) + '_saisonNbStockDays');
+                    input.value = values[handle];
+                });
+            }
+
+            // labels on inputs form
+            var labels = $('.required');
+            var months = ['Janvier', 'Fév.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.']
+
+            for (var i = 0; i < labels.length; i++) {
+                labels[i].innerHTML = months[i];
+            }
+        }
+    </script>
+{% endblock %}
+

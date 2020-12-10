@@ -1,0 +1,7 @@
+wording_custom_writing_index:
+    path:     /custom_writing/{hash}
+    defaults: { _controller: BPBundle:Frontend/Wording:customWritingEdit, hash: null }
+
+wording_market_study_index:
+    path:     /market_study
+    defaults: { _controller: BPBundle:Frontend/Wording:marketStudyEdit }

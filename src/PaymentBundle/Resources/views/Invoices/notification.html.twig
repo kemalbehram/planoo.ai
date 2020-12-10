@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h5 class="flow-text center izy-color-primary-font">{{requestInvoice.company}} - Demande de Facture</h5>
+        <div>
+            <ul>
+                <li><b>Société :</b>{{requestInvoice.company}}</li>
+                <li><b>Montant :</b>{{payment.amount}}</li>
+                <li><b>Date de paiement :</b>{{payment.paymentDate|date('d/m/Y H:i:s')}}</li>
+                <li><b>Adresse de Facturation:</b><br />
+                {{requestInvoice.address.street}}
+                {{requestInvoice.address.codePostal}}
+                {{requestInvoice.address.city}}
+                </li>
+                
+            </ul>
+        </div>
+    </body>
+</html>

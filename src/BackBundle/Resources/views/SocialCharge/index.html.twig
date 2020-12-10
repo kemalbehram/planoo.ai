@@ -1,0 +1,61 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h2>Taux de charges sociales</h2>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li class="active"><em>List</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+
+    {% for message in app.session.flashbag.get("info") %}
+
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="">
+        <div class="row">
+            <a href="{{ path('back_socialcharge_new') }}" class="btn btn-primary pull-right">Create</a>
+        </div>
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Liste</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                        <th><input type="text" class="form-control" placeholder="Pays" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Status salarié" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Taux de charges salariales" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Taux de charges patronales" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Eligibilité Cice" disabled></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for socialCharge in socialCharges %}
+                        <tr>
+                            <td><a href="{{ path('back_socialcharge_edit', { 'id': socialCharge.id }) }}">{{ socialCharge.country.name }}</a></td>
+                            <td><a href="{{ path('back_socialcharge_edit', { 'id': socialCharge.id }) }}">{{ socialCharge.status.translate.name }}</a></td>
+                            <td>{{ socialCharge.chargeSalariale }}</td>
+                            <td>{{ socialCharge.chargePatronale }}</td>
+                            <td>{{ socialCharge.cice }}</td>
+                            <td>
+                                <a href="{{ path('back_socialcharge_deleted', { 'id': socialCharge.id }) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,292 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% set total = 0 %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                <div class="row"><!--==== charge externes====-->
+                    <div class="col s12 center">
+                        <button onclick="initAddFormModal(false, false);" class="btn izy-color-primary-bg"><i class="material-icons left">library_add</i>Ajoutez une charge externe</button>
+                    </div>
+                    <div id="edit-modal" class="modal modal-fixed-footer"><!-- Modal Structure -->
+                        <form></form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        {{ render(controller('BPBundle:Frontend/Charge:list', {_format: 'html'})) }}
+                    </div>
+                </div>
+
+                <!--button-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <a href="{{ path('financial_staff_index') }}" class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- FIN FORM STEP 1 -->
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var $actualModal = null;
+        $(document).ready(function () {
+
+            $('.modal').modal(modalDefaultOptions);
+
+            // Calcul du total
+            var arrayCharge = document.querySelectorAll('.table tbody tr')
+            var nbCharge = arrayCharge.length - 1
+
+        });
+
+        function initAddFormModal(isTaux, isCustomLabel) {
+            $('.progress').show();
+
+            var data = {};
+            data['isTaux'] = isTaux;
+            data['isCustomLabel'] = isCustomLabel;
+
+            $.ajax({
+                url: '{{ path('financial_charge_add_form', {idBusinessPlan:idBusinessPlan}) }}',
+                type: 'GET',
+                data: data,
+                success: function (html) {
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+                    $('select').formSelect();
+
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+        function initEditFormModal(idProduit, isTaux, isCustomLabel) {
+            $('.progress').show();
+
+            var data = {};
+            data['isTaux'] = isTaux;
+            data['isCustomLabel'] = isCustomLabel;
+
+            $.ajax({
+                url: '{{ path('financial_charge_edit_form', {id:999999999999}) }}'.replace('999999999999', idProduit),
+                type: 'GET',
+                data: data,
+                success: function (html) {
+                    // Replace current position field ...
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+                    $('select').formSelect();
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function saveAction(e, action) {
+
+            $('.progress').show();
+            var urlForm = $(e).attr('data-url');
+
+            urlForm = urlForm + '?isTaux=' + $('#formModeSwitch').is(':checked');
+            if ($('#btnResetCustomLabel').length) {
+                urlForm = urlForm + '&isCustomLabel=' + 'true';
+            } else {
+                urlForm = urlForm + '&isCustomLabel=' + 'false';
+            }
+
+            var method = 'PUT';
+            if (action === 'create') {
+                method = 'POST';
+            }
+
+            var form = $('#edit-modal>form');
+            if (!form[0].checkValidity()) {
+                form.find('input').each(function ()
+                {
+                    if (!this.validity.valid)
+                    {
+                        $(this).focus();
+                        $('#submit').click();
+                        return false;
+                    }
+                });
+                $('.progress').hide();
+                return false;
+            }
+
+            //asynchronous creation
+            $.ajax({
+                method: method,
+                url: urlForm,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    //asynchronous reloading of the list of elements
+                    $.ajax({
+                        method: 'GET',
+                        url: "{{ path('financial_charge_list', {_format:'html'}) }}",
+                        success: function (html) {
+                            //replace list of element
+                            $('#charge-list').replaceWith(
+                                    $(html).find('#charge-list')
+                                    );
+                            $('.dropdown-trigger').dropdown();
+                            $('#edit-modal').modal('close');
+                            $('.progress').hide();
+                        },
+                        error: function (request, status, error) {
+                            alert('Erreur inconnue');
+                        }
+                    });
+                },
+                error: function (request, status, error) {
+                    for (var key in request.responseJSON.errors) {
+                        for (var i = 0; i < request.responseJSON.errors[key].length; i++) {
+                            if (typeof (request.responseJSON.errors[key][i]) !== "string") {
+                                for (var childKey in request.responseJSON.errors[key][i]) {
+                                    $element = $('#edit-modal [name="bpbundle_charge[' + key + '][' + i + '][' + childKey + ']"]');
+                                    $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key][i][childKey]);
+                                    $element.addClass('invalid');
+                                }
+                            } else {
+                                $element = $('#edit-modal [name="bpbundle_charge[' + key + ']"]');
+                                $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key]);
+                                $element.addClass('invalid');
+                            }
+                        }
+                    }
+                    $('.progress').hide();
+                }
+            });
+        }
+
+        function switchTaux(elmnt, action, idCharge) {
+            var isTaux = elmnt.checked;
+
+            isCustomLabel = false;
+            if ($('#btnResetCustomLabel').length) {
+                isCustomLabel = true;
+            }
+
+            if (action === 'create') {
+                initAddFormModal(isTaux, isCustomLabel);
+            } else {
+                initEditFormModal(idCharge, isTaux, isCustomLabel);
+            }
+        }
+
+        function resetCustomLabel(elmnt, action, idCharge) {
+
+            var isTaux = elmnt.checked;
+
+            if (action === 'create') {
+                initAddFormModal(isTaux, false);
+            } else {
+                initEditFormModal(idCharge, isTaux, false);
+            }
+        }
+
+        function changeToCustomLabel(elmnt, action, idCharge) {
+
+            isTaux = $('#formModeSwitch').is(':checked');
+            if (action === 'create') {
+                initAddFormModal(isTaux, true);
+            } else {
+                initEditFormModal(idCharge, isTaux, true);
+            }
+        }
+
+        function deleteAction(idCharge) {
+            if (confirm('Etes-vous sûr de vouloir supprimer cet élément ? Sa suppression sera définitive.')) {
+                $('.progress').show();
+
+                //asynchronous deletion
+                $.ajax({
+                    method: 'DELETE',
+                    url: '{{ path('financial_charge_delete', {id:999999999999}) }}'.replace('999999999999', idCharge),
+                    success: function (result) {
+                        //asynchronous reloading of the list of elements
+                        $.ajax({
+                            method: 'GET',
+                            url: "{{ path('financial_charge_list', {_format:'html'}) }}",
+                            success: function (html) {
+                                //replace list of element
+                                $('#charge-list').replaceWith(
+                                        $(html).find('#charge-list')
+                                        );
+                                $('.dropdown-trigger').dropdown();
+                                $('.progress').hide();
+                            },
+                            error: function (request, status, error) {
+                                alert('Erreur inconnue');
+                            }
+                        });
+                    }
+                    ,
+                    error: function (request, status, error) {
+                        alert('Erreur inconnue');
+                    }
+                }
+                );
+            }
+        }
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

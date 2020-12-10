@@ -1,0 +1,48 @@
+security:
+  encoders:
+    FOS\UserBundle\Model\UserInterface: bcrypt
+
+  role_hierarchy:
+    ROLE_PARTNER: ROLE_USER
+    ROLE_ADMIN: ROLE_USER
+    ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+  providers:
+    fos_userbundle:
+      id: fos_user.user_provider.username_email
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    js_router:
+      pattern: ^/(js\/routing)
+      security: false
+    main:
+      entry_point: entry_point.user_login
+      pattern: ^/
+      form_login:
+        default_target_path: user_my_projects
+        provider: fos_userbundle
+        csrf_token_generator: security.csrf.token_manager
+        #success_handler: iz_auth_privacy_policy_handler
+      logout_on_user_change: true
+      logout:
+        invalidate_session: true
+        target: /
+      anonymous: true
+      remember_me:
+        secure: true
+        name: "IZREMEMBERME_V2"
+        secret: "%secret%"
+        lifetime: 604800 # 1 week in seconds
+        path: /
+        domain: "%iz_domain%"
+
+  access_control:
+    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/z3pnu34v2gi42R5/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, role: ROLE_USER }
+    - { path: ^/admin/, roles: [ROLE_ADMIN, ROLE_PARTNER] }

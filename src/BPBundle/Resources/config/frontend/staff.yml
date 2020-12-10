@@ -1,0 +1,55 @@
+financial_staff_index:
+    path:       /step.html
+    methods:    [GET]
+    defaults: { _controller: BPBundle:Frontend/Default:staff }
+
+financial_staff_update:
+    path:        /{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Staff:update
+    requirements:
+        id: '[0-9]*'
+        
+financial_staff_create:
+    path:        /{idBusinessPlan}
+    methods:     [POST]
+    controller:  BPBundle:Frontend/Staff:create
+    requirements:
+        idBusinessPlan: '[0-9]*'
+
+financial_staff_delete:
+    path:        /{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Staff:delete
+    requirements:
+        id: '[0-9]*'
+    
+financial_staff_show:
+    path:        /{id}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Staff:show
+    requirements:
+        id: '[0-9]*'
+    
+financial_staff_list:
+    path:        /list.{_format}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Staff:list
+    defaults:
+        _format: json
+    requirements:
+        _format:  html|json
+
+financial_staff_add_form:
+    path:        /{idBusinessPlan}/add.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Staff:getAddForm
+    requirements:
+        idBusinessPlan: '[0-9]*'
+        
+financial_staff_edit_form:
+    path:        /{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Staff:getEditForm
+    requirements:
+        id: '[0-9]*'

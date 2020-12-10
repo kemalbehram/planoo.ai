@@ -1,0 +1,24 @@
+back_concept_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Concept:index" }
+    methods:  GET
+
+back_concept_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Concept:show" }
+    methods:  GET
+
+back_concept_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Concept:new" }
+    methods:  [GET, POST]
+
+back_concept_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Concept:edit" }
+    methods:  [GET, POST]
+
+back_concept_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Concept:delete" }
+    methods:  DELETE

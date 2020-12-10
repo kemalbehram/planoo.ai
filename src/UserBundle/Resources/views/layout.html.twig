@@ -1,0 +1,28 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .main{
+            padding-top: 0 ;
+            padding-bottom: 50px;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block body %}
+    <div class="">
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock body %}
+
+
+
+
+
+
+
+

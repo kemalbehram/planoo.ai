@@ -1,0 +1,27 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Accès interdit'  %}
+
+{% block login_form_panel %}
+    <div class="row pull_low">
+        <div class="col s12">
+            <center>
+                <div> <i class="material-icons large">lock_outline</i></div>
+                <h5>Vous n'êtes pas autorisé à consulter cette page.</h5>
+                <small>Code erreur : {{ status_code }}<br/></small>
+                <small>Référence : {{ "now"|date("Ymd_His") }}</small>
+            </center>
+        </div>
+    </div>
+    <div class="row pull_low">
+        <div class="col s12">
+                <p>Si vous rencontrez des difficultés n'hésitez pas à nous contacter sur le chat ou par mail en précisant la référence ci-dessus ainsi que les conditions d'apparition du problème.</p>
+                <p>Nous mettrons tout en oeuvre pour resoudre cette erreur le plus rapidement possible.</p>
+        </div>
+    </div>
+    <div class="row pull_low">
+        <div class="col s12">
+            <a style="width: 100%;" class="waves-effect waves-light btn izy-color-primary-bg" href="{{ path('user_my_projects') }}">Retournez à l'accueil</a>
+        </div>
+    </div>
+{% endblock login_form_panel %}

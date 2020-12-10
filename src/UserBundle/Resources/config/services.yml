@@ -1,0 +1,19 @@
+services:
+  registration_initialize:
+    class: UserBundle\EventListener\RegistrationInitializeListener
+    arguments:
+      [
+        "@router",
+        '@PartnersBundle\Service\IzIdentificationPartnerService',
+        "@doctrine.orm.entity_manager",
+        "@logger",
+        "%hubspot_private_key%"
+      ]
+    tags:
+      - { name: kernel.event_subscriber }
+
+  recaptcha:
+    class: UserBundle\EventListener\CaptchaFormAuthenticationListener
+    arguments: ["@router"]
+    tags:
+      - { name: kernel.event_subscriber }

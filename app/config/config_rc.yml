@@ -1,0 +1,8 @@
+imports:
+  - { resource: config.yml }
+
+swiftmailer:
+  delivery_address: spool-mail-dev@planoo.dev
+  spool:
+    type: file
+    path: "%kernel.logs_dir%/mail_%kernel.environment%"

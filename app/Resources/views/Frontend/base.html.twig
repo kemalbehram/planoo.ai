@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Réalisez votre Business plan en ligne et obtenez un PDF professionnel">
+        <meta http-equiv="cache-control" content="max-age=0"/>
+        <meta http-equiv="cache-control" content="no-cache"/>
+        <meta http-equiv="expires" content="0"/>
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+
+        <link rel="canonical" href="https://planoo.ai{{app.request.pathInfo}}"/>
+
+        <title>Planoo.ai |
+            {{ header }}</title>
+
+        <!-- Google Tag Manager -->
+        <script>
+            ( function ( w, d, s, l, i ) {
+                w[ l ] = w[ l ] || [];
+                w[ l ].push( { "gtm.start": new Date().getTime(), event: "gtm.js" } );
+                var f = d.getElementsByTagName( s )[0],
+                    j = d.createElement( s ),
+                    dl = l != "dataLayer" ? "&l=" + l : "";
+                j.async = true;
+                j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+                f.parentNode.insertBefore( j, f );
+            } )( window, document, "script", "dataLayer", "{{ gtm_id }}" );
+        </script>
+        <!-- End Google Tag Manager -->
+        {% if app.environment == 'prod' %}
+            <script>
+                ( function ( h, o, t, j, a, r ) {
+                    h.hj = h.hj || function () {
+                        ( h.hj.q = h.hj.q || [] ).push( arguments )
+                    };
+                    h._hjSettings = {
+                        hjid: 1791813,
+                        hjsv: 6
+                    };
+                    a = o.getElementsByTagName( "head" )[ 0 ];
+                    r = o.createElement( "script" );
+                    r.async = 1;
+                    r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                    a.appendChild( r );
+                } )( window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=" );
+            </script>
+        {% endif %}
+
+        <!-- import icon font-awesome-->
+        <link
+        rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <!--Import Font glegoo & Sacramento -->
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+        <link
+        href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+        <!--Import Google Icon Font-->
+        <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        {% block stylesheets %}
+            {# Load Theme #}
+            {{ encore_entry_link_tags(iz_identification_partner_service.partnerColorCssPath) }}
+
+        {% endblock %}
+
+        <!-- import favicon -->
+        <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,{{ iz_identification_partner_service.favicon32Base64 }}" sizes="32x32"/>
+        <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,{{ iz_identification_partner_service.favicon16Base64 }}" sizes="16x16"/>
+
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id={{ gtm_id }}" height="0" width="0" style="display:none;visibility:hidden"/>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        {% block base_content %}
+            <div class="navbar-fixed hide-on-large-only">
+                <nav>
+                    <div class="nav-wrapper izy-color-primary-bg">
+                        <ul id="nav-mobile" class="">
+                            <li>
+                                <a href="#" data-target="slide-out" class="sidenav-trigger">
+                                    <i class="material-icons">menu</i>
+                                </a>
+                            </li>
+                            <li>{{ header }}</li>
+                        </ul>
+                        <ul class="right">
+                            <li><a class="dropdown-trigger" href="#!" data-target="dropdown-personal-menu"><i class="material-icons">arrow_drop_down_circle</i></a></li>
+                            <ul id="dropdown-personal-menu" class="dropdown-content">
+                                <li><a href="{{path('user_my_projects')}}"><i class="material-icons">content_paste</i>Vos projets</a></li>
+                                <li><a href="{{path('user_my_documents')}}"><i class="material-icons">text_snippet</i>Vos documents</a></li>
+                                <li><a href="{{path('payment_index')}}"><i class="material-icons">shopping_cart</i>Vos commandes</a></li>
+                                <li><a href="{{path('fos_user_profile_edit')}}"><i class="material-icons">account_circle</i>Votre compte</a></li>
+                                 {% if is_granted("ROLE_PARTNER")%}
+                                   <li><a href="{{path('back_homepage')}}"><i class="material-icons">supervisor_account</i>Espace partenaire</a></li>
+                                {% endif %}
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <li><a href="{{path('back_homepage')}}"><i class="material-icons">security</i>Administration</a></li>
+                                {% endif %}
+                                <li><a class="text-black" href="{{path('fos_user_security_logout')}}"><i class="material-icons">login</i>Vous déconnectez</a></li>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress">
+                            <div class="indeterminate"></div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            {% block hint %}{% endblock hint %}
+
+            
+            {% block nav %}{% endblock nav %}
+
+            <div class="main {% if white_mark %}white_mark{% else %}izypitch_mark{% endif %}">
+                <div class="row">
+                    <div class="col s12 l11 offset-l1 hide-on-med-and-down">
+                        <h1>{{ header }}
+                            {% block header_addon %}{% endblock header_addon%}
+                        </h1>
+                    </div>
+                </div>
+
+                {% block body %}{% endblock body %}
+
+            </div>
+            {% block footer %}{% endblock footer %}
+
+            <div id="modal-container">
+                {% block modal %}{% endblock modal %}
+            </div>
+
+        {% endblock base_content %}
+
+        {% block javascripts %}
+            {# {{ parent() }} #}
+            <!-- jQuery --><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.min.js"></script>
+
+            <!-- Bootstrap Core JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        {% endblock javascripts %}
+    </body>
+</html>

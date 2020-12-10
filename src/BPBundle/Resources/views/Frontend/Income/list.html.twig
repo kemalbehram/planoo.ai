@@ -1,0 +1,82 @@
+<div>
+    {% if produits %}
+        <table class="table responsive-table" id="product-list">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Nature</th>
+                        {% for i in accountingDate|date('Y')..accountingDate|date('Y')+accountingNbPeriod-1 %}
+                        <th class="year right-align">{{ i }}</th>
+                        {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in produits %}
+                    <tr class="{% if loop.index%2 == 0 %}grey lighten-5{%endif%}">
+                        <td>&nbsp;</td>
+                        <td>CA</td>
+                        {% for infoProd in entity.infoProduct %}
+                            <td class="right-align">{{ infoProd.CAExercice|formatNumber('€',0) }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr class="{% if loop.index%2 == 0 %}grey lighten-5{%endif%}">
+                        <td class="">
+                            &nbsp;<a href="#" class="dropdown-trigger izy-color-primary-font left bold" data-target='dropdown2{{entity.id}}'>{{ entity.name|capitalize }}<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id='dropdown2{{entity.id}}' class='dropdown-content izy-dropdown-action' >
+                                <li><a onclick="initEditFormModal({{ entity.id }});"><i class="material-icons izy-color-primary-font">edit</i>Modifier</a></li>
+                                <li><a onclick="initEditProductSeasonsFormModal({{ entity.id }}, {{not entity.hasCustomProductSeasons}});"><i class="material-icons izy-color-primary-font">insert_chart</i>Saisonnalité des ventes</a></li>
+                                <li><a onclick="initEditProductStockSeasonsFormModal({{ entity.id }}, {{ not entity.hasCustomProductStockSeasons}});" ><i class="material-icons izy-color-primary-font">insert_chart</i>Saisonnalité des stocks</a></li>
+                                <li><a onclick="deleteAction({{ entity.id }});"><i class="material-icons izy-color-primary-font">delete</i>Supprimer</a></li>
+                            </ul>
+                        </td>
+                        <td>Marge</td>
+                        {% for infoProd in entity.infoProduct %}
+                            {% set marge = (infoProd.CAExercice - infoProd.CoutExercice) %}
+
+                            <td class="right-align">{{ marge|formatNumber('€',0) }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr class="{% if loop.index%2 == 0 %}grey lighten-5{%endif%}">
+                        <td>&nbsp;</td>
+                        <td>Taux de marge</td>
+                        {% for infoProd in entity.infoProduct %}
+                            {% set marge = (infoProd.CAExercice - infoProd.CoutExercice) %}
+                            {% if infoProd.CAExercice != 0 %}
+                                {% set tauxMarge = (marge / infoProd.CAExercice) * 100 %}
+                            {% else %}
+                                {% set tauxMarge = 0 %}
+                            {% endif %}
+                            <td class="right-align">{{ tauxMarge|formatNumber('%',1) }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th class="item">&nbsp;</th>
+                    <th>CA</th>
+                        {% for total in totalIncome %}
+                        <th class="right-align">{{ total.totalCA|formatNumber('€',0) }}</th>
+                        {% endfor %}
+                </tr>
+
+                <tr>
+                    <th class="item">Total</th>
+                    <th> Marge</th>
+                        {% for total in totalIncome %}
+                        <th class="right-align">{{ total.totalMarge|formatNumber('€',0) }}</th>
+                        {% endfor %}
+                </tr>
+
+                <tr>
+                    <th class="item" >&nbsp;</th>
+                    <th>Taux de marge</th>
+                        {% for total in totalIncome %}
+                        <th class="right-align">{{ total.totalTauxMarge|formatNumber('%',1) }}</th>
+                        {% endfor %}
+                </tr>
+
+            </tbody>
+        </table>
+    {% endif %}
+</div>

@@ -1,0 +1,80 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+
+{% block content %}
+    <div class="col s12 m10 offset-m1">
+        <div class="row">
+            <div class="col s12">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.customer) }}
+                        {{ form_errors (form.customer) }}
+                        {{ form_label  (form.customer) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.provider) }}
+                        {{ form_errors (form.provider) }}
+                        {{ form_label  (form.provider) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.acpteProvider) }}
+                        {{ form_errors (form.acpteProvider) }}
+                        {{ form_label  (form.acpteProvider) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.acpteCustomer) }}
+                        {{ form_errors (form.acpteCustomer) }}
+                        {{ form_label  (form.acpteCustomer) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {{ form_widget (form.stock) }}
+                        {{ form_errors (form.stock) }}
+                        {{ form_label  (form.stock) }}
+                    </div>
+                </div>
+
+                <div class="row"><!--button-->
+                    <div class="input-field col s12">
+                        <button class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            M.updateTextFields();
+        });
+    </script>
+    {% if not bpPaid %}
+        <script>
+            gtag('event', 'set_checkout_option', {
+                "checkout_step": 7
+            });
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,186 @@
+
+{% extends '::Frontend/base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('appfront') }}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block base_content %}
+<div class="fixed-action-btn">
+{% block nav_header_addon %}{% endblock nav_header_addon %}
+    <span class="hide-on-med-and-down">
+        <a class="btn-floating waves-effect waves-light izy-color-primary-bg tooltipped" href="{{path('user_my_projects')}}" data-tooltip="Vos projets"><i class="material-icons">content_paste</i></a>
+        <a class="btn-floating waves-effect waves-light izy-color-primary-bg tooltipped" href="{{path('user_my_documents')}}" data-tooltip="Vos documents"><i class="material-icons">text_snippet</i></a>
+        <a class="btn-floating waves-effect waves-light izy-color-primary-bg tooltipped" href="{{path('payment_index')}}" data-tooltip="Vos commandes"><i class="material-icons">shopping_cart</i></a>
+        <a class="btn-floating waves-effect waves-light izy-color-primary-bg tooltipped" href="{{path('fos_user_profile_edit')}}" data-tooltip="Votre compte"><i class="material-icons">account_circle</i></a>
+    
+    {% if is_granted("ROLE_PARTNER")%}
+        <a class="btn-floating waves-effect waves-light izy-color-primary-bg tooltipped" href="{{path('back_homepage')}}" data-tooltip="Espace partenaire"><i class="material-icons">supervisor_account</i></a>
+    {% endif %}
+
+    {% if is_granted("ROLE_ADMIN") %}
+        <a class="btn-floating waves-effect waves-light red tooltipped" href="{{path('back_homepage')}}" data-tooltip="Administration"><i class="material-icons">security</i></a>
+    {% endif %}
+    <a class="btn-floating waves-effect waves-light black tooltipped" href="{{path('fos_user_security_logout')}}" data-tooltip="Vous déconnectez"><i class="material-icons">login</i></a>
+    </span>
+  </div>
+
+    {{ parent() }}
+{% endblock base_content %}
+
+{% block nav %}
+    <ul id="slide-out" class="sidenav sidenav-fixed izy-color-primary-bg">
+        {% include 'Frontend/_components/navigation.html.twig' %}
+        {% block nav_content %}
+        {% endblock nav_content %}
+    </ul>
+{% endblock nav %}
+
+{% block footer %}
+    {% include 'Frontend/_components/footer.html.twig' %}
+{% endblock footer %}
+
+{% block modal %}
+    {{parent()}}
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'purchase-confirm-essentielle',
+        'targetCTAUrl': path('promotion_catalog_index'),
+        'targetCTACaption': 'Découvrez les formules complémentaires',
+        'targetCloseCaption':'Retournez à vos projets'} %}
+        {% block modal_title %}
+            <h4>Votre achat a été réalisé avec succès</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Toute l'équipe Planoo vous remercie pour votre confiance.</br>
+            Vous pouvez à tout moment modifier et télécharger votre Business Plan.</p>
+            <p>Vous pouvez également passer à la formule supèrieure et profiter pleinement de l'expérience Planoo.</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'purchase-confirm-pro',
+        'targetCTAUrl': path('promotion_catalog_index'),
+        'targetCTACaption': 'Découvrez les formules complémentaires',
+        'targetCloseCaption':'Retournez à vos projets'} %}
+        {% block modal_title %}
+            <h4>Votre achat a été réalisé avec succès</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Toute l'équipe Planoo vous remercie pour votre confiance.</br>
+            Vous pouvez à tout moment modifier et télécharger votre Business Plan.</p>
+            <p>Vous pouvez également passer à la formule supèrieure et profiter pleinement de l'expèrience Planoo.</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'purchase-confirm-premium',
+        'targetCloseCaption':'Retournez à vos projets'} %}
+        {% block modal_title %}
+            <h4>Votre achat a été réalisé avec succès</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Toute l'équipe Planoo vous remercie pour votre confiance.</br>
+            Vous pouvez à tout moment modifier et télécharger votre Business Plan.</p>
+            <p>Si besoin, vous pouvez commander une nouvelle heure de conseil ou une mise à jour de votre présentation de projet.</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'purchase-confirm-upgrade',
+        'targetCloseCaption':'Retournez à vos projets'} %}
+        {% block modal_title %}
+            {% if catalog is defined and catalog is not null and catalog.catalogDestination is not null %}
+            <h4>Vous benéficiez désormais de la {{catalog.catalogDestination.name}}</h4>
+            {% else %}
+            <h4>Votre achat a été réalisé avec succès</h4>
+            {% endif %}
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Votre achat a été réalisé avec succès.</br>
+            Vous pouvez désormais bénéficier  de l’ensemble des fonctionnalités de votre projet .</p>
+        {% endblock modal_content %}
+    {% endembed %}
+{% endblock modal %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('appfront') }}
+    <script>
+
+        localizeErrors( navigator.language.replace( /-.*$/, "" ) );
+        function localizeErrors( lang ) {
+            $.getScript( "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/localization/messages_" + lang + ".min.js" );
+        }
+
+        $( document ).ready( function () { <!-- Information toast messages-->
+            {% for type, messages in app.flashes(['error']) %}
+                {% for message in messages %}
+                    M.toast( { html: "<span class=\"material-icons left\">error</span>&nbsp {{ message }}", displayLength: 4000, classes: "red" } );{% endfor %}
+            {% endfor %}
+
+            {% for type, messages in app.flashes(['warning']) %}
+                {% for message in messages %}
+                    M.toast( { html: "<span class=\"material-icons left\">warning</span>&nbsp {{ message }}", displayLength: 4000, classes: "orange" } );{% endfor %}
+            {% endfor %}
+
+            {% for type, messages in app.flashes(['confirmation']) %}
+                {% for message in messages %}
+                    M.toast( { html: "<span class=\"material-icons left\">done</span>&nbsp {{ message }}", displayLength: 4000 } );{% endfor %}
+            {% endfor %}
+
+            {% for type, messages in app.flashes(['info','notice']) %}
+                {% for message in messages %}
+                    M.toast( { html: "{{ message }}", displayLength: 4000 } );{% endfor %}
+            {% endfor %}
+
+            $( "form" ).validate( {
+                errorElement: "span",
+                errorPlacement: function ( error, element ) {
+                    var placement = $( element ).parent().children( ".helper-text" ).data( "error" );
+                    if ( placement ) {
+                        $( element ).parent().children( ".helper-text" ).attr( "data-error", error.html() );
+                    } else {
+                        $( error ).attr( "data-error", error.html() );
+                        error.insertAfter( element );
+                    }
+                }
+            } );
+        } );
+    </script>
+
+    {% set paidCart=getPaidCart() %}
+    {% if paidCart %}
+        <script>
+            function sendPurchaseEventToGTM() {
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push( { "event": "confirmation", "revenue": "{{ paidCart.totalAmountTTC }}" } );
+                dataLayer.push( {
+                    "event": "purchase",
+                    "transactionId": {{ paidCart.id }},
+                    {% if paidCart.coupon and paidCart.coupon.partner %}
+                        "transactionAffiliation" : "{{ paidCart.coupon.partner.nom }}",
+                    {% elseif paidCart.user.partner %}
+                        "transactionAffiliation" : "{{ paidCart.user.partner.nom }}",
+                    {% elseif iz_identification_partner_service.currentPartner %}
+                        "transactionAffiliation" : "{{ iz_identification_partner_service.currentPartner.nom }}",
+                    {% endif %}
+                    "transactionTotal": {{ paidCart.totalAmountTTC }},
+                    "transactionTax": {{ paidCart.tva }},
+                    "transactionProducts": [{% for commandeCatalog in paidCart.commandeCatalogs %}{
+                                "sku": "{{ commandeCatalog.catalog.id }}",
+                                "name": "{{ commandeCatalog.catalog.name }}",
+                                "category": "{{ commandeCatalog.catalog.type }}",
+                                "price": {{ commandeCatalog.catalog.price }},
+                                "quantity": {{ commandeCatalog.quantity }}
+                            },{% endfor %}]
+                } );
+            }
+            $( document ).ready( function () {
+                sendPurchaseEventToGTM();
+            });
+        </script>
+
+    {% endif %}
+{% endblock %}

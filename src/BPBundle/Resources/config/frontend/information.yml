@@ -1,0 +1,19 @@
+financial_information_index:
+    path:     /
+    defaults: { _controller: BPBundle:Frontend/Default:information }
+
+financial_information_edit:
+    path:     /edit/{hash}
+    defaults: { _controller: BPBundle:Frontend/Information:edit }
+    
+ajax_country_legal_form:
+    path: /ajax/countrytolegalform
+    defaults: { _controller: BPBundle:Frontend/Information:ajaxCountryToLegalForm }
+    
+ajax_legal_form_ir:
+    path: /ajax/legalformtoir
+    defaults: { _controller: BPBundle:Frontend/Information:ajaxLegalFormToIr }
+    
+ajax_activity_list:
+    path: /ajax/activitylist
+    defaults: { _controller: BPBundle:Frontend/Information:ajaxActivityList }

@@ -1,0 +1,44 @@
+<div>
+    {{ form_start(editForm,{'name':'form'~idInvest}) }}
+    <div class="modal-content"><!-- content -->
+        <h5 class="flow-text upper center">{% if action =='create' %}Ajoutez{% else %}Editez{% endif %} un investissement</h5>
+
+        <div class="row ">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">list</i>
+                {{ form_widget (editForm.chargeLabel) }}
+                {{ form_label  (editForm.chargeLabel) }}
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">today</i>
+                {{ form_widget (editForm.date) }}
+                {{ form_errors (editForm.date) }}
+                {{ form_label  (editForm.date) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">euro_symbol</i>
+                {{ form_widget (editForm.amount) }}
+                {{ form_errors (editForm.amount) }}
+                {{ form_label  (editForm.amount) }}
+            </div>
+        </div>
+
+    </div><!-- /.content -->
+    <div class="modal-footer">
+        <button type="button" class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-dismiss="modal">Annuler</button>
+        <button type="button" onclick="saveAction(this, '{{action}}');" class="submit btn waves-effect waves-light izy-color-primary-bg z-depth-0 edit-income" 
+                {% if action =='create' %}
+                    data-url="{{ path('financial_investissement_create', {idBusinessPlan:idBusinessPlan}) }}"
+                {% else %}
+                    data-url="{{ path('financial_investissement_update', {id:idInvest}) }}"
+                {% endif %}
+                >Enregistrez</button>
+    </div>
+    {{ form_end(editForm) }}
+</div>

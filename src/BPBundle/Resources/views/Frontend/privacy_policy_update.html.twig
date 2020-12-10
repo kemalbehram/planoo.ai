@@ -1,0 +1,88 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} |
+    Business Plan
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .frame.mention-legales{
+            overflow-y: scroll;
+            max-height: 50vh;
+            border-style: dotted;
+            border-width: 1px;
+            padding: 10px; 
+        }
+    </style>
+{% endblock stylesheets %}
+
+
+
+{% block body %}
+    <div class="row">
+        {% block content %}
+            <div class="row pull_low">
+                <div class="col m12 l10 offset-l1 xl8 offset-xl2">
+                    <div class="card-panel radius">
+                        <div class="row">
+                            <h5 class="flow-text center izy-color-primary-font">Mise à jour de la Politique de confidentialité</h5>
+                            <div class="center izy-color-primary-font">Version du {{page.updatedAt|date('d/m/Y')}}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m10 offset-m1">
+                                <div class="frame mention-legales" style=''>
+                                    <p class="page-content">{{ page.translate.content|raw }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="{{ path('privacy_policy_update') }}" method="post">
+                            <div class='row'>
+                                <div class="col s12 m10 offset-m1">
+                                    <label>
+                                        <input type="checkbox" id="newsletterAccepted" name="newsletterAccepted" value="on" {% if newsletterAccepted %}checked{% endif %}/>
+                                        <span for="newsletterAccepted">J'accepte de recevoir la newsletter</span>
+                                    </label>
+                                </div>
+                                <div class="col s12 m10 offset-m1">
+                                    <label>
+                                        <input type="checkbox" id="commercialAccepted" name="commercialAccepted" value="on" {% if commercialAccepted %}checked{% endif %}/>
+                                        <span for="commercialAccepted">J'accepte de recevoir les offres commerciales et promotionnelles.</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s6 m5 offset-m1 l4 offset-l1">
+                                    <div class="center-align">
+                                        <a href='{{ path('fos_user_security_logout') }}' style="width: 100%;" class="btn grey waves-effect waves-light" >Déconnexion</a>
+                                    </div>
+                                </div>
+
+                                <div class="col s6 m5 offset-m1 l4 offset-l2">
+                                    <div class="center-align">
+                                        <button type="submit" id="_submit" name="_submit" style="width: 100%;" class="btn izy-color-primary-bg waves-effect waves-light" >
+                                            Accepter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    {% endblock content %}
+</div>
+{% endblock body %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}
+
+
+

@@ -1,0 +1,12 @@
+#Use Stripe checkout form
+payment_stripe_checkout_form:
+  path: /checkout/{cartId}
+  defaults: { _controller: PaymentBundle:Stripe:stripeCreateCheckoutSession }
+
+payment_stripe_success:
+  path: /success/{cartId}
+  defaults: { _controller: PaymentBundle:Stripe:stripeSuccessfullPaiement }
+
+payment_stripe_transaction:
+  path: /success
+  defaults: { _controller: PaymentBundle:Stripe:stripe }

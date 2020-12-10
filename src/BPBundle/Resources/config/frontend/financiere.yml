@@ -1,0 +1,3 @@
+financial_financiere_index:
+    path:     /
+    defaults: { _controller: BPBundle:Frontend/Default:financiere }

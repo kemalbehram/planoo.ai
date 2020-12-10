@@ -1,0 +1,28 @@
+back_definition_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Definition:index" }
+    methods:  GET
+
+back_definition_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Definition:show" }
+    methods:  GET
+
+back_definition_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Definition:new" }
+    methods:  [GET, POST]
+
+back_definition_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Definition:edit" }
+    methods:  [GET, POST]
+
+back_definition_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Definition:delete" }
+    methods:  DELETE
+
+back_definition_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BackBundle:Definition:deleted" }

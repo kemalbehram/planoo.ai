@@ -1,0 +1,50 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>Benefit</h1>
+
+        {% block fil_ariane %}
+            <ol class="breadcrumb record_actions">
+                <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+                <li ><a href="{{ path('back_benefit_index') }}">Liste</a></li>
+                <li class="active"><em>{{ benefit.translate.name }}</em></li>
+            </ol>
+        {% endblock fil_ariane %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ benefit.translate.name }}</td>
+            </tr>
+            <tr>
+                <th>Detail</th>
+                <td>{{ benefit.translate.detail|raw }}</td>
+            </tr>
+            <tr>
+                <th>Info</th>
+                <td>{{ benefit.translate.postScriptum }}</td>
+            </tr>
+            <tr>
+                <th>Theme</th>
+                <td>{{ benefit.bgColor }}</td>
+            </tr>
+            <tr>
+                <th>Texte</th>
+                <td>{{ benefit.fontColor }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_benefit_edit', { 'id': benefit.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

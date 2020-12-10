@@ -1,0 +1,97 @@
+financial_income_index:
+    path:       /step.html
+    methods:    [GET]
+    controller: BPBundle:Frontend/Default:income
+    
+financial_income_update:
+    path:        /{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Income:update
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_create:
+    path:        /{idBusinessPlan}
+    methods:     [POST]
+    controller:  BPBundle:Frontend/Income:create
+    requirements:
+        idBusinessPlan: '[0-9]*'
+
+financial_income_delete:
+    path:        /{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Income:delete
+    requirements:
+        id: '[0-9]*'
+    
+financial_income_show:
+    path:        /{id}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:show
+    requirements:
+        id: '[0-9]*'
+    
+financial_income_list:
+    path:        /list.{_format}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:list
+    defaults:
+        _format: json
+    requirements:
+        _format:  html|json
+
+financial_income_add_form:
+    path:        /{idBusinessPlan}/add.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:getAddForm
+    requirements:
+        idBusinessPlan: '[0-9]*'
+        
+financial_income_edit_form:
+    path:        /{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:getEditForm
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_seasons_edit_form:
+    path:        /product-seasons/{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:getEditProductSeasonsForm
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_seasons_update:
+    path:        /product-seasons/{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Income:updateProductSeasons
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_seasons_delete:
+    path:        /product-seasons/{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Income:removeProductSeasons
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_stock_seasons_edit_form:
+    path:        /product-stock-seasons/{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Income:getEditProductStockSeasonsForm
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_stock_seasons_update:
+    path:        /product-stock-seasons/{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Income:updateProductStockSeasons
+    requirements:
+        id: '[0-9]*'
+        
+financial_income_product_stock_seasons_delete:
+    path:        /product-stock-seasons/{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Income:removeProductStockSeasons
+    requirements:
+        id: '[0-9]*'

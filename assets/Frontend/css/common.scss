@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: 'Lato';
+    min-height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+
+
+// Front, Errors
+.page-footer {
+    margin-top: 0 !important;
+    padding-top: 0px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+
+    .row {
+        margin-bottom: 0px;
+    }
+
+    .fa {
+        font-size: 3.5em;
+    }
+
+    img {
+        width: 180px;
+        height: auto;
+    }
+}
+
+hr {
+    border-top: 1px dotted;
+}
+
+/*HELPERS C#LASS*/
+;
+
+.clear {
+    display: none;
+}
+
+.radius {
+    border-radius: 7px;
+}
+
+.pull_bas {
+    margin-bottom: 10px;
+}
+
+.pull_low {
+    padding-top: 3rem;
+}
+
+.upper {
+    text-transform: uppercase;
+}
+
+.lower {
+    text-transform: lowercase;
+}
+
+.initial {
+    text-transform: initial;
+}
+
+.center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.pull_left {
+    padding-left: 4rem;
+}
+
+.no-margin {
+    margin: 0 !important;
+}

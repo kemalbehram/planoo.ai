@@ -1,0 +1,28 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+        
+    PartnersBundle\Service\:
+        resource: '../../Service/*'
+        
+    PartnersBundle\Service\IzIdentificationPartnerService:
+        arguments: 
+            $em: '@doctrine'
+            $white_mark: '%white_mark%'
+            
+    PartnersBundle\Service\IzPartnerListService:
+        arguments: 
+            $em: '@doctrine'
+            
+    PartnersBundle\Listener\RedirectionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+            
+    PartnersBundle\Security\PartnerPlanVoter:
+        public:     false
+        tags:
+           - { name: security.voter }
+        arguments: 
+            $decisionManager: '@security.access.decision_manager'

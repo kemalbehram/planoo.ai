@@ -1,0 +1,241 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% set header = "Bienvenue dans votre compte" %}
+
+{% block body %}
+    <!-- Business Plan -->
+    <div class="row">
+        <div class="col s12 m10 offset-m1 l8 offset-l2">
+
+            <div class="row">
+                <div class="col s12">
+                    <p>Cet espace vous permet de retrouver l'ensemble de vos projets en cours de validité et sa formule associée.<br/>
+                        A tout moment, vous pourrez choisir de changer de formule :
+                        <a class="izy-color-secondary-font" href="{{ path('promotion_catalog_index') }}">en savoir plus</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row my-account-section-title">
+                <div class="col s12">
+                    <i class="medium material-icons circle izy-color-primary-bg">content_paste</i>
+                    <span class="title black-text bold izy-color-primary-font"> VOS PROJETS</span>
+                </div>
+            </div>
+
+            {% if bps %}
+
+
+                <ul class="collection">
+                    {% for bp in bps %}
+
+                        <li class="collection-item">
+                            <div class="cursor-pointer" onclick="openBP('{{bp.hash}}',{{bp.isTrialExpired ? 'true' : 'false'}},{{bp.isEditable ? 'true' : 'false'}} );">
+
+                                <span class="title bold {{bp.information is not null ? 'black-text' : 'izy-color-primary-font'}}">{{ bp.getDisplayName() }}</span>
+
+                                <br/>
+                                <span class="izy-color-primary-font">
+                                    {{bp.catalog.name}}
+                                </span>
+                            </div>
+                            {% if bp.isTrialExpired %}
+                              <small class="izy-color-primary-font">Votre version d'essai a expiré</small>
+                            {% elseif bp.isTrialActive %}
+                            <small class="izy-color-primary-font">Version d'essai
+                                    {{date() .diff(bp.service.expireTrialDate).days}}
+                                    jours restants</small>
+                             {% elseif not bp.isEditable %}
+                                <small class="izy-color-primary-font">Période d'édition expirée (<a class='izy-color-secondary-font' href="{{ path('promotion_catalog_index') }}">Démarrez un nouveau projet</a>)</small>
+                            {% endif %}
+
+
+                            <ul class="collection my-account-subcollection">
+                                <li class="collection-item">
+                                    <i class="material-icons white izy-color-primary-font">move_to_inbox</i>
+                                    <span class="title">Business Plan financier</span>
+                                    <div class="secondary-content">
+                                        <a class="btn-small izy-color-secondary-bg" onclick="openBP('{{bp.hash}}',{{bp.isTrialExpired ? 'true' : 'false'}},{{bp.isEditable ? 'true' : 'false'}} );">
+                                            {% if bp.isNew %}
+                                                Commencez
+                                            {% else %}
+                                                Modifiez
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                </li>
+
+                                {% if bp.catalog.nbAdviceHour > 0 %}
+                                <li class="collection-item">
+                                    <i class="material-icons izy-color-primary-font">people</i>
+                                    <span class="title">1H de conseil financier</span>
+                                    <div class="secondary-content">
+                                        {% if bp.currentInternalAdviceOrder %}
+                                            {% if bp.currentInternalAdviceOrder.statut == constant('BackBundle\\Entity\\JoorneyOrder::ORDER_STATUT_5_PREPARATION') %}
+                                                <a class="btn-small black" onclick="openModal('#request-confirmed-acc');">RDV Confirmé</a>
+                                            {% elseif bp.currentInternalAdviceOrder.statut == constant('BackBundle\\Entity\\JoorneyOrder::ORDER_STATUT_1_PAYMENT_AWAITED') %}
+                                                <a class="btn-small izy-color-secondary-bg" href="{{ path('back_order_BP_internal_service', {'idBusinessPlan': bp.id,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID')}) }}">Recommandez</a>
+                                            {% else %}
+                                                <a class="btn-small black" onclick="openModal('#request-confirmed-acc')">En cours</a>
+                                            {% endif %}
+                                        {% else %}
+                                            <a class="btn-small izy-color-secondary-bg" onclick="openExpertForm('{{bp.hash}}','{{bp.id}}', {{bp.isTrialExpired ? 'true' : 'false'}},{{bp.isEditable ? 'true' : 'false'}} );">Programmez</a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                {% endif %}
+
+                                {% if bp.catalog.hasWording %}
+                                <li class="collection-item">
+                                    <i class="material-icons izy-color-primary-font">library_books</i>
+                                    <span class="title">Présentation projet</span>  
+                                    <div class="secondary-content">
+                                        
+
+                                        {% if bp.currentInternalPrezOrder %}
+                                            {% if bp.currentInternalPrezOrder.statut == constant('BackBundle\\Entity\\JoorneyOrder::ORDER_STATUT_5_PREPARATION') %}
+                                                <a class="btn-small black" onclick='openModal("#request-confirmed-presentation", true);'>Demande confirmée</a>
+                                            {% elseif bp.currentInternalPrezOrder.statut == constant('BackBundle\\Entity\\JoorneyOrder::ORDER_STATUT_1_PAYMENT_AWAITED') %}
+                                                <a class="btn-small izy-color-secondary-bg" href="{{ path('back_order_BP_internal_service', {'idBusinessPlan': bp.id,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_PREZ_PROJECT_FORMULA_ID')}) }}">Reprenez votre demande</a>
+                                            {% else %}
+                                                <a class="btn-small black" onclick='openModal("#request-confirmed-presentation", true);'>Demande envoyée</a>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <a class="btn-small izy-color-secondary-bg" onclick="openBPWording('{{bp.hash}}',{{bp.isTrialExpired ? 'true' : 'false'}},{{bp.isEditable ? 'true' : 'false'}} );">
+                                                {% if bp.isNew %}
+                                                    Commencez
+                                                {% else %}
+                                                    Modifiez
+                                                {% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                {% endif %}
+                            </ul>
+
+                        </li>
+
+
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+
+            <div class="row center">
+                <a href="{{ path('promotion_catalog_index') }}" class="btn izy-color-secondary-bg">Démarrez un nouveau Projet</a>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock body %}
+
+{% block modal %}
+    {{parent()}}
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'project-trial-expired-modal',
+        'targetCTACaption': 'Réglez votre formule'} %}
+        {% block modal_title %}
+            <h4>Votre période d'essai a expiré</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Pour continuer vos démarches et finaliser votre projet, nous vous invitons à finaliser votre commande</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'project-edit-expired-modal',
+        'targetCTACaption': 'Démarrez un nouveau projet'} %}
+        {% block modal_title %}
+            <h4>Votre projet n'est plus éditable</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Vos documents précédemment réalisés sont dans « <a class="izy-color-secondary-font" href="{{path('user_my_documents')}}">Vos documents</a> »
+            <p>Vous n'avez pas finalisé votre Business Plan et vous souhaitez reprendre sa rédaction ?<br/> Aucun problème ! Il vous suffit de créer un nouveau projet.</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'request-confirmed-presentation',
+        'targetCloseCaption' : 'Retournez à vos projets'} %}
+        {% block modal_title %}
+            <h4>Votre demande de présentation personnalisée de projet a bien été transmise à nos experts</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Nous allons revenir vers vous sous 2 jours ouvrés suite à votre demande.<br/>
+            Si vous la moindre question, n'hésitez pas à nous contacter à hello@planoo.ai</p>
+            <p>A bientôt, L'équipe Planoo</p>
+        {% endblock modal_content %}
+    {% endembed %}
+    
+    {% embed 'Frontend/_components/modal.html.twig'  with {
+        'id': 'request-confirmed-acc',
+        'targetCloseCaption' : 'Retournez à vos projets'} %}
+        {% block modal_title %}
+            <h4>Votre demande de rendez-vous a bien été transmise à nos experts</h4>
+        {% endblock modal_title %}
+        {% block modal_content %}
+            <p>Nous allons revenir vers vous sous 2 jours ouvrés suite à votre demande.<br/>
+            Si vous la moindre question, n'hésitez pas à nous contacter à hello@planoo.ai</p>
+            <p>A bientôt, L'équipe Planoo</p>
+        {% endblock modal_content %}
+    {% endembed %}
+
+{% endblock modal %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function openBP( bpHash, isTrialExpired, isEditable) {
+            if ( isTrialExpired ) {
+                openModal("#project-trial-expired-modal");
+                $( "#project-trial-expired-modal" ).on( "click", "#project-trial-expired-modal-cta", function ( e ) {
+                    window.location.href = "{{ path('promotion_catalog_one', {bpHash: 999999999999}) }}".replace( "999999999999", bpHash );
+                } );
+            } else if (!isEditable){
+                openModal("#project-edit-expired-modal");
+            } else {
+                window.location.href = "{{ path('financial_information_edit', {hash: 999999999999}) }}".replace( "999999999999", bpHash );
+            }
+        }
+
+        function openBPWording( bpHash, isTrialExpired, isEditable) {
+            if ( isTrialExpired ) {
+                openModal("#project-trial-expired-modal");
+                $( "#project-trial-expired-modal" ).on( "click", "#project-trial-expired-modal-cta", function ( e ) {
+                    window.location.href = "{{ path('promotion_catalog_one', {bpHash: 999999999999}) }}".replace( "999999999999", bpHash );
+                } );
+            } else if (!isEditable){
+                openModal("#project-edit-expired-modal");
+            } else {
+                window.location.href = "{{ path('wording_custom_writing_index', {hash: 999999999999}) }}".replace( "999999999999", bpHash );
+            }
+        }
+
+        function openExpertForm( bpHash, bpId, isTrialExpired, isEditable) {
+            if ( isTrialExpired ) {
+                openModal("#project-trial-expired-modal");
+                $( "#project-trial-expired-modal" ).on( "click", "#project-trial-expired-modal-cta", function ( e ) {
+                    window.location.href = "{{ path('promotion_catalog_one', {bpHash: 999999999999}) }}".replace( "999999999999", bpHash );
+                } );
+            } else if (!isEditable){
+                openModal("#project-edit-expired-modal");
+            } else {
+                window.location.href = "{{ path('back_order_BP_internal_service', {'idBusinessPlan': 999999999999,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID')}) }}".replace( "999999999999", bpId )
+            }
+        }
+    </script>
+
+    <script>
+        $( document ).ready( function (){ 
+            {% if popup is defined and popup is not null %}
+                openModal( "#{{ popup }}" );
+            {% endif %} } )
+    </script>
+
+
+{% endblock javascripts %}

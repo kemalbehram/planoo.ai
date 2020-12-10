@@ -1,0 +1,34 @@
+<div>
+    {% if staffs %}
+        <table class="table responsive-table"id="staff-list">
+            <thead>
+                <tr>
+                    <th class="th">Libellé</th>
+                    <th class="th">Pôle</th>
+                    <th class="th">Statut</th>
+                    <th class="th">Rénumération</th>
+                    <th class="th">Embauche</th>
+                    <th class="th">Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in staffs %}
+                    <tr>
+                        <td>
+                            &nbsp;<a href="#" class="dropdown-trigger izy-color-primary-font left bold" data-target='dropdown2{{entity.id}}'>{{ entity.name }}<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id='dropdown2{{entity.id}}' class='dropdown-content izy-dropdown-action' >
+                                <li><a onclick="initEditFormModal({{ entity.id }});"><i class="material-icons izy-color-primary-font">edit</i>Modifier</a></li>
+                                <li><a onclick="deleteAction({{ entity.id }});"><i class="material-icons izy-color-primary-font">delete</i>Supprimer</a></li>
+                            </ul>
+                        </td>
+                        <td>{% if entity.pole %}{{ entity.pole.translate.name }}{% endif %}</td>
+                        <td>{% if entity.status %}{{ entity.status.translate.name }}{% endif %}</td>
+                        <td>{{ entity.income|formatNumber('€',0) }}</td>
+                        <td>{{ entity.staffCreatedAt|date('d/m/Y') }}</td>
+                        <td>{% if entity.finishedAt %}{{ entity.finishedAt|date('d/m/Y') }}{%else%}-{%endif%}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

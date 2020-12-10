@@ -1,0 +1,19 @@
+<li class="izy-color-primary-bg">
+    <div class="user-view valign-wrapper">
+        {% if iz_identification_partner_service.currentPartner.cobrandingLogo is null %}
+            <img src="{{ asset('build/images/planoo.ai.white.png') }}" alt="logo" width="225px">
+        {% else %}
+            <img src="data:image/png;base64,{{ iz_identification_partner_service.cobrandingLogoBase64 }}" alt="logo" width="225px">
+        {% endif %}
+    </div>
+</li>
+
+
+{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+    {# <div class="progress-wrapper">
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div> #}
+{% endif %}
+

@@ -1,0 +1,31 @@
+
+/*BREADCRUMB *******************************************************/
+.breadcrumb {
+    margin: 12px 0 0;
+}
+
+.breadcrumb li {
+    display: inline-block;
+}
+
+.breadcrumb li.active {
+    opacity: 0.5;
+}
+
+.breadcrumb li::before {
+    content: '\E5CC';
+    vertical-align: top;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 25px;
+    margin: 0 10px 0 8px;
+    margin-top: -5px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.breadcrumb li:first-child:before,
+.breadcrumb:before {
+    display: none !important;
+}

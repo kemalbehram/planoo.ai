@@ -1,0 +1,355 @@
+/*
+<= 600px	Tablet Devices .s
+> 600px	Desktop Devices .m
+> 992px	Large Desktop Devices .l
+> 1200px .xl
+*/
+
+@media screen and (min-width: 993px) {
+  .main,
+  footer:not(.full-width) {
+    padding-left: 300px !important;
+  }
+}
+
+.main,
+.main-catalog {
+  padding-bottom: 60px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// BPBundle
+.izy-dropdown-action {
+  width: 300px !important;
+}
+
+// BPBundle
+label.commun {
+  font-size: unset;
+}
+
+//Top Menu buttons
+.fixed-action-btn {
+  top: 12px;
+  bottom: auto;
+  padding-top: 0;
+
+  //mobile view
+  @media screen and (max-width: 600px) {
+    top: 56px;
+    right: 0px;
+  }
+
+  @media screen and (min-width: 601px) and (max-width: 992px) {
+    top: 64px;
+    right: 0px;
+  }
+}
+
+// Page d'erreurs
+.container {
+  width: 80% !important;
+}
+
+.collection {
+  overflow: visible;
+}
+
+.progress {
+  margin: 0;
+  display: none;
+}
+
+.progress-wrapper {
+  margin: 0;
+  margin-top: -8px;
+  height: 4px;
+}
+
+[type="checkbox"].filled-in:checked + label:after {
+  border: 2px solid;
+}
+
+.modal {
+  width: 70% !important;
+
+  @media screen and (max-width: 600px) {
+    width: 90% !important;
+  }
+  max-height: 85vh !important;
+  top: 5em;
+  z-index: 10;
+
+  h4 {
+    margin: 32px auto 0px auto;
+    font-size: calc(1.2em + 0.6vw);
+  }
+
+  hr {
+    border: 1px solid;
+    margin-top: 32px;
+    margin-bottom: 0px;
+  }
+
+  i.material-icons.black-text {
+    margin-right: -7vw;
+  }
+
+  .modal-logo {
+    margin: 32px auto 64px auto;
+  }
+
+  .modal-footer {
+    padding-bottom: 1.5em;
+    height: auto;
+  }
+
+  &.popup-information-left-align-content {
+    padding-left: 4vw;
+    padding-right: 4vw;
+    max-width: 980px;
+
+    p {
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .modal-text {
+      text-align: left !important;
+    }
+
+    .modal-footer {
+      text-align: center;
+    }
+
+    li {
+      padding-bottom: 10px;
+    }
+  }
+
+  &.popup-information {
+    padding-left: 4vw;
+    padding-right: 4vw;
+    max-width: 980px;
+
+    p {
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .modal-footer {
+      text-align: center;
+
+      .btn {
+        @media screen and (max-width: 364px) {
+          font-size: 8.5px
+        }
+
+        @media screen and (min-width: 365px) and (max-width: 470px) {
+          font-size: 10px
+        }
+      }
+    }
+  }
+}
+
+.spacer {
+  width: 16px;
+}
+
+.datepicker-modal {
+  top: 20% !important;
+}
+
+.page-content hr {
+  border-top: 2px dashed;
+}
+
+.btn-floating.cart {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.btn-floating.cart i {
+  font-size: 12pt;
+  line-height: 20px;
+}
+
+.slider {
+  display: inline-block;
+  min-height: 200px;
+  max-height: 300px;
+}
+
+.info {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  margin-left: -10px;
+  font-size: 13px;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+
+  i {
+    line-height: 0 !important;
+    margin-left: -2px;
+  }
+}
+
+.clearfix {
+  height: 1%;
+}
+
+.hidden {
+  display: none;
+}
+
+.clearfix:after {
+  content: ".";
+  height: 0;
+  line-height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+@media screen and (min-width: 992px) and (max-width: 1100px) {
+  /* half-width cells for larger devices */
+  nav ul a {
+    font-size: 0.87rem;
+  }
+
+  nav ul a.btn {
+    margin-right: 10px;
+    margin-left: 5px;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 992px) {
+  h2 {
+    font-size: 3rem;
+  }
+}
+
+/* BPBundle Project (page MyProjects) */
+.bp-trial-information {
+  // position: fixed;
+  // right: 0;
+  cursor: default;
+  text-transform: none;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.my-account-section-title {
+  i.circle {
+    font-size: 18px;
+    line-height: 42px;
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    text-align: center;
+  }
+
+  span.title {
+    font-size: 18px;
+  }
+}
+
+.collection.my-account-subcollection {
+  border: 0;
+
+  .collection-item {
+    min-height: inherit;
+    border: 0;
+    display: flex;
+
+    & > span {
+      flex: 1;
+      margin-left: 8px;
+    }
+
+    .secondary-content {
+      position: relative;
+      top: 0;
+    }
+
+    a {
+      min-width: 130px;
+    }
+  }
+}
+
+/* BPBundle Frontend (left menu) */
+.menu-section-button a {
+  padding-left: 39px !important;
+  width: 100%;
+}
+
+.btn.no-margin.disabled > i {
+  color: #9f9f9f !important;
+}
+
+.menu-section-title .switch {
+  min-width: 50px;
+}
+
+.menu-section-title {
+  padding-top: 20px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+/* Menu item reduce space between text and icon */
+.sidenav li.menu-section-item > a > i {
+  margin: 0 8px 0 0;
+}
+
+.menu-footer {
+  bottom: 60px;
+}
+
+/* BPPayment Cart */
+.purchase-line-bp {
+  font-size: 0.9rem;
+}
+
+/* HACK Main links on two line  */
+/*  Menu padding (Disconnect link on new line -> remove padding to make space */
+.sidenav .user-view {
+  padding: 0 32px;
+  min-height: 170px;
+
+  .main-links {
+    line-height: 24px;
+    padding-bottom: 8px;
+  }
+}
+
+.collection .my-invoices-subcollection {
+  margin-top: 1.5rem;
+}
+
+.nav-empty-space {
+  flex: 1;
+  min-height: 20px;
+  background-color: white;
+}
+
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+
+  li {
+    background-color: white;
+  }
+}

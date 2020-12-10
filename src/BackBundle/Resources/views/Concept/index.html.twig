@@ -1,0 +1,58 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h3>Concept</h3>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li class="active"><em>Liste</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+
+    {% for message in app.session.flashbag.get("info") %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+    <div class="row">
+        <a href="{{ path('back_concept_new') }}" class="btn btn-primary pull-right">Creer nouveau</a>
+    </div>
+    <div class="panel panel-primary filterable">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liste</h3>
+            <div class="pull-right">
+                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr class="filters">
+                <th>#</th>
+                <th><input type="text" class="form-control" placeholder="Titre" disabled></th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for concept in concepts %}
+                <tr>
+                    <td><a href="{{ path('back_concept_show', { 'id': concept.id }) }}">{{ concept.id }}</a></td>
+                    <td><a href="{{ path('back_concept_show', { 'id': concept.id }) }}">{{ concept.translate.title|upper }}</a></td>
+                    <td>
+                        <a href="{{ path('back_concept_edit', { 'id': concept.id }) }}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('back_concept_deleted', { 'id': concept.id }) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+
+    {{ render(controller('BackBundle:Definition:index')) }}
+{% endblock %}

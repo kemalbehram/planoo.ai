@@ -1,0 +1,28 @@
+payment_freemium:
+    path:     /paymentFreemium/{id}
+    defaults: { _controller: PaymentBundle:Default:paymentFreemium }
+    
+# ******************************** STRIPE *********************************
+payment_stripe:
+    resource: "@PaymentBundle/Resources/config/modules/stripe.yml"
+    prefix:   /stripe
+
+# *********************************** CART *****************************************
+financial_cart_index:
+    path:   /cart
+    defaults: { _controller: PaymentBundle:Cart:show }
+
+payment_index:
+    path:   /payment
+    defaults: { _controller: PaymentBundle:Payment:show }
+
+request_invoice_index:
+    path:     /invoice/{idPayment}
+    defaults: { _controller: "PaymentBundle:RequestInvoice:requestInvoice" }
+
+
+upgrade_bp_formula:
+    path:     /upgrade-bp/{catalogId}/{businessPlanId}
+    defaults: { _controller: PaymentBundle:Default:upgradeBPFormula }
+    options:
+        expose: true

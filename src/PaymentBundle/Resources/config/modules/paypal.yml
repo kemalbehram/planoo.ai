@@ -1,0 +1,11 @@
+payment_paypal_success:
+    path:     /success
+    defaults: { _controller: PaymentBundle:Paypal:successPayment }
+
+payment_paypal_canceled:
+    path:     /canceled
+    defaults: { _controller: PaymentBundle:Paypal:canceledPayment }
+
+payment_paypal_form:
+    path:     /{id}/{amount}
+    defaults: { _controller: PaymentBundle:Paypal:index }

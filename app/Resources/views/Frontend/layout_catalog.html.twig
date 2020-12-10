@@ -1,0 +1,42 @@
+{% extends '::Frontend/base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('appfront') }}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block base_content %}
+    <nav class="catalog-nav nav-extended">
+        <div class="nav-wrapper izy-color-primary-bg">
+            <a href="{{path('user_my_projects')}}" class="brand-logo center">
+                {% if iz_identification_partner_service.currentPartner.cobrandingLogo is null %}
+                    <img src="{{ asset('build/images/planoo.ai.white.png') }}" alt="logo" width="225px">
+                {% else %}
+                    <img src="data:image/png;base64,{{ iz_identification_partner_service.cobrandingLogoBase64 }}" alt="logo" width="225px">
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+
+    {% block hint %}{% endblock hint %}
+
+    <div class="main-catalog">
+
+        {% block body %}{% endblock body %}
+
+    </div>
+    {% block footer %}
+        {% include 'Frontend/_components/footer.html.twig' with {'fullWidth' : true} %}
+    {% endblock footer %}
+
+    <div id="modal-container">
+        {% block modal %}{% endblock modal %}
+    </div>
+
+{% endblock base_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('appfront') }}
+{% endblock %}

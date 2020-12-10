@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <h1 class="flow-text center izy-color-primary-font">Planoo.ai - Annulation de la période d'essai</h1>
+
+        <ul>
+            <li>Information utilisateur</li>
+            <ul>
+                <li>Nom d'utiliteur : {{cart.user.username}}</li>
+                <li>Email : {{cart.user.email}}</li>
+                <li>Inscrit le : {{cart.user.createdAt|date('d/m/Y H:i:s')}}</li>
+            </ul>
+            <li>Information sur le BP</li>
+            <ul>
+                <li>Date d'achat : {{cart.payment.paymentDate|date('d/m/Y H:i:s')}}</li>
+                <li>Montant du panier TTC : {{cart.payment.amount}}</li>
+                <li>Stripe ID : {{cart.payment.stripeToken}}</li>
+                <li>Date d'annulation : {{cancellationDate|date('d/m/Y H:i:s')}}</li>
+                <li>Liste des étapes remplies : {%if cart.businessPlan.steps and cart.businessPlan.steps|length >0 %}{% for step in cart.businessPlan.steps %}{{step}}, {% endfor %}{% else %}Aucune{% endif %}</li>
+            </ul>
+        </ul>
+    </body>
+</html>

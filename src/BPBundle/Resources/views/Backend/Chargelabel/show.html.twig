@@ -1,0 +1,77 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <h3>{{ chargeLabel.translate.name }}</h3>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li ><a href="{{ path('back_charge_label_index') }}">Liste des labels</a></li>
+            <li class="active"><em>{{ chargeLabel.translate.name }}</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+    <div class="">
+        <table>
+            <tbody>
+            <tr>
+                <th>Type</th>
+                <td>{{ chargeLabel.type }}</td>
+            </tr>
+            <tr>
+                <th>classement</th>
+                <td>{{ chargeLabel.classement }}</td>
+            </tr>
+            <tr>
+                <th>Interêt</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isInteret ? 'Oui' : 'Non' }}
+                </td>
+            </tr>
+            <tr>
+                <th>Remboursable</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isRemboursable ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>NonRemboursable</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isNonRemboursable ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>EmpruntBancaire</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isEmpruntBancaire ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>CCA</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isCompteCourantAssocie ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Remboursement CCA</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isRemboursementCompteAssocie ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Aug. K</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isAugmentationCapital ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Dividende</th>
+                <td class="{{ chargeLabel.isInteret ? 'text-success' : 'text-danger' }}">{{ chargeLabel.isDividende ? 'Oui' : 'Non' }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-6 text-right">
+            <a href="{{ path('back_charge_label_edit', { 'id': chargeLabel.id }) }}" class="btn btn-warning btn-lg">Edit</a>
+        </div>
+        <div class="col-md-6 text-left">
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-danger btn-lg">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

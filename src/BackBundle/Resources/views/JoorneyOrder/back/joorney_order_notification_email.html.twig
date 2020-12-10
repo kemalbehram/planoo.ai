@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h5 class="flow-text center izy-color-primary-font">Planoo.ai - {{order.catalog.name}} - [{{order.hash}}]</h5>
+        <div>
+            <ul>
+                <li><b>Service :</b>{{order.catalog.name}}</li>
+                <li><b>Nom :</b>{{order.user.username}}</li>
+                <li><b>Email :</b>{{order.user.email}}</li>
+                <li><b>Téléphone :</b>{{order.user.phoneNumber}}</li>
+                <li><b>Heure préférentielle pour être rappelé :</b>{{order.preferedTime}}</li>
+                {% if order.businessPlan %}<li><b>Business Plan :</b>{{order.businessPlan.hash}}</li>{% endif %}
+                {% if order.funding %}<li><b>Financement recherché :</b>{{order.funding}}</li>{% endif %}
+                <li><b>Domaine d'activité :</b>{{order.activityField}}</li>
+                <li><b>Description brève du projet :</b>{{order.activityDescription}}</li>
+            </ul>
+        </div>
+    </body>
+</html>

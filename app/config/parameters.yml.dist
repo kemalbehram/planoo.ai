@@ -1,0 +1,46 @@
+# This file is a "template" of what parameters.yml file should look like
+parameters:
+
+    #######################################################
+    #                      Instance                       #
+    #######################################################
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #######################################################
+    #                         BDD                         #
+    #######################################################
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
+    database_password: ~
+
+    #######################################################
+    #                 Izypitch/partnaire                  #
+    #######################################################
+    white_mark:        false
+    white_mark_home:   /profile/
+    white_mark_brand:  ~
+    iz_domain:         .planoo.dev
+    stripe_publishable_key: pk_test_L3h91HeJk5MbnfYJVFc9dlRm
+    stripe_private_key: sk_test_VjKxPHkDnIg2jECtMjpvdDJ0
+    hubspot_private_key: cb567af0-f7c9-47a3-b583-b5f716c408f4
+    zopim_key:         ~
+
+    #######################################################
+    #                         SMTP                        #
+    #######################################################
+    mailer_domain:     planoo.dev
+    mailer_transport:  smtp
+    mailer_host:       smtp-relay.gmail.com
+
+    #######################################################
+    #                    Analytics                        #
+    #######################################################
+    ga_tracking:       UA-63697829-2
+    ga_view_all_id:    ga:175514713
+
+    #######################################################
+    #                Google Tag Manager                   #
+    #######################################################
+    gtm_id:       GTM-T6CCVRH

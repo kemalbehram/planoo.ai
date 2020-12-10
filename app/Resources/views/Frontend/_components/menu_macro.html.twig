@@ -1,0 +1,42 @@
+{% macro menu_title(icon, text, isActive, isHighLight,targetUrl) %}
+{% if not isHighLight %}<a class='no-padding' href='{{targetUrl}}'>{% endif %}
+    <li class="menu-section-title row valign-wrapper no-margin">
+        <i class="col s2 material-icons {{isHighLight ? 'izy-color-primary-font': ''}}">{{icon}}</i>
+        <h6 class="col s8 {{isHighLight ? 'izy-color-primary-font': ''}}">{{text}}</h6>
+        <i class="col s2 material-icons {{isActive ? 'izy-color-primary-font' : ''}}">{{isActive ? 'toggle_on' : 'toggle_off'}}</i>
+    </li>
+     {% if not isHighLight %}</a>{% endif %}
+{% endmacro %}
+
+{% macro menu_link(icon, text, href) %}
+    <li class="menu-section-title row valign-wrapper no-margin">
+        <a href="{{href}}" class="col s12 no-padding">
+            <i class="col s2 material-icons izy-color-primary-font no-margin">{{icon}}</i>
+            <h6 class="col s10">{{text}}</h6>
+        </a>
+    </li>
+{% endmacro %}
+
+{% macro menu_button(icon, text, isDisabled, onClick, href) %}
+    <li class="menu-section-button no-margin row">
+        <a class="izy-color-secondary-bg  waves-light center-align white-text {{isDisabled ? 'btn no-margin disabled' : ''}}" href="{{href ? href : '#'}}" onclick="{{onClick}}">
+            <i class="material-icons white-text no-margin">{{icon}}</i>
+            {{text|upper}}</a>
+    </li>
+{% endmacro %}
+
+{% macro menu_item(icon, text, target, isCurrentRoute, isCurrentSteps) %}
+    <li class="menu-section-item no-margin row valign-wrapper">
+        <a href="{{isCurrentRoute ? '#' : target }}" class="col s11 offset-s1 collapsible-header waves-effect waves-teal">
+            <i class="material-icons {{isCurrentRoute ? 'izy-color-primary-font' : ''}}">{{icon}}</i>
+            <span class="{{isCurrentRoute ? 'bold izy-color-primary-font' : ''}}">{{text}}</span>
+            {% if isCurrentRoute %}
+                <i class="material-icons right izy-color-primary-font no-margin">assignment</i>
+            {% elseif isCurrentSteps %}
+                <i class="material-icons right izy-color-secondary-font no-margin">assignment_turned_in</i>
+            {% else %}
+                <i class="material-icons right grey-text no-margin">assignment_return</i>
+            {% endif %}
+        </a>
+    </li>
+{% endmacro %}

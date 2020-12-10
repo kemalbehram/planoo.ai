@@ -1,0 +1,5 @@
+export SYMFONY_ENV=rc;
+composer -n update -o;
+chmod -R 777 ./var/cache/
+chmod -R 777 ./var/logs/
+chown www-data:www-data -R ./

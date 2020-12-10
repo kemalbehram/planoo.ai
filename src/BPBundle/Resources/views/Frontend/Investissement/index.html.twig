@@ -1,0 +1,225 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .modal {
+            top: 5em;
+        }
+        .table th{
+            width: calc(100% / 4);
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                <div class="row"><!--==== investissements ====-->
+                    <div class="col s12 center">
+                        <button onclick="initAddFormModal(false);" class="btn izy-color-primary-bg"><i class="material-icons left">library_add</i>Ajoutez un investissement</button>
+                    </div>
+                </div>
+
+                <div id="edit-modal" class="modal modal-fixed-footer"><!-- Modal Structure -->
+                    <form></form>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        {{ render(controller('BPBundle:Frontend/Investissement:list', {_format: 'html'})) }}
+                    </div>
+                </div>
+
+                <div class="row"><!--button-->
+                    <div class="input-field col s12">
+                        <a href="{{ path('financial_funding_index') }}" class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- FIN FORM STEP 1 -->
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var $actualModal = null;
+        $(document).ready(function () {
+            $('#add-button').on('click', function (e) {
+                $('form').each(function () {
+
+                });
+                $('.modal').modal(modalDefaultOptions);
+            });
+        }
+        );
+
+        function initAddFormModal(isAdvanceMode) {
+            $('.progress').show();
+
+            $.ajax({
+                url: '{{ path('financial_investissement_add_form', {idBusinessPlan:idBusinessPlan}) }}',
+                type: 'GET',
+                success: function (html) {
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+
+                    tmpDatepickerDefaultOptions = Object.assign({}, datepickerDefaultOptions);
+                    tmpDatepickerDefaultOptions.container = $('.main').get();
+                    tmpDatepickerDefaultOptions.minDate = new Date("{{ dateStartActivity|date('Y-m-d') }}");
+                    tmpDatepickerDefaultOptions.maxDate = new Date("{{ dateEndActivity|date('Y-m-d') }}");
+                    var $input = $('form').find('#investissement_date').datepicker(tmpDatepickerDefaultOptions);
+                    $(this).find('#investissement_date').attr("readonly", false);
+
+                    $('select').formSelect();
+
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+        function initEditFormModal(idInvest) {
+            $('.progress').show();
+
+            $.ajax({
+                url: '{{ path('financial_investissement_edit_form', {id:999999999999}) }}'.replace('999999999999', idInvest),
+                type: 'GET',
+                success: function (html) {
+                    // Replace current position field ...
+                    $('form').replaceWith(
+                            $(html).find('form')
+                            );
+                    $('#edit-modal').modal('open');
+                    M.updateTextFields();
+
+                    tmpDatepickerDefaultOptions = Object.assign({}, datepickerDefaultOptions);
+                    tmpDatepickerDefaultOptions.container = $('.main').get();
+                    tmpDatepickerDefaultOptions.minDate = new Date("{{ dateStartActivity|date('Y-m-d') }}");
+                    tmpDatepickerDefaultOptions.maxDate = new Date("{{ dateEndActivity|date('Y-m-d') }}");
+                    var $input = $('form').find('#investissement_date').datepicker(tmpDatepickerDefaultOptions);
+                    $(this).find('#investissement_date').attr("readonly", false);
+
+                    $('select').formSelect();
+
+                    $('.progress').hide();
+                },
+                error: function (html) {
+                    $('.progress').hide();
+                }
+            });
+        }
+        function saveAction(e, action) {
+
+            $('.progress').show();
+            var urlForm = $(e).attr('data-url');
+
+            var method = 'PUT';
+            if (action === 'create') {
+                method = 'POST';
+            }
+
+            var form = $('#edit-modal>form');
+            if (!form[0].checkValidity()) {
+                form.find('input').each(function ()
+                {
+                    if (!this.validity.valid)
+                    {
+                        $(this).focus();
+                        $('#submit').click();
+                        return false;
+                    }
+                });
+                $('.progress').hide();
+                return false;
+            }
+
+            //asynchronous creation
+            $.ajax({
+                method: method,
+                url: urlForm,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    //asynchronous reloading of the list of elements
+                    $.ajax({
+                        method: 'GET',
+                        url: "{{ path('financial_investissement_list', {_format:'html'}) }}",
+                        success: function (html) {
+                            //replace list of element
+                            $('#invest-list').replaceWith(
+                                    $(html).find('#invest-list')
+                                    );
+                            $('.dropdown-trigger').dropdown();
+                            $('#edit-modal').modal('close');
+                            $('.progress').hide();
+                        },
+                        error: function (request, status, error) {
+                            alert('Erreur inconnue');
+                        }
+                    });
+                },
+                error: function (request, status, error) {
+                    for (var key in request.responseJSON.errors) {
+                        for (var i = 0; i < request.responseJSON.errors[key].length; i++) {
+                            if (typeof (request.responseJSON.errors[key][i]) !== "string") {
+                                for (var childKey in request.responseJSON.errors[key][i]) {
+                                    $element = $('#edit-modal [name="investissement[' + key + '][' + i + '][' + childKey + ']"]');
+                                    $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key][i][childKey]);
+                                    $element.addClass('invalid');
+                                }
+                            } else {
+                                $element = $('#edit-modal [name="investissement[' + key + ']"]');
+                                $element.parent().children('.helper-text').attr('data-error', request.responseJSON.errors[key]);
+                                $element.addClass('invalid');
+                            }
+                        }
+                    }
+                    $('.progress').hide();
+                }
+            });
+        }
+        function deleteAction(idInvest) {
+            if (confirm('Etes-vous sûr de vouloir supprimer cet élément ? Sa suppression sera définitive.')) {
+                $('.progress').show();
+
+                //asynchronous deletion
+                $.ajax({
+                    method: 'DELETE',
+                    url: '{{ path('financial_investissement_delete', {id:999999999999}) }}'.replace('999999999999', idInvest),
+                    success: function (result) {
+                        //asynchronous reloading of the list of elements
+                        $.ajax({
+                            method: 'GET',
+                            url: "{{ path('financial_investissement_list', {_format:'html'}) }}",
+                            success: function (html) {
+                                //replace list of element
+                                $('#invest-list').replaceWith(
+                                        $(html).find('#invest-list')
+                                        );
+                                $('.dropdown-trigger').dropdown();
+                                $('.progress').hide();
+                            },
+                            error: function (request, status, error) {
+                                alert('Erreur inconnue');
+                            }
+                        });
+                    }
+                    ,
+                    error: function (request, status, error) {
+                        alert('Erreur inconnue');
+                    }
+                }
+                );
+            }
+        }
+    </script>
+{% endblock %}

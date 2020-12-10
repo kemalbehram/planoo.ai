@@ -1,0 +1,12 @@
+financial_businessPlan_pdf:
+    path:     /{hash}
+    defaults: { _controller: BPBundle:Frontend/BusinessPlan:businessPlan2Pdf }
+    
+financial_businessPlan_edit:
+    path:     /edit/{hash}
+    defaults: { _controller: BPBundle:Frontend/BusinessPlan:edit }
+
+financial_businessPlan_delete:
+    path:     /delete/{id}
+    defaults: { _controller: BPBundle:Frontend/BusinessPlan:delete }
+

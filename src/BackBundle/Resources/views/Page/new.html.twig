@@ -1,0 +1,22 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>Creation</h1>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li ><a href="{{ path('back_page_index') }}">Liste</a></li>
+            <li class="active"><em>new</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+    <div class="">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <hr>
+            <input type="submit" value="Create" class="btn btn-success btn-block"/>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

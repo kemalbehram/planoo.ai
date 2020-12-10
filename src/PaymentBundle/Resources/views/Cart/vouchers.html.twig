@@ -1,0 +1,61 @@
+{% for message in app.flashes('couponError') %}
+    <div class="row ">
+        <div class="col s12">
+            <div class="card red lighten-5 z-depth-0">
+                <div class="card-content red-text">
+                    <p>
+                        <i class="material-icons left">error</i>
+                        {{ message }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<table>
+    <thead>
+        <tr>
+            <th>Promotion</th>
+            <th>Code</th>
+            <th width="120px" class="center-align">Reduction TTC</th>
+            <th width="20px"/>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if cart.coupon is not null %}
+            <tr>
+                <td>{{ cart.coupon.name }}</td>
+                <td>{{ cart.coupon.code }}</td>
+                <td class="center-align">{{ cart.reductionAmountTTC|formatNumber('€',2) }}</td>
+                <td class="center-align">
+                    <a href="{{path('promotion_coupon_remove', {'idCoupon' :cart.coupon.id ,'idCart':cart.id })}}" class="right btn-floating cart waves-effect izy-color-primary-dark-bg izy-color-primary-fg">
+                        <i class="material-icons">clear</i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>Aucune promotion</td>
+                <td/>
+                <td class="center-align">0€</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+<form action="{{ path('promotion_coupon_checker') }}" method="POST">
+    <div
+        class="row">
+        <!-- capital social-->
+        <div class="input-field col offset-m5 m5 s10">
+            <i class="material-icons prefix grey-text">loyalty</i>
+            <input id="amount" type="text" class="validate cart-promo-form-field" name="code">
+            <label for="amount">Code promotionnel</label>
+        </div>
+        <div class="input-field col s2">
+            <button type="submit" class="btn izy-color-primary-bg waves-effect waves-light right z-depth-0">
+                utiliser
+            </button>
+        </div>
+
+    </div>
+</form>

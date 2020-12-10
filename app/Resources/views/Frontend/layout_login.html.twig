@@ -1,0 +1,53 @@
+{% extends '::Frontend/base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('applogin') }}
+    {{parent()}}
+{% endblock %}
+
+
+{% block base_content %}
+
+    <div class="main {{white_mark ? 'white_mark' : 'izypitch_mark'}}">
+
+        {% block body %}
+            <div class="body-row" id="login-body">
+                <div id="icon-panel">
+                    <div class="row">
+                        <div class="col s12 offset-m2 m10">
+                            <div class="row pull_low"></div>
+                            <div class="row">
+                                <div id="logo-placeholder"class="col offset-s1 s10">
+                                {% if iz_identification_partner_service.currentPartner.cobrandingLogo is null %}
+                                    <img  id="logo" src="{{ asset('build/images/planoo.ai.white-no-margin.png') }}" alt="logo">
+                                {% else %}
+                                    <img  id="logo" src="data:image/png;base64,{{ iz_identification_partner_service.cobrandingLogoBase64 }}" alt="logo">
+                                {% endif %}
+                                </div>
+                            </div>
+                        {% block login_wording_panel %}{% endblock login_wording_panel %}
+                        </div>
+                    </div>                  
+                </div>
+
+                <div id="form-panel">
+                    <div class="row pull_low">
+                        <div class="col s10 offset-s1 m8 offset-m2 xl6 offset-xl3">
+                            {% block login_form_panel %}{% endblock login_form_panel %}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reinsurrance-panel">
+                    <div class="row">
+                        <div class="col s12 offset-m2 m10">
+                             {% block login_reinsurrance_panel %}{% endblock login_reinsurrance_panel %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock body %}
+    </div>
+    {% block footer %}{% endblock footer %}
+{% endblock base_content %}

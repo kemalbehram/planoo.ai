@@ -1,0 +1,40 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <section class="content-header">
+        <div class="col-xs-12 col-md-10 col-md-offset-1">
+            <h1>
+                Creation
+                <small>Coupon</small>
+            </h1>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        {{ form_start(form) }}
+                        {{ form_row(form.code) }}
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.nbMaxUsed) }}
+                        {{ form_row(form.startsAt) }}
+                        {{ form_row(form.endsAt) }}
+                        {{ form_row(form.range) }}
+                        {{ form_row(form.minimumAmount) }}
+                        {{ form_row(form.kind) }}
+                        {{ form_row(form.value) }}
+
+                        {{ form_row(form.partner, {'attr': {'disabled': 'disabled'}}) }}
+                        {{ form_row(form.nbCouponToGenerate, {'attr': {'disabled': 'disabled'}}) }}
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary pull-right">Valider</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

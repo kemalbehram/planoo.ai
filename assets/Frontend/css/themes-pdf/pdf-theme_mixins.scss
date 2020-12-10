@@ -1,0 +1,36 @@
+.card-content .btn-floating {
+    color: #fff;
+}
+
+.card-content .btn-floating i {
+    color: #fff;
+}
+
+.card-content .collection .collection-item {
+    background-color: #fff;
+}
+
+hr {
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+
+
+@mixin generate_theme($main-color) {
+
+
+    .color {
+        background-color: $main-color !important;
+        color: white;
+    }
+
+    .text_color {
+        color: $main-color;
+    }
+
+    .bold_sp {
+        border-bottom-color: $main-color !important;
+    }
+
+}

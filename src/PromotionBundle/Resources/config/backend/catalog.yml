@@ -1,0 +1,23 @@
+promotion_back_catalog_index:
+    path:     /
+    defaults: { _controller: "PromotionBundle:Backend/Catalog:index" }
+    methods:  GET
+
+promotion_back_catalog_new:
+    path:     /new
+    defaults: { _controller: "PromotionBundle:Backend/Catalog:new" }
+    methods:  [GET, POST]
+
+promotion_back_catalog_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PromotionBundle:Backend/Catalog:edit" }
+    methods:  [GET, POST]
+
+promotion_back_catalog_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "PromotionBundle:Backend/Catalog:delete" }
+    methods:  DELETE
+
+promotion_back_catalog_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "PromotionBundle:Backend/Catalog:deleted" }

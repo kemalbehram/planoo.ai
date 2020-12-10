@@ -1,0 +1,38 @@
+promotion_admin_coupon_index:
+    path:     /{isAdminView}
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:index" }
+    methods:  GET
+
+promotion_admin_coupon_show:
+    path:     /{id}/show
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:show" }
+    methods:  GET
+
+promotion_admin_coupon_new:
+    path:     /new
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:new" }
+    methods:  [GET, POST]
+    
+promotion_admin_coupon_new_partner:
+    path:     /new/partner-coupon
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:newPartnerCoupon" }
+    methods:  [GET, POST]
+
+promotion_admin_coupon_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:edit" }
+    methods:  [GET, POST]
+
+promotion_admin_coupon_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:delete" }
+    methods:  DELETE
+
+promotion_admin_coupon_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:deleted" }
+
+promotion_admin_ajax_coupons:
+    path:     /ajax-list/{isAdminView}
+    defaults: { _controller: "PromotionBundle:Backend/Coupon:ajaxList" }
+    methods:  GET

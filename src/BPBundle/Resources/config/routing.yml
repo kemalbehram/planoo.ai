@@ -1,0 +1,114 @@
+bp_init:
+    path:     /init/{idCatalog}
+    defaults: { _controller: BPBundle:Frontend/Default:init }
+    
+privacy_policy_update:
+    path:     /privacy-policy-update
+    defaults: { _controller: BPBundle:Frontend/Default:PrivacyPolicyUpdate }
+    methods:    [GET]
+
+privacy_policy_update_do:
+    path:     /privacy-policy-update
+    defaults: { _controller: BPBundle:Frontend/Default:PrivacyPolicyUpdateDo }
+    methods:    [POST]
+
+# ******************************** BUSINESS PLAN *********************************
+financial_businessPlan:
+        resource: "@BPBundle/Resources/config/frontend/business_plan.yml"
+        prefix:   /business-plan
+
+# ******************************** INFORMATION *********************************
+financial_information:
+    resource: "@BPBundle/Resources/config/frontend/information.yml"
+    prefix:   /information
+
+# ******************************** FINANCIERE *********************************
+financial_financiere:
+    resource: "@BPBundle/Resources/config/frontend/financiere.yml"
+    prefix:   /financiere
+
+# ******************************** SEASON *************************************
+financial_season:
+    resource: "@BPBundle/Resources/config/frontend/season.yml"
+    prefix:   /season
+
+# ******************************** INCOME ************************************
+financial_income:
+    resource: "@BPBundle/Resources/config/frontend/income.yml"
+    prefix:   /incomes
+
+# ******************************** CHARGE *************************************
+financial_charge:
+    resource: "@BPBundle/Resources/config/frontend/charge.yml"
+    prefix:   /charges
+
+# ******************************** STAFF ***************************************
+financial_staff:
+    resource: "@BPBundle/Resources/config/frontend/staff.yml"
+    prefix:   /staff
+
+# ******************************** BFR *****************************************
+financial_bfr:
+    resource: "@BPBundle/Resources/config/frontend/bfr.yml"
+    prefix:   /bfr
+
+# ******************************** INVESTISSEMENT *********************************
+financial_investissement:
+    resource: "@BPBundle/Resources/config/frontend/investissement.yml"
+    prefix:   /investissements
+
+# ******************************** FINANCEMENT *********************************
+financial_funding:
+    resource: "@BPBundle/Resources/config/frontend/funding.yml"
+    prefix:   /fundings
+    
+financial_wording:
+    resource: "@BPBundle/Resources/config/frontend/wording.yml"
+    prefix:   /wording
+
+# *********************************** INTERNAL ORDER *****************************************
+    
+joorney_order:
+    resource: "@BackBundle/Resources/config/modules/joorneyOrder.yml"
+    prefix:   /order
+
+
+# ******************************** ADMIN LEGAL FORM *********************************
+back_legalform:
+    resource: "@BPBundle/Resources/config/backend/legalform.yml"
+    prefix:   /admin/legal-form
+
+# ******************************** STAFF *********************************
+back_staff:
+    path:     /admin/staff
+    defaults: { _controller: BPBundle:Backend/Default:staff }
+
+# ******************************** ADMIN POLE STAFF *********************************
+back_pole:
+    resource: "@BPBundle/Resources/config/backend/pole.yml"
+    prefix:   /admin/pole-staff
+
+# ******************************** ADMIN STATUS STAFF *********************************
+back_status:
+    resource: "@BPBundle/Resources/config/backend/status.yml"
+    prefix:   /admin/status-staff
+
+# ******************************** ADMIN COUNTRY *********************************
+back_country:
+    resource: "@BPBundle/Resources/config/backend/country.yml"
+    prefix:   /admin/country
+
+# ******************************** ADMIN RATE *********************************
+back_rate:
+    resource: "@BPBundle/Resources/config/backend/rate.yml"
+    prefix:   /admin/rate
+
+# ******************************** ADMIN CHARGE LABEL *********************************
+back_charge_label:
+    resource: "@BPBundle/Resources/config/backend/chargelabel.yml"
+    prefix:   /admin/charge-label
+
+# ******************************** ADMIN CHARGE LABEL *********************************
+bp_back_page:
+    resource: "@BPBundle/Resources/config/backend/page.yml"
+    prefix:   /admin/bp-page

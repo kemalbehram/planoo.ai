@@ -1,0 +1,51 @@
+<div id="modal-payment" class="modal modal-fixed-footer">
+    {{ form_start(form, {'method': 'post', 'action': path('payment_stripe_transaction'), 'attr': {'id': 'payment-form'}}) }}
+    <div class="modal-content">
+        <div class="row">
+            <h4>Paiement</h4>
+            <div class="row center">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">person_outline</i>
+                    {{ form_widget(form.name) }}
+                    {{ form_errors(form.name) }}
+                    {{ form_label (form.name) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">credit_card</i>
+                    {{ form_widget(form.card) }}
+                    {{ form_errors(form.card) }}
+                    {{ form_label (form.card) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix grey-text">today</i>
+                    {{ form_widget(form.month) }}
+                    {{ form_errors(form.month) }}
+                    {{ form_label (form.month) }}
+                </div>
+                <div class="input-field col s4">
+                    {{ form_widget(form.year) }}
+                    {{ form_errors(form.year) }}
+                    {{ form_label (form.year) }}
+                </div>
+                <div class="input-field col s4">
+                    <i class="material-icons prefix grey-text">lock_outline</i>
+                    {{ form_widget(form.cvc) }}
+                    {{ form_errors(form.cvc) }}
+                    {{ form_label (form.cvc) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-dismiss="modal">Annuler</a>
+        <a class="submit btn modal-action modal-close waves-effect waves-light izy-color-primary-bg z-depth-0">Payez ({{total|formatNumber('€',2)}})</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+
+

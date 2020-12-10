@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <h1 class="flow-text center izy-color-primary-font">Planoo.ai - Nouvel achat</h1>
+
+        <ul>
+            <li>Client : {{cart.user.email}}</li>
+            <li>Date d'achat : {{cart.payment.paymentDate|date('d/m/Y H:i:s')}}</li>
+            <li>Montant TTC : {{ cart.totalAmountTTC|formatNumber('€',2) }}</li>
+            <li>Id panier : {{cart.id}}</li>
+            <li>Id paiement Stripe : {{cart.payment.stripeToken}}</li>
+        </ul>
+
+        <h2>Détail de la commande</h2>
+
+        <table>
+            <tr>
+                <th>Article</th>
+                <th>Prix U</th>
+                <th>#</th>
+            </tr>
+            {% for commandeCatalog in cart.commandeCatalogs %}
+                <tr>
+                    <td>{{ commandeCatalog.catalog.name }}</td>
+                    <td>{{commandeCatalog.quantity}}</td>
+                    <td>{{ commandeCatalog.catalog.price|formatNumber('€',2) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

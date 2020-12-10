@@ -1,0 +1,65 @@
+financial_funding_index:
+    path:     /step.html
+    defaults: { _controller: BPBundle:Frontend/Default:funding }
+
+financial_funding_update:
+    path:        /{id}
+    methods:     [PUT]
+    controller:  BPBundle:Frontend/Funding:update
+    requirements:
+        id: '[0-9]*'
+        
+financial_funding_create:
+    path:        /{idBusinessPlan}
+    methods:     [POST]
+    controller:  BPBundle:Frontend/Funding:create
+    requirements:
+        idBusinessPlan: '[0-9]*'
+
+financial_funding_delete:
+    path:        /{id}
+    methods:     [DELETE]
+    controller:  BPBundle:Frontend/Funding:delete
+    requirements:
+        id: '[0-9]*'
+    
+financial_funding_show:
+    path:        /{id}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Funding:show
+    requirements:
+        id: '[0-9]*'
+    
+financial_funding_list:
+    path:        /list.{_format}
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Funding:list
+    defaults:
+        _format: json
+    requirements:
+        _format:  html|json
+
+financial_funding_add_form:
+    path:        /{idBusinessPlan}/add.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Funding:getAddForm
+    requirements:
+        idBusinessPlan: '[0-9]*'
+        
+financial_funding_edit_form:
+    path:        /{id}/edit.html
+    methods:     [GET]
+    controller:  BPBundle:Frontend/Funding:getEditForm
+    requirements:
+        id: '[0-9]*'
+        
+financial_funding_update_form:
+    path:        /edit.html
+    methods:     [POST]
+    controller:  BPBundle:Frontend/Funding:getEditForm
+
+financial_funding_ajax_fields_choice_label:
+    path: /ajax/fields-choice-label/{id}
+    defaults: { _controller: BPBundle:Frontend/Funding:ajaxShowCorrectFieldsByLabel, _locale : fr }
+    options:
+        expose: true

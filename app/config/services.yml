@@ -1,0 +1,135 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  fos_user.doctrine_registry:
+    alias: doctrine
+
+  # KernelRequest listener
+  extension.listener:
+    class: BackBundle\Listener\DoctrineExtensionListener
+    calls:
+      - [setContainer, ["@service_container"]]
+    tags:
+      # translatable sets locale after router processing
+      - {
+          name: kernel.event_listener,
+          event: kernel.request,
+          method: onLateKernelRequest,
+          priority: -10,
+        }
+      # loggable hooks user username if one is in security context
+      - {
+          name: kernel.event_listener,
+          event: kernel.request,
+          method: onKernelRequest,
+        }
+      # translatable sets locale such as default application locale before command execute
+      - {
+          name: kernel.event_listener,
+          event: console.command,
+          method: onConsoleCommand,
+          priority: -10,
+        }
+
+  # Doctrine Extension listeners to handle behaviors
+  gedmo.listener.tree:
+    class: Gedmo\Tree\TreeListener
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.translatable:
+    class: Gedmo\Translatable\TranslatableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+      - [setDefaultLocale, ["%locale%"]]
+      - [setTranslationFallback, [false]]
+
+  gedmo.listener.timestampable:
+    class: Gedmo\Timestampable\TimestampableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.sluggable:
+    class: Gedmo\Sluggable\SluggableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.sortable:
+    class: Gedmo\Sortable\SortableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.loggable:
+    class: Gedmo\Loggable\LoggableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.blameable:
+    class: Gedmo\Blameable\BlameableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  gedmo.listener.softdeleteable:
+    class: Gedmo\SoftDeleteable\SoftDeleteableListener
+    public: true
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [setAnnotationReader, ["@annotation_reader"]]
+
+  # OVERRIDE FOSUSER FORM TYPE
+  back.form.registration:
+    class: BackBundle\Form\RegistrationType
+    tags:
+      - { name: form.type, alias: back_user_registration }
+
+  # OVERRIDE FOSUSER FORM EDIT PROFILE
+  user.form.profile:
+    class: UserBundle\Form\ProfileType
+    tags:
+      - { name: form.type, alias: user_user_profile }
+
+  planoo.gtag_extension:
+    class: PaymentBundle\Service\GoogleTagManagerService
+    tags:
+      - { name: twig.extension }
+    arguments: ["@doctrine.orm.entity_manager", "@request_stack"]
+
+  planoo.catalog_extension:
+    class: PromotionBundle\Service\CatalogService
+    tags:
+      - { name: twig.extension }
+    arguments: ["@doctrine.orm.entity_manager"]
+
+  # REGISTER LISTENER FROM BP OR PITCH
+  entry_point.user_login:
+    class: UserBundle\Listener\LoginEntryPoint
+    arguments: ["@router"]
+
+  twig.extension.intl:
+    class: Twig_Extensions_Extension_Intl
+    tags:
+      - { name: twig.extension }

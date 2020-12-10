@@ -1,0 +1,200 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Quels sont les principaux produits et services proposés ?</h5>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainService1) }}       {# input #}
+                        {{ form_errors (form.mainService1) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainService1) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainService2) }}       {# input #}
+                        {{ form_errors (form.mainService2) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainService2) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainService3) }}       {# input #}
+                        {{ form_errors (form.mainService3) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainService3) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainService4) }}       {# input #}
+                        {{ form_errors (form.mainService4) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainService4) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainService5) }}       {# input #}
+                        {{ form_errors (form.mainService5) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainService5) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Quels sont vos principaux fournisseurs de matières premières ? </h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainProvider1) }}       {# input #}
+                        {{ form_errors (form.mainProvider1) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainProvider1) }}
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainProvider2) }}       {# input #}
+                        {{ form_errors (form.mainProvider2) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainProvider2) }}
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainProvider3) }}       {# input #}
+                        {{ form_errors (form.mainProvider3) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainProvider3) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Quels sont vos autres principaux partenaires ? (ex: agence de communication, entreprise de transport, webdesigner, etc.)</h5>
+                    </div>
+
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainPartner1) }}       {# input #}
+                        {{ form_errors (form.mainPartner1) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainPartner1) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainPartner2) }}       {# input #}
+                        {{ form_errors (form.mainPartner2) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainPartner2) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainPartner3) }}       {# input #}
+                        {{ form_errors (form.mainPartner3) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainPartner3) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Quelles sont les cibles que vous comptez viser ? (ex : hommes, femmes, enfants, étudiants, retraités…)</h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainTarget1) }}       {# input #}
+                        {{ form_errors (form.mainTarget1) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainTarget1) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainTarget2) }}       {# input #}
+                        {{ form_errors (form.mainTarget2) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainTarget2) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainTarget3) }}       {# input #}
+                        {{ form_errors (form.mainTarget3) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainTarget3) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Si vous envisagez de commercialiser en passant par des intermédiaires, qui seront-ils ?</h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainIntermediary1) }}       {# input #}
+                        {{ form_errors (form.mainIntermediary1) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainIntermediary1) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainIntermediary2) }}       {# input #}
+                        {{ form_errors (form.mainIntermediary2) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainIntermediary2) }}
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list</i>
+                        {{ form_widget (form.mainIntermediary3) }}       {# input #}
+                        {{ form_errors (form.mainIntermediary3) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainIntermediary3) }}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Sur quels canaux comptez vous baser votre stratégie commerciale ?</h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        {{ form_widget (form.mainChannels) }}       {# input #}
+                        {{ form_errors (form.mainChannels) }}       {# Affiche les erreurs #}
+                    </div>
+
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Sur quels canaux comptez vous baser votre stratégie commerciale ?</h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        {{ form_widget (form.marketStrategies) }}       {# input #}
+                        {{ form_errors (form.marketStrategies) }}       {# Affiche les erreurs #}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Comment comptez vous communiquer ? </h5>
+                    </div>
+
+                    <div class="input-field col s12">
+                        {{ form_widget (form.communicationChannels) }}       {# input #}
+                        {{ form_errors (form.communicationChannels) }}       {# Affiche les erreurs #}
+                    </div>
+
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Votre CV pour vous présenter {%if bp.customWriting and bp.customWriting.cvFileName %}(<a href="{{ asset('uploads/cv/' ~ bp.customWriting.cvFileName) }}">Visualiser</a>){% endif %}</h5>
+                    </div>
+
+                    <div class="file-field input-field col s12">
+                        <div class="btn izy-color-primary-bg">
+                            <span><i class="material-icons">insert_drive_file</i></span>
+                            {{ form_widget (form.cvFile) }}       {# input #}
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text"   {%if not (bp.customWriting and bp.customWriting.cvFileName) %} required {% endif %} placeholder="Votre CV (PDF)">
+                            {{ form_errors (form.cvFile) }}       {# Affiche les erreurs #}
+                        </div>
+                    </div>
+
+                </div>
+                <!--button-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit">Enregistrez et continuez</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

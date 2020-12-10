@@ -1,0 +1,40 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+    prefix: /fosjsroutingbundle
+
+fos_user:
+    resource: "@UserBundle/Resources/config/modules/all.xml"
+
+promotion:
+    resource: "@PromotionBundle/Resources/config/routing.yml"
+    prefix:   /promotion
+
+financial:
+    resource: "@BPBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/BP
+    defaults: { purchaseOrigin: true }
+
+
+back:
+  resource: "@BackBundle/Resources/config/routing.yml"
+  prefix: /admin
+
+partner:
+  resource: "@PartnersBundle/Resources/config/routing.yml"
+  prefix: /partner
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+payment:
+    resource: "@PaymentBundle/Resources/config/routing.yml"
+    prefix:   /purchase
+
+bp_cron_services:
+    resource: "@BPBundle/Resources/config/cron/cronJobs.yml"
+    prefix:   /z3pnu34v2gi42R5/cronjobs
+
+payment_stripe_cron_services:
+    resource: "@PaymentBundle/Resources/config/modules/cronJobs.yml"
+    prefix:   /z3pnu34v2gi42R5/cronjobs

@@ -1,0 +1,9 @@
+cron_bp_expiration_reminder_job:
+    path:     /sendBPExpirationMails
+    defaults: { _controller: "BPBundle:Frontend/Default:cronExpirationRememberer" }
+    methods:  GET
+
+cron_bp_user_without_purchase_reporting:
+    path:     /sendReportingUserWithoutPurchase
+    defaults: { _controller: "BPBundle:Frontend/Default:cronReportingUserWithoutPurchase" }
+    methods:  GET

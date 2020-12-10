@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <h1 class="flow-text center izy-color-primary-font">Planoo.ai - Nouveau(x) Utilisateur(s) sans achat</h1>
+
+        <table>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Date de création</th>
+                <th>Email</th>
+            <tr>
+                {% for user in users %}
+                <tr>
+                    <td>{{user.username}}</td>
+                    <td>{{user.createdAt|date('d/m/Y H:i:s')}}</td>
+                    <td>{{user.email}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

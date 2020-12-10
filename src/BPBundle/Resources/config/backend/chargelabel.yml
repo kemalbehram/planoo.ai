@@ -1,0 +1,28 @@
+back_charge_label_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:index" }
+    methods:  GET
+
+back_charge_label_show:
+    path:     /{id}/show
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:show" }
+    methods:  GET
+
+back_charge_label_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:new" }
+    methods:  [GET, POST]
+
+back_charge_label_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:edit" }
+    methods:  [GET, POST]
+
+back_charge_label_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:delete" }
+    methods:  DELETE
+
+back_charge_label_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/ChargeLabel:deleted" }

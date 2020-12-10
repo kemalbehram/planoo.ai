@@ -1,0 +1,78 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="{% if currentRoute in ['back_homepage'] %} active {% endif %}">
+                <a href="{{ path('back_homepage') }}">
+                    <i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
+                </a>
+            </li>
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="header">BACK OFFICE - ADMINISTRATEUR</li>
+                <li {% if currentRoute == 'back_user_index' and isAdminView %} class="active" {% endif %}><a href="{{ path('back_user_index', { 'isAdminView': 'true' }) }}"><i class="fa fa-users"></i>Clients</a></li>
+                <li {% if currentRoute == 'back_backOffice_list_carts' and isAdminView and isAdminView and sold and sold=='true' %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_carts', { 'isAdminView': 'true', 'sold' : 'true' }) }}"><i class="fa fa-shopping-cart"></i>Ventes</a></li>
+                <li {% if currentRoute == 'back_backOffice_list_carts' and isAdminView and (not sold or (sold and sold=='false')) %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_carts', { 'isAdminView': 'true', 'sold' : 'false' }) }}"><i class="fa fa-shopping-cart"></i>Paniers abandonnés</a></li>
+                <li {% if currentRoute == 'back_backOffice_list_projects' and isAdminView and (not sold or (sold and sold=='false')) %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_projects', { 'isAdminView': 'true', 'sold' : 'false' }) }}"><i class="fa fa-hourglass-half"></i>Projets Démarrés</a></li>
+                <li {% if currentRoute == 'back_backOffice_list_projects' and isAdminView and sold and sold=='true' %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_projects', { 'isAdminView': 'true', 'sold' : 'true' }) }}"><i class="fa fa-hourglass-half"></i>Projets Vendus</a></li>
+                {% endif %}
+            <li class="header">BACK OFFICE{% if is_granted("ROLE_ADMIN") %} - PARTENAIRE{% endif %}</li>
+                {% if is_granted("ROLE_ADMIN") %}
+                <form action="#" method="get" class="sidebar-form">
+                    <select class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = '//' + this.options[this.selectedIndex].value);">
+                        <option value="">--Changer de partenaire--</option>
+                        {% for partner in iz_partner_list_service.partners %}
+                            <option value="{{partner.customDomain}}{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}">{{partner.nom}} [{{partner.customDomain}}]
+                            {% endfor %}
+                    </select>
+                </form>
+            {% endif %}
+            <li {% if currentRoute == 'back_user_index' and not isAdminView %} class="active" {% endif %}><a href="{{ path('back_user_index') }}"><i class="fa fa-users"></i>Clients</a></li>
+            <li {% if currentRoute == 'back_backOffice_list_carts' and not isAdminView and sold and sold=='true' %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_carts', {'sold' : 'true' }) }}"><i class="fa fa-shopping-cart"></i>Ventes</a></li>
+            <li {% if currentRoute == 'back_backOffice_list_carts' and not isAdminView and (not sold or (sold and sold=='false')) %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_carts', {'sold' : 'false' }) }}"><i class="fa fa-shopping-cart"></i>Paniers abandonnés</a></li>
+            <li {% if currentRoute == 'back_backOffice_list_projects' and not isAdminView and (not sold or (sold and sold=='false')) %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_projects', {'sold' : 'false' }) }}"><i class="fa fa-hourglass-half"></i>Projets Démarrés</a></li>
+            <li {% if currentRoute == 'back_backOffice_list_projects' and not isAdminView and sold and sold=='true' %} class="active" {% endif %}><a href="{{ path('back_backOffice_list_projects', {'sold' : 'true' }) }}"><i class="fa fa-hourglass-half"></i>Projets Vendus</a></li>
+
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="header">ADMINISTRATION</li>
+                <li class="treeview
+                    {% if currentRoute in ['promotion_back_catalog_index','promotion_admin_coupon_index'] %} active {% endif %}
+                    ">
+                    <a href="#">
+                        <i class="fa fa-edit"></i> <span>Marketing</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li {% if currentRoute == 'promotion_back_catalog_index'%} class="active" {% endif %}><a href="{{ path('promotion_back_catalog_index') }}"><i class="fa fa-circle-o"></i>Catalogue</a></li>
+                        <li {% if currentRoute == 'promotion_admin_coupon_index'%} class="active" {% endif %}><a href="{{ path('promotion_admin_coupon_index', { 'isAdminView': 'true' }) }}"><i class="fa fa-circle-o"></i>Promotion</a></li>
+                        <li {% if currentRoute == 'partner_back_partner_index'%} class="active" {% endif %}><a href="{{ path('partner_back_partner_index') }}"><i class="fa fa-circle-o"></i>Partenaires</a></li>
+                    </ul>
+                </li>
+                <li class="treeview
+                    {% if currentRoute in ['back_charge_label_index','bp_back_page_index','back_staff','back_country_index','back_legalform_index','back_socialcharge_index','back_rate_index'] %} active {% endif %}
+                    ">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Configuration BP</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li {% if currentRoute == 'back_charge_label_index'%} class="active" {% endif %}><a href="{{ path('back_charge_label_index') }}"><i class="fa fa-circle-o"></i>Types de charges</a></li>
+                        <li {% if currentRoute == 'bp_back_page_index'%} class="active" {% endif %}><a href="{{ path('bp_back_page_index') }}"><i class="fa fa-circle-o"></i>Pages d'aide</a></li>
+                        <li {% if currentRoute == 'back_document_index'%} class="active" {% endif %}><a href="{{ path('back_staff') }}"><i class="fa fa-circle-o"></i>Personnel</a></li>
+                        <li {% if currentRoute == 'back_staff'%} class="active" {% endif %}><a href="{{ path('back_country_index') }}"><i class="fa fa-circle-o"></i>Pays</a></li>
+                        <li {% if currentRoute == 'back_legalform_index'%} class="active" {% endif %}><a href="{{ path('back_legalform_index') }}"><i class="fa fa-circle-o"></i>Forme juridique</a></li>
+                        <li {% if currentRoute == 'back_socialcharge_index'%} class="active" {% endif %}><a href="{{ path('back_socialcharge_index') }}"><i class="fa fa-circle-o"></i>Taux de charges sociales</a></li>
+                        <li {% if currentRoute == 'back_rate_index'%} class="active" {% endif %}><a href="{{ path('back_rate_index') }}"><i class="fa fa-circle-o"></i>Taux de charges fiscales</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

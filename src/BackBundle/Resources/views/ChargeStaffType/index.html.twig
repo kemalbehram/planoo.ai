@@ -1,0 +1,41 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <h1>ChargeStaffType list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Domain</th>
+                <th>Deletedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for chargeStaffType in chargeStaffTypes %}
+            <tr>
+                <td><a href="{{ path('back_chargestafftype_show', { 'id': chargeStaffType.id }) }}">{{ chargeStaffType.id }}</a></td>
+                <td>{{ chargeStaffType.domain }}</td>
+                <td>{% if chargeStaffType.deletedAt %}{{ chargeStaffType.deletedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('back_chargestafftype_show', { 'id': chargeStaffType.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('back_chargestafftype_edit', { 'id': chargeStaffType.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_chargestafftype_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

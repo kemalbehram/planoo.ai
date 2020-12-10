@@ -1,0 +1,123 @@
+<div>
+    {{ form_start(editForm,{'name':'form'~idCharge}) }}
+    <div class="modal-content"><!-- content -->
+        <h5 class="flow-text upper center">{% if action =='create' %}Ajoutez{% else %}Editez{% endif %} une Charge </h5>
+        <div class="row">
+            <div class="row">
+                <div class="switch center">
+                    <label>
+                        Montants
+                        <input id="formModeSwitch" type="checkbox" {% if editForm.isTaux.vars.value %}checked="checked"{% endif %} onchange="switchTaux(this, '{{action}}', {{idCharge}})">
+                        <span class="lever"></span>
+                        Taux
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    {% if editForm.isCustomLabel.vars.value %}
+                        <div id="personnal_charge" class="input-field col s9">
+                            <i class="material-icons prefix grey-text">list</i>
+
+                            {{ form_widget (editForm.otherChoice) }}
+                            {{ form_label  (editForm.otherChoice) }}
+                            {{ form_errors (editForm.otherChoice) }}
+                        </div>
+                        <div id="label_charge" class="input-field col s3">
+                            <a class="waves-effect waves-light btn" id='btnResetCustomLabel' onclick="resetCustomLabel(this, '{{action}}', {{idCharge}})">Liste</a>
+                        </div>
+                    {% else %}
+                        <div id="label_charge" class="input-field col s9">
+                            <i class="material-icons prefix grey-text">list</i>
+                            {{ form_widget (editForm.chargeLabel) }}
+                            {{ form_label  (editForm.chargeLabel) }}
+                        </div>
+                        <div id="label_charge" class="input-field col s3">
+                            <a class="waves-effect waves-light btn" id='btnChgToCustomLabel'onclick="changeToCustomLabel(this, '{{action}}', {{idCharge}})">Personnaliser</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">create</i>
+                    {{ form_widget (editForm.termeEchu) }}
+                    {{ form_label  (editForm.termeEchu) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">create</i>
+                    {{ form_widget (editForm.periodicite) }}
+                    {{ form_label  (editForm.periodicite) }}
+                </div>
+            </div>
+
+
+            {% if editForm.isTaux.vars.value %}
+                <div id="charge_variable" class="row pourcent_chiffre">
+                    <div class="input-field col s12 ">
+                        <i class="material-icons prefix grey-text">create</i>
+                        {#Charge variable#}
+                        {{ form_widget (editForm.taux) }}
+                        {{ form_label  (editForm.taux) }}
+                        {{ form_errors (editForm.taux) }}
+                    </div>
+                </div>
+
+            {%else%}
+                <div class="row charge_period">
+                    <div class="col s12">
+                        <p class="header2 bold ">Remplir les informations suivantes pour chaque exercice comptable</p>
+                    </div>
+                    {% for info in editForm.infoCharges %}
+                        {% if loop.index == 1 %}
+                            <div class="col s12">
+                                <i class="small material-icons grey-text">create</i>
+                                {{ form_label  (info.cout, null, {'label_attr': { 'class' : 'commun'}}) }}
+                            </div>
+                        {% endif %}
+                        <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                            <div class="input-field col s12 ">
+                                {{ form_widget (info.cout) }}
+                                {{ form_widget (info.cout) }}
+                                {{ form_errors (info.cout) }}
+                                {{ form_label  (info.cout, 'Année '~loop.index) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="row"><!-- TVA -->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">account_balance</i>
+                    {{ form_widget (editForm.tva) }}       {# input #}
+                    {{ form_label  (editForm.tva) }}
+                </div>
+            </div>
+
+            <div class="row"><!-- TVA -->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">account_balance</i>
+                    {{ form_widget (editForm.providerDelay) }}       {# input #}
+                    {{ form_errors (editForm.providerDelay) }}
+                    {{ form_label  (editForm.providerDelay) }}
+                </div>
+            </div>
+        </div>
+    </div><!-- /.content -->
+    <div class="modal-footer"><!-- footer -->
+        <button type="button" class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-dismiss="modal">Annuler</button>
+        <button type="button" onclick="saveAction(this, '{{action}}');" class="submit btn waves-effect waves-light izy-color-primary-bg z-depth-0 edit-income" 
+                {% if action =='create' %}
+                    data-url="{{ path('financial_charge_create', {idBusinessPlan:idBusinessPlan}) }}"
+                {% else %}
+                    data-url="{{ path('financial_charge_update', {id:idCharge}) }}"
+                {% endif %}
+                >Enregistrer</button>
+    </div><!-- /.footer  -->
+
+    {{ form_end(editForm) }}
+</div>

@@ -1,0 +1,40 @@
+<div>
+    {% if fundings %}
+        <table class="table responsive-table" id="funding-list">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Début</th>
+                    <th>Montant</th>
+                    <th>Taux</th>
+                    <th>Echéances</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in fundings %}
+                    <tr>
+                        <td>
+                            &nbsp;<a href="#" class="dropdown-trigger izy-color-primary-font left bold" data-target='dropdown2{{entity.id}}'>{% if entity.chargeLabel  %}{{ entity.chargeLabel.translate.name }}{% endif %}<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id='dropdown2{{entity.id}}' class='dropdown-content izy-dropdown-action' >
+                                <li><a onclick="initEditFormModal({{ entity.id }});"><i class="material-icons izy-color-primary-font">edit</i>Modifier</a></li>
+                                <li><a onclick="deleteAction({{ entity.id }});"><i class="material-icons izy-color-primary-font">delete</i>Supprimer</a></li>
+                            </ul>
+                        </td>
+                        <td>{{ entity.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ entity.amount }} €</td>
+                        <td>
+                            {% if entity.chargeLabel.displayTaux %}
+                                {{ entity.rate }} %
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if entity.chargeLabel.displayDuree %}
+                                {{ entity.within }} mois
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

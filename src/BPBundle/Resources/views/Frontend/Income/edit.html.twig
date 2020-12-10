@@ -1,0 +1,179 @@
+<div>
+    {{ form_start(editForm,{'name':'form'~idIncome}) }}
+    <div class="modal-content"><!-- content -->
+        <h5 class="flow-text upper center">{% if action =='create' %}Ajoutez{% else %}Editez{% endif %} un produit/service</h5>
+        <div class="row ">
+            <div class="switch center">
+                <label>
+                    Standard
+                    <input id="formModeSwitch" type="checkbox" {% if editForm.isAdvanceMode.vars.value %}checked="checked"{% endif %} onchange="changeToAdvanceMode(this, '{{action}}', {{idIncome}})">
+                    <span class="lever"></span>
+                    Expert
+                </label>
+            </div>
+        </div>
+        <div class="row pull_low">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">create</i>
+                {{ form_widget (editForm.name) }}
+                {{ form_errors (editForm.name) }}
+                {{ form_label  (editForm.name) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <p class="header2 bold ">Remplir les informations suivantes pour chaque exercice comptable</p>
+            </div>
+        </div>
+        {% if editForm.isAdvanceMode.vars.value %}
+            <div class="row"><!-- NB VENTES -->
+                {% for infoProduct in editForm.infoProduct  %}
+                    {% if loop.index == 1 %}
+                        <div class="col s12">
+                            <i class="small material-icons grey-text">show_chart</i>
+                            {{ form_label  (infoProduct.nbVente, null, {'label_attr': { 'class' : 'commun'}}) }}
+                        </div>
+                    {% endif %}
+                    <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                        <div class="input-field col s12 ">
+                            {{ form_widget (infoProduct.nbVente) }}
+                            {{ form_errors (infoProduct.nbVente) }}
+                            {{ form_label  (infoProduct.nbVente, 'Année '~loop.index) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row"><!-- PRIX VENTES -->
+                {% for infoProduct in editForm.infoProduct  %}
+                    {% if loop.index == 1 %}
+                        <div class="col s12">
+                            <i class="small material-icons grey-text">euro_symbol</i>
+                            {{ form_label  (infoProduct.prixVente, null, {'label_attr': { 'class' : 'commun'}}) }}
+                        </div>
+                    {% endif %}
+                    <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                        <div class="input-field col s12 ">
+                            {{ form_widget (infoProduct.prixVente) }}
+                            {{ form_errors (infoProduct.prixVente) }}
+                            {{ form_label  (infoProduct.prixVente, 'Année '~loop.index) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row"><!-- COUTS -->
+                {% for infoProduct in editForm.infoProduct  %}
+                    {% if loop.index == 1 %}
+                        <div class="col s12">
+                            <i class="small material-icons grey-text">shopping_cart</i>
+                            {{ form_label  (infoProduct.cout, null, {'label_attr': { 'class' : 'commun'}}) }}
+                        </div>
+                    {% endif %}
+                    <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                        <div class="input-field col s12 ">
+                            {{ form_widget (infoProduct.cout) }}
+                            {{ form_errors (infoProduct.cout) }}
+                            {{ form_label  (infoProduct.cout, 'Année '~loop.index) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row">
+                {% for infoProduct in editForm.infoProduct  %}
+                    {% if loop.index == 1 %}
+                        <div class="col s12">
+                            <i class="small material-icons grey-text">show_chart</i>
+                            {{ form_label  (infoProduct.caExercice, null, {'label_attr': { 'class' : 'commun'}}) }}
+                        </div>
+                    {% endif %}
+                    <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                        <div class="input-field col s12 ">
+                            {{ form_widget (infoProduct.caExercice) }}
+                            {{ form_errors (infoProduct.caExercice) }}
+                            {{ form_label  (infoProduct.caExercice, 'Année '~loop.index) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row"><!-- COUTS -->
+                {% for infoProduct in editForm.infoProduct  %}
+                    {% if loop.index == 1 %}
+                        <div class="col s12">
+                            <i class="small material-icons grey-text">shopping_cart</i>
+                            {{ form_label  (infoProduct.marge, null, {'label_attr': { 'class' : 'commun'}}) }}
+                        </div>
+                    {% endif %}
+                    <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                        <div class="input-field col s12 ">
+                            {{ form_widget (infoProduct.marge) }}
+                            {{ form_errors (infoProduct.marge) }}
+                            {{ form_label  (infoProduct.marge, 'Année '~loop.index) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row"><!-- commission -->
+            {% for infoProduct in editForm.infoProduct  %}
+                {% if loop.index == 1 %}
+                    <div class="col s12">
+                        <i class="small material-icons grey-text">work</i>
+                        {{ form_label  (infoProduct.commission, null, {'label_attr': { 'class' : 'commun'}}) }}
+                    </div>
+                {% endif %}
+                <div class="col" style="width : {{ (100/accountingNbPeriod) }}%;">
+                    <div class="input-field col s12 ">
+                        {{ form_widget (infoProduct.commission) }}
+                        {{ form_errors (infoProduct.commission) }}
+                        {{ form_label  (infoProduct.commission, 'Année '~loop.index) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if editForm.isAdvanceMode.vars.value %}
+            <div class="row"><!-- TVA -->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">account_balance</i>
+                    {{ form_widget (editForm.tvaAchats) }}       {# input #}
+                    {{ form_label  (editForm.tvaAchats) }}
+                </div>
+            </div>
+            <div class="row"><!-- TVA -->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">account_balance</i>
+                    {{ form_widget (editForm.tvaVentes) }}       {# input #}
+                    {{ form_label  (editForm.tvaVentes) }}
+                </div>
+            </div>
+            <div class="row"><!-- TVA -->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">account_balance</i>
+                    {{ form_widget (editForm.customerDelay) }}       {# input #}
+                    {{ form_errors (editForm.customerDelay) }}
+                    {{ form_label  (editForm.customerDelay) }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row"><!-- Nom commission -->
+            <div class="col s12">
+                <div class="input-field col s12 ">
+                    <i class="material-icons prefix grey-text">work</i>
+                    {{ form_widget (editForm.nameCommission) }}
+                    {{ form_errors (editForm.nameCommission) }}
+                    {{ form_label  (editForm.nameCommission) }}
+                </div>
+            </div>
+        </div>
+    </div><!-- /.content -->
+    <div class="modal-footer">
+        <button type="button" class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-dismiss="modal">Annuler</button>
+        <button type="button" onclick="saveAction(this, '{{action}}');" class="submit btn waves-effect waves-light izy-color-primary-bg z-depth-0 edit-income" 
+                {% if action =='create' %}
+                    data-url="{{ path('financial_income_create', {idBusinessPlan:idBusinessPlan}) }}"
+                {% else %}
+                    data-url="{{ path('financial_income_update', {id:idIncome}) }}"
+                {% endif %}
+                >Enregistrez</button>
+    </div>
+    {{ form_end(editForm) }}
+</div>

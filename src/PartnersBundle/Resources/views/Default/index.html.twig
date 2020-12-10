@@ -1,0 +1,291 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} |
+    Réalisez votre Business Plan en ligne
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+
+{% block body %} 
+    <div class="row">
+        <div class="col s12 m10 offset-m1">
+            <div class="row pull_low">
+                <div class="col s12 l4 offset-l4 m8 offset-m2 center-align">
+                    <img class="responsive-img" alt="partner_logo" src="data:image/png;base64,{{ logo_partner }}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title izy-color-primary-font center-align">BP incomplets<br/>(ce mois-ci)</span>
+                            <h1 class="center-align">{{nbBpStarted}}</h1>
+                        </div>
+                        <div class="card-action izy-color-primary-light-font center-align">Nombre de BP commencés par vos clients.</div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content izy-color-primary-bg">
+                            <span class="card-title white-text center-align">Affiliés<br/>&nbsp;</span>
+                            <h1 class="center-align white-text">{{partner.users|length}}</h1>
+                        </div>
+                        <div class="card-action izy-color-primary-light-font center-align">Nombre d'utilisateurs qui vous sont associés.</div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title izy-color-primary-font center-align">BP Vendus<br/>(ce mois-ci)</span>
+                            <h1 class="center-align">{{nbBpPaid}}</h1>
+                        </div>
+                        <div class="card-action izy-color-primary-light-font center-align">Nombre de BP validés par vos clients.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h5>Statistiques</h5>
+                <div class="col s12 m6 xl6">
+                    <div class="card">
+                        {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                        <div class="card-content">
+                            <div id="chart-container-sessions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 xl6">
+                    <div class="card">
+                        {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                        <div class="card-content">
+                            <div id="chart-container-traffic-medium"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col s12 m12 xl4">
+                     <div class="card">
+                {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                <div class="card-content">
+                    <div id="chart-container-traffic-source"></div>
+                </div>
+            </div>
+        </div> -->
+                <div class="col s12 m6 xl4">
+                    <div class="card">
+                        {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                        <div class="card-content">
+                            <div id="chart-container-conversion-rate"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 xl4">
+                    <div class="card">
+                        {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                        <div class="card-content">
+                            <div id="chart-container-average-cart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m12 xl4">
+                    <div class="card">
+                        {#https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api&cats=ecommerce                            #}
+                        <div class="card-content">
+                            <div id="chart-container-revenue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var ids = '{{gaIdView}}';
+        var partnerUrl = '{{partner.customDomain}}';
+        var partnerCreationDate = '{{partner.createdAt|date('Y-m-d')}}';
+        (function (w, d, s, g, js, fs) {
+            g = w.gapi || (w.gapi = {});
+            g.analytics = {q: [], ready: function (f) {
+                    this.q.push(f);
+                }};
+            js = d.createElement(s);
+            fs = d.getElementsByTagName(s)[0];
+            js.src = 'https://apis.google.com/js/platform.js';
+            fs.parentNode.insertBefore(js, fs);
+            js.onload = function () {
+
+                gapi.load('analytics');
+            };
+        }(window, document, 'script'));
+        gapi.analytics.ready(function () {
+            gapi.analytics.auth.authorize({
+                'serverAuth': {
+                    'access_token': '{{ gaAccessToken }}'
+                }
+            });
+            var sessionsChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:users,ga:newUsers',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'LINE',
+                    container: 'chart-container-sessions',
+                    options: {
+                        title: 'Nombre d\'utilisateurs (par mois)',
+                        legend: 'bottom',
+                        width: '100%',
+                        minValue: 0
+                    }
+                }
+            });
+            sessionsChart.execute();
+
+            var referalTrafficMediumChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:medium',
+                    'metrics': 'ga:users',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'PIE',
+                    container: 'chart-container-traffic-medium',
+                    options: {
+                        title: 'Source du trafic',
+                        width: '100%'
+                    }
+                }
+            });
+            referalTrafficMediumChart.execute();
+
+            var referalTrafficSourceChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:sourceMedium',
+                    'metrics': 'ga:users',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'TABLE',
+                    container: 'chart-container-traffic-source',
+                    options: {
+                        title: 'Source du trafic (Détail)',
+                        width: '100%',
+                        pageSize: 6,
+                        height: '300px'
+                    }
+                }
+            });
+            referalTrafficSourceChart.execute();
+
+            var conversionRateChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:goal1ConversionRate',
+                    'filters': 'ga:hostname==' + partnerUrl,
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'LINE',
+                    container: 'chart-container-conversion-rate',
+                    options: {
+                        title: 'Taux de conversion (par mois)',
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: '#\'%\'',
+                            minValue: 0,
+                            maxValue: 100
+                        }
+                    }
+                }
+            });
+            conversionRateChart.execute();
+
+            var revenuePerTransactionChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:revenuePerTransaction',
+                    'filters': 'ga:affiliation=={{partner.nom}}',
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'LINE',
+                    container: 'chart-container-average-cart',
+                    options: {
+                        title: 'Panier moyen (par mois)',
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: 'currency',
+                            minValue: 0
+                        }
+                    }
+                }
+            });
+            revenuePerTransactionChart.execute();
+
+            var totalValueChart = new gapi.analytics.googleCharts.DataChart({
+                reportType: 'ga',
+                query: {
+                    'ids': ids,
+                    'dimensions': 'ga:yearMonth',
+                    'metrics': 'ga:transactionRevenue',
+                    'filters': 'ga:affiliation=={{partner.nom}}',
+                    'start-date': partnerCreationDate,
+                    'end-date': 'today',
+                },
+                chart: {
+                    type: 'COLUMN',
+                    container: 'chart-container-revenue',
+                    options: {
+                        title: 'Chiffre d\'affaire (par mois)',
+                        width: '100%',
+                        legend: 'bottom',
+                        vAxis: {
+                            format: 'currency',
+                            minValue: 0
+                        }
+                    }
+                }
+            });
+            totalValueChart.execute();
+
+            $(window).resize(function () {
+                sessionsChart.execute();
+                referalTrafficMediumChart.execute();
+                referalTrafficSourceChart.execute();
+                conversionRateChart.execute();
+                revenuePerTransactionChart.execute();
+                totalValueChart.execute();
+            });
+        });
+    </script>
+{% endblock javascripts %}

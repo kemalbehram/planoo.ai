@@ -1,0 +1,27 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Oups, ' ~ status_text ~' !'%}
+
+{% block login_form_panel %}
+    <div class="row pull_low">
+        <div class="col s12">
+            <center>
+                <div> <i class="material-icons large">error_outline</i></div>
+                <h5>Nous nous excusons, le site rencontre des difficultés.</h5>
+                <small>Code erreur : {{ status_code }}<br/></small>
+                <small>Référence : {{ "now"|date("Ymd_His") }}</small>
+            </center>
+        </div>
+    </div>
+    <div class="row pull_low">
+        <div class="col s12">
+                <p>Pour nous aider dans la résolution de ce problème n'hésitez pas à nous expliquer les conditions d'apparition de ce problème par le chat ou par mail en précisant la référence ci-dessus.</p>
+                <p>Nous mettrons tout en oeuvre pour resoudre cette erreur le plus rapidement possible.</p>
+        </div>
+    </div>
+    <div class="row pull_low">
+        <div class="col s12">
+            <a style="width: 100%;" class="waves-effect waves-light btn izy-color-primary-bg" href="{{ path('user_my_projects') }}">Retournez à l'accueil</a>
+        </div>
+    </div>
+{% endblock login_form_panel %}

@@ -1,0 +1,109 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col s12">
+                        <h5 class="header2 bold ">Quel est votre secteur d'activité (merci d'être le plus précis possible) ?</h5>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">list_offer</i>
+                        {{ form_widget (form.mainMarket) }}       {# input #}
+                        {{ form_errors (form.mainMarket) }}       {# Affiche les erreurs #}
+                        {{ form_label  (form.mainMarket) }}
+                    </div>
+
+                </div>
+
+                <div class="col s12">
+                    <h5 class="header2 bold ">Avez-vous un local où les clients pourront se rendre pour acheter vos produits / services ? </h5>
+                </div>
+
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">storefront</i>
+                    {{ form_widget (form.hasMarketPlace) }}       {# input #}
+                    {{ form_errors (form.hasMarketPlace) }}       {# Affiche les erreurs #}
+                </div>
+
+                <div class="col s12">
+                    <h5 class="header2 bold ">Adresse complète du local commercial</h5>
+                </div>
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">business</i>
+                    {{ form_widget (form.addressMarketPlace.street) }}       {# input #}
+                    {{ form_errors (form.addressMarketPlace.street) }}
+                    {{ form_label  (form.addressMarketPlace.street) }}
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">business</i>
+                    {{ form_widget (form.addressMarketPlace.codePostal) }}       {# input #}
+                    {{ form_errors (form.addressMarketPlace.codePostal) }}
+                    {{ form_label  (form.addressMarketPlace.codePostal) }}
+                </div>
+                <!-- ville & domiciliation-->
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">business</i>
+                    {{ form_widget (form.addressMarketPlace.city) }}       {# input #}
+                    {{ form_errors (form.addressMarketPlace.city) }}
+                    {{ form_label  (form.addressMarketPlace.city) }}
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">business</i>
+                    {{ form_widget (form.addressMarketPlace.country) }}       {# input #}
+                    {{ form_label  (form.addressMarketPlace.country) }}
+                </div>
+
+                <div class="col s12">
+                    <h5 class="header2 bold ">Taille du marché</h5>
+                </div>
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">blur_on</i>
+                    {{ form_widget (form.marketSize) }}       {# input #}
+                    {{ form_label  (form.marketSize) }}
+                </div>
+
+                <div class="col s12">
+                    <h5 class="header2 bold ">Nous allons définir la zone géographique à analyser en fonction de la durée de déplacement autours de votre point de vente</h5>
+                </div>
+
+                <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text">emoji_transportation</i>
+                    {{ form_widget (form.transportMode) }}       {# input #}
+                    {{ form_label  (form.transportMode) }}
+                </div>
+
+                <div class="input-field col s6">
+                    <i class="material-icons prefix grey-text">timer</i>
+                    {{ form_widget (form.transportDurationHours) }} 
+                    {{ form_errors (form.transportDurationHours) }}      {# input #}
+                    {{ form_label  (form.transportDurationHours) }}
+                </div>
+
+                <div class="input-field col s6">
+                    <i class="material-icons prefix grey-text">timer</i>
+                    {{ form_widget (form.transportDurationMinutes) }} 
+                    {{ form_errors (form.transportDurationMinutes) }}      {# input #}
+                    {{ form_label  (form.transportDurationMinutes) }}
+                </div>
+
+                <!--button-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        {% if 11 in  bp.steps %}
+                        <button class="btn-large izy-color-secondary-bg waves-effect waves-light right z-depth-0" type="submit">Envoyez votre demande</button>
+                        {% else %}
+                        <button class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit">Enregistrez et continuez</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

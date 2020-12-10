@@ -1,0 +1,193 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Création de votre espace personnel' %}
+
+{% block login_wording_panel %}
+    <div class="left-align white-text row">
+        <div class="col s12 offset-m1" id="titre1-placeholder">
+            <titre class="titre1">
+                <p>
+                Accélerez vos premières
+                <br/>
+                démarches de financement !
+                </p>
+            </titre>
+        </div>
+    </div>
+
+    <div class="left-align white-text row" id="titre2-placeholder">
+        <div class="col offset-s1">
+            <h1 class="titre2">
+                Créez votre Business Plan en ligne<br/>
+                comme un professionnel en 1H00
+            </h1>
+        </div>
+    </div>
+    {% endblock login_wording_panel %}
+
+
+    {% block login_reinsurrance_panel %}
+    <div class="left-align white-text row pull_low">
+        <div class="col s12 m2 offset-m1 center">
+            <i class="material-icons">credit_card</i>
+        </div>
+        <div class="col s12 m8">
+            <div class="titre3">
+                Paiement<br/>
+                100% sécurisé
+            </div>
+        </div>
+    </div>
+
+    <div class="left-align white-text row">
+        <div class="col s6 offset-s3">
+            <hr/>
+        </div>
+    </div>
+
+    <div class="left-align white-text row">
+        <div class="col s12 m2 offset-m1 center">
+            <i class="material-icons">picture_as_pdf</i>
+        </div>
+        <div class="col s12 m8">
+            <div class="titre3">
+                Téléchargement<br/>
+                immédiat de vos documents
+            </div>
+        </div>
+    </div>
+
+    <div class="left-align white-text row">
+        <div class="col s6 offset-s3">
+            <hr/>
+        </div>
+    </div>
+
+    <div class="left-align white-text row">
+        <div class="col s12 m2 offset-m1 center">
+            <i class="material-icons">chat</i>
+        </div>
+        <div class="col s12 m8">
+            <div class="titre3">
+                Assistance<br/>
+                100% en ligne
+            </div>
+        </div>
+    </div>
+    {% endblock login_reinsurrance_panel %}
+
+{% block login_form_panel %}
+    <div class="row">
+        {% if not form.vars.valid %}
+            <div class="row ">
+                <div class="col s12">
+                    <div class="card red lighten-5 z-depth-0">
+                        <div class="card-content red-text">
+                            {% for error in form.vars.errors.form.getErrors(true) %}
+                                <p>
+                                    <i class="material-icons left">error</i>
+                                    {{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col s12">
+            <center>
+                <h2 >Bienvenue dans votre espace Planoo</h2>
+            </center>
+        </div>
+        <div class="col s12">
+            <center>Vous avez un compte ? -
+                <a href="{{ path('fos_user_security_login') }}" class="izy-color-primary-font">S'identifier</a>
+            </center>
+        </div>
+        <div class="col s12">
+            <center>
+                {% if app.request.get('formuleName') %}
+                <h2>Vous avez selectionné la {{ app.request.get('formuleName') }}</h2>
+                {% endif %}
+                <p>Inscrivez-vous en 30 secondes et bénéficiez de 15 jours d’essai gratuit.<br/>
+                Vous pouvez mettre à niveau votre formule à tout moment</p>
+            </center>
+        </div>
+        <div class="col s12">
+            <br>
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <center>En créant votre compte Planoo.ai, vous acceptez
+                    <br/><a href="https://planoo.ai/cgu-cgv/" class="izy-color-primary-font" target="_blank">Les conditions d'utilisation de Planoo.ai</a>
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <center>Nous nous engageons à respecter votre vie privée. Pour plus d'informations, consultez notre
+                    <br/><a href="https://planoo.ai/politique-de-confidentialite/" class="izy-color-primary-font" target="_blank">politique de confidentialité</a>
+                </center>
+            </div>
+        </div>
+    </div>
+
+{% endblock login_form_panel %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeeNOwUAAAAAO8MD4XnlPExkMjZMXsNCLk45Iyu"></script>
+    <script>
+        grecaptcha.ready( function () {
+            grecaptcha.execute( "6LeeNOwUAAAAAO8MD4XnlPExkMjZMXsNCLk45Iyu", { action: "homepage" } ).then( function ( token ) {
+                var recaptchaResponse = document.getElementById( "recaptchaResponse" );
+                recaptchaResponse.value = token;
+            } );
+        } );
+    </script>
+    <script>
+        $( document ).ready( function () {
+            $( "#fos_user_registration_form_plainPassword_first" ).on( "keyup", function ( e ) {
+                $( "#fos_user_registration_form_plainPassword_second" ).val( "" );
+                return false;
+            } );
+            $( "#fos_user_registration_form_plainPassword_first, #fos_user_registration_form_plainPassword_second" ).on( "keyup", function ( e ) { // don't process tab key up because value is empty
+                if ( e.keyCode != "9" ) {
+                    if ( $( "#fos_user_registration_form_plainPassword_first" ).val() != "" && $( "#fos_user_registration_form_plainPassword_second" ).val() != "" && $( "#fos_user_registration_form_plainPassword_first" ).val() != $( "#fos_user_registration_form_plainPassword_second" ).val() ) {
+                        $( "#passwordMatch" ).html( "<span class=\"right\" style=\"color: red !important;\">Les mots de passes ne sont pas identiques.</span>" );
+                        $( "#_submit" ).addClass( "disabled" );
+                        return false;
+                    } else {
+                        $( "#passwordMatch" ).html( "" );
+                    }
+
+                    // Must have capital letter, numbers and lowercase letters
+                    var strongRegex = new RegExp( "^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g" );
+                    // Must have either capitals and lowercase letters or lowercase and numbers
+                    var mediumRegex = new RegExp( "^(?=.{9,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g" );
+                    // Must be at least 6 characters long
+                    var okRegex = new RegExp( "(?=.{8,}).*", "g" );
+                    if ( okRegex.test( $( this ).val() ) === false ) { // If ok regex doesn't match the password
+                        $( "#passwordStrength" ).html( "<span class=\"right\"><i class=\"material-icons\" style=\"font-size:10pt; color: red !important;\">lock_open</i> Le mot de passe doit contenir au moins 8 caractères.</span>" );
+                        $( "#_submit" ).addClass( "disabled" );
+                    } else if ( strongRegex.test( $( this ).val() ) ) { // If reg ex matches strong password
+                        $( "#passwordStrength" ).html( "<span class=\"right\"><i class=\"material-icons\" style=\"font-size:10pt; color: green !important;\">lock</i> Parfait! Mot de passe fort.</span>" );
+                        $( "#_submit" ).removeClass( "disabled" );
+                    } else if ( mediumRegex.test( $( this ).val() ) ) { // If medium password matches the reg ex
+                        $( "#passwordStrength" ).html( "<span class=\"right\"><i class=\"material-icons\" style=\"font-size:10pt; color: orange !important;\">lock</i> Mot de passe moyen, ajoutez des caractères spéciaux pour le rendre fort.</span>" );
+                        $( "#_submit" ).removeClass( "disabled" );
+                    } else { // If password is ok
+                        $( "#passwordStrength" ).html( "<span class=\"right\"><i class=\"material-icons\" style=\"font-size:10pt; color: orange !important;\">lock</i> Mot de passe faible, ajoutez des nombres et des lettres capitales pour le renforcer.</span>" );
+                        $( "#_submit" ).removeClass( "disabled" );
+                    }
+
+                    if ( $( "#fos_user_registration_form_plainPassword_second" ).val() == "" ) {
+                        $( "#_submit" ).addClass( "disabled" );
+                    }
+                }
+
+                return true;
+            } );
+        } );
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,58 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% set header=infos_page.name %}
+
+{% block body %}
+    <div class="row pull_low hide-on-large-only">
+        <div class="col s12 m10 offset-m1">
+            <div>{% if infos_page.description %}{{infos_page.description}} (<a href="#" href="#" data-target="hint-navbar" class="sidenav-trigger">En savoir plus</a>){% endif %} </div>
+        </div>
+    </div>
+    <div class="row hide-on-med-and-down">
+        <div class="col s12 m10 offset-m1">
+            <div>{% if infos_page.description %}{{infos_page.description}} (<a href="#" href="#" data-target="hint-navbar" class="sidenav-trigger">En savoir plus</a>){% endif %} </div>
+        </div>
+    </div>
+    <div class="row">
+        {% block content %}{% endblock content %}
+    </div>
+
+    {% include 'BPBundle:Frontend:_components/hint.html.twig' %}
+
+{% endblock body %}
+
+{% block nav_content %}
+    {% include 'BPBundle:Frontend:_components/bp-menu.html.twig' %}
+{% endblock nav_content %}
+
+{% block header_addon %}
+    <a href="#" href="#" data-target="hint-navbar" class="sidenav-trigger" style="vertical-align: middle">
+        <i class="medium material-icons izy-color-primary-font">help_outline</i>
+    </a>
+{% endblock header_addon %}
+
+{% block nav_header_addon %}
+    {% if bp.isTrial %}
+        <div class="btn-small izy-color-secondary-bg white-text bp-trial-information">
+            {% if bp.isTrialExpired %}
+                <span>Période d'essai
+                    {{ bp.catalog.name }}
+                    expirée</span>
+            {% else %}
+                <span>Essai
+                    {{ bp.catalog.name }}
+                    {{date().diff(bp.service.expireTrialDate).days}}
+                    jours</span>
+            {% endif %}
+            <a class="white-text" href="{{ path('promotion_catalog_one', {'bpHash': bp.hash}) }}">En savoir plus</a>
+        </div>
+    {% endif %}
+{% endblock nav_header_addon %}
+
+{% block page_description %}
+    <p>{% if infos_page.description %}{{infos_page.description}}{% endif %}
+{% endblock page_description %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

@@ -1,0 +1,3 @@
+financial_season_index:
+    path:     /
+    defaults: { _controller: BPBundle:Frontend/Default:season }

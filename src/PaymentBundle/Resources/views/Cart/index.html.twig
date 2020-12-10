@@ -1,0 +1,121 @@
+{% extends '::Frontend/layout.html.twig' %}
+
+{% set header = "Récapitulatif de votre panier"%}
+
+{% set nbArticles = 0 %}
+{% for commandeCatalog in cart.commandeCatalogs %}
+    {% set nbArticles = nbArticles+commandeCatalog.quantity %}
+{% endfor %}
+
+
+{% block body %}
+    <div
+        class="col s12 m10 offset-m1">
+        <!-- FORM STEP 1 BP -->
+
+        <div class="row">
+            <div class="col s10 offset-s1">
+            Pour le règlement de votre formule vous allez être redirigé vers notre partenaire financier « Stripe ». Un environnement parfaitement sécurisé.
+            </div>
+        </div>
+        
+        {% set step = 0 %}
+        <div class="row">
+            <div class="col s10 offset-s1">
+                {% set step = step + 1 %}
+                <h5 class="flow-text black-text">{{step}}
+                    - Formule</h5><hr>
+                <div class="row center">
+                    {% include 'PaymentBundle::Cart\\purchase_lines.html.twig' %}
+                </div>
+
+                {% set step = step + 1 %}
+                <div class="row">
+                    <h5 class="flow-text black-text">{{step}}
+                        - Bon d'achat / Promotion
+                    </h5><hr>
+                    {% include 'PaymentBundle::Cart\\vouchers.html.twig' %}
+                </div>
+                <div
+                    class="row">
+                    <!--==== total ====-->
+                    <div class="col s12">
+                        <h5 class="flow-text black-text">Total TTC<span id="total-price" class="right">
+                                {% if cart.totalAmountTTC == 0 %}Gratuit
+                                {% else %}
+                                    {{ cart.totalAmountTTC|formatNumber('€',2) }}
+                                {% endif %}
+                            </span>
+                        </h5><hr>
+                        <div class="">Dont TVA<span id="total-price" class="right">{{ cart.tva|formatNumber('€',2) }}</span>
+                        </div>
+                        <div class="">Total HT<span id="total-price" class="right">{{ cart.totalAmountHT|formatNumber('€',2) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <label>
+                            <input type="checkbox" id="cgvAccepted" name="cgvAccepted" value="on"/>
+                            <span for="cgvAccepted" text-align="right">J'ai lu et j'accepte les
+                                <a class="izy-color-primary-font" target="_blank" href="https://planoo.ai/cgu-cgv/">Conditions Générales de Vente</a>.</span>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div
+                            class="row">
+                            <!--button-->
+                            <div class="input-field col s12">
+                                {% if nbArticles == 0 %}
+                                    <a href="{{ path('user_my_projects') }}" class="btn-large izy-color-primary-light-bg waves-effect waves-light right z-depth-0">Annuler (Aucune formule selectionnée)</a>
+                                {% else %}
+                                    {% if cart.totalAmountTTC > 0 %}
+                                        <div class="tooltipped div-cgv-needed right" data-tooltip="Veuillez accepter les Conditions Générales de Vente" data-position="left">
+                                            <a href="{{ path('payment_stripe_checkout_form', {cartId: cart.id}) }}" class="btn-cgv-needed disabled btn-large izy-color-secondary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Payez</a>
+                                        </div>
+                                    {% elseif nbArticles > 0 %}
+                                        <div class="tooltipped div-cgv-needed right" data-tooltip="Veuillez accepter les Conditions Générales de Vente" data-position="left">
+                                            <a href="{{ path('payment_freemium', {id: cart.id}) }}" onclick="sendPurchaseEventToGTM();" class="btn-cgv-needed disabled btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Valider</a>
+                                        </div>
+                                    {% else %}
+                                        <a href="{{ path('user_my_projects') }}" class="btn-large izy-color-primary-light-bg waves-effect waves-light right z-depth-0">Annuler (panier vide)</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src='{{ asset("bundles/fosjsrouting/js/router.js") }}'></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        $( function () {
+            $( "#cgvAccepted" ).bind( "change", function ( event ) {
+                var isChecked = $( event.currentTarget ).is( ":checked" );
+                $( ".btn-cgv-needed" ).each( function () {
+                    if ( isChecked ) {
+                        $( this ).removeClass( "disabled" );
+                    } else {
+                        $( this ).addClass( "disabled" );
+                    }
+                } );
+                $( ".material-tooltip" ).each( function () {
+                    if ( isChecked ) {
+                        $( this ).css( "display", "none" );
+                    } else {
+                        $( this ).css( "display", "block" );
+                    }
+                } );
+            } );
+        } );
+    </script>
+{% endblock javascripts %}

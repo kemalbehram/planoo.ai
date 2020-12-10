@@ -1,0 +1,6 @@
+{% for user in latest_users %}
+    <li>
+        <a class="users-list-name" href="#">{{ user.username }}</a>
+        <span class="users-list-date">{{ user.lastLogin|date('d/m/Y à H:i:s') }}</span>
+    </li>
+{% endfor %}

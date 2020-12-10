@@ -1,0 +1,60 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h3>Pages - BP</h3>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li class="active"><em>Liste des pages du formulaire BP</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+
+    {% for message in app.session.flashbag.get("info") %}
+
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+    <div class="">
+        <div class="row">
+            <a href="{{ path('bp_back_page_new') }}" class="btn btn-primary pull-right">Create</a>
+        </div>
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Liste</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                        <th><input type="text" class="form-control" placeholder="Name" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Step" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Info" disabled></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in pages  %}
+                        <tr>
+                            <td>{{ page.name }}</td>
+                            <td>{{ page.step }}</td>
+                            <td>{{ page.info|raw }}</td>
+                            <td>
+                                <a href="{{ path('bp_back_page_edit', { 'id': page.id }) }}"><i class="fa fa-pencil"></i></a>
+                                <a href="{{ path('bp_back_page_deleted', { 'id': page.id }) }}"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

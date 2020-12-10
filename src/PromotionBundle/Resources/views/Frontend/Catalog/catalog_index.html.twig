@@ -1,0 +1,91 @@
+{% extends "::Frontend/layout_catalog.html.twig" %}
+
+{% set header = 'Nos formules' %}
+
+{% import "PromotionBundle:Frontend:_components/catalog_macros.html.twig" as catalog_macro %}
+
+{% block body %}
+
+<div class="izy-color-primary-bg">
+{% if bp and bp.isTrial %}
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin  center-align">
+        Vous bénéficiez actuellement de la
+        {{catalog.name}}
+        en version d'essai jusqu'au
+        {{bp.service.expireTrialDate |localizeddate('none', 'none', null, null, 'dd MMMM Y')}}
+    </div>
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin center-align">
+        Faites évoluer votre formule et accélélérez vos démarches !
+    </div>
+{% elseif bp %}
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin  center-align">
+        <img src="{{ asset('build/images/' ~ catalog.icon ~ '.svg' ) }}" alt="logo">
+    </div>
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin  center-align">
+        Vous avez souscrit à la {{catalog.name}}
+    </div>
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin center-align">
+        Allez plus loin avec Planoo ...
+    </div>
+{% else %}
+
+    <div class="catalog-description row izy-color-primary-bg white-text  no-margin center-align">
+        Créez et développez votre entreprise à votre rythme<br/>
+        Nous vous accompagnons selon vos besoins
+    </div>
+
+    <div class="catalog-description row izy-color-primary-bg white-text no-margin center-align">
+        Séléctionnez la formule qui convient à vos objectifs professionels<br/>
+        Bénéficiez de 15 jours d’essai sans demande d’empreinte de carte bleue
+    </div>
+{% endif %}
+</div>
+<div class="row catalog-container no-margin">
+    {% for catalogItem in catalogItems %}
+        <div class="col {% if isAnUpgrade %}upgrade{% endif %}">
+
+            {{ catalog_macro.catalogTitle(catalogItem, catalogItem.name, catalog and (catalog.price >= catalogItem.price),isAnUpgrade ) }}
+            <div
+            class="catalog-description-and-buttons">
+            {# Lower Formule -> no button #}
+            {% set buttonText = null %}
+            {% set buttonTarget = path('financial_cart_index') %}
+
+            {# Current Trial BP #}
+            {% if bp %}
+
+                {% set buttonTarget = path('promotion_catalog_add_item', {'businessPlanId': bp.id, 'catalogId': catalogItem.id}) %}
+                {# Payed and Upper Formule #}
+                {% if isAnUpgrade %}
+                    {% set buttonText = 'Commandez votre ' ~  catalogItem.catalogDestination.name %}
+                    {# Active or Expire Trial and Current --> Finalize payment #}
+                {% elseif bp.isTrial and catalog.id == catalogItem.id %}
+                    {% set buttonText = 'Achetez votre Business Plan' %}
+                    {# Active Trial and Upper Formule -> Free subscribe #}
+                {% elseif bp.isTrialActive and catalog.price < catalogItem.price %}
+                    {% set buttonText = 'Commandez cette formule' %}
+                    {# Expire Trial and Upper Formule #}
+                {% elseif  catalog.price < catalogItem.price %}
+                    {% set buttonText = 'Commandez cette formule' %}
+                    {# Lower Formule #}
+                {% elseif  catalog.price >= catalogItem.price %}
+                    {% set buttonText = 'Achetez votre Business Plan' %}
+                {% endif %}
+
+            {% else %}
+                {% set buttonText = 'Démarrez 15 jours d\'essai gratuit' %}
+                {% set buttonTarget = path('bp_init', {'idCatalog': catalogItem.id}) %}
+            {% endif %}
+
+            {{ catalog_macro.catalogItem(catalogItem, buttonText, buttonTarget) }}
+        </div>
+        </div>
+    {% endfor %}
+</div>
+  <div class="center grey-text">Tarifs affichés en EUR TTC dont TVA de 20 % incluse</div>
+    {% if bp %}
+    <div class="row catalog-back-to-projects center-align">
+        <a class="btn waves-effect waves-light black center-align" href="{{ path('user_my_projects') }}">Retournez à vos projets</a>
+    </div>
+    {% endif %}
+{% endblock body %}

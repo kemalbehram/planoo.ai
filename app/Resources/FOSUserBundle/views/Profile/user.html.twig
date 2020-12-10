@@ -1,0 +1,17 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    {{ user.username }} | {{ user.id }}
+
+    {% for bp in bps if bp.state == 'sold' %}
+
+        <p>{{ bp.createdAt|date('d/m/Y') }} - {{ bp.hash }} - {{ bp.state }}</p>
+    {% endfor %}
+    <hr>
+    {% for bp in bps if bp.state != 'sold' %}
+
+        <p>{{ bp.createdAt|date('d/m/Y') }} - {{ bp.hash }} - {{ bp.state }}</p>
+    {% endfor %}
+{% endblock content %}
+

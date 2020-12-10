@@ -1,0 +1,20 @@
+back_backOffice_list_carts:
+  path: /list_carts/{sold}/{isAdminView}
+  defaults: { _controller: "BackBundle:Default:listCarts", isAdminView: false }
+  methods: GET
+
+back_ajax_backOffice_carts:
+  path: /ajax_list_carts/{sold}/{isAdminView}
+  defaults: { _controller: "BackBundle:Default:ajaxCartDataTable" }
+  methods: GET
+
+back_backOffice_list_projects:
+  path: /list_projects/{sold}/{isAdminView}
+  defaults:
+    { _controller: "BackBundle:Default:listProjects", isAdminView: false }
+  methods: GET
+
+back_ajax_backOffice_projects:
+  path: /ajax_list_projects/{sold}/{isAdminView}
+  defaults: { _controller: "BackBundle:Default:ajaxProjectsDataTable" }
+  methods: GET

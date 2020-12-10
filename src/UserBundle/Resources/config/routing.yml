@@ -1,0 +1,19 @@
+#user_profile_edit:
+#    path:     /user-edit
+#    defaults: { _controller: UserBundle:Profile:edit }
+
+user_user_show:
+  path: /show/{id}
+  defaults: { _controller: UserBundle:Profile:user }
+
+user_latest_users:
+  path: /latest-users
+  defaults: { _controller: UserBundle:Default:latestUsers }
+
+user_my_projects:
+  path: /
+  defaults: { _controller: UserBundle:Default:userMyProjects }
+
+user_my_documents:
+  path: /my-documents
+  defaults: { _controller: UserBundle:Default:userMyDocuments }

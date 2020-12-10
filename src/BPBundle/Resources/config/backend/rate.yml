@@ -1,0 +1,28 @@
+back_rate_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/Rate:index" }
+    methods:  GET
+
+back_rate_show:
+    path:     /{id}/show
+    defaults: { _controller: "BPBundle:Backend/Rate:show" }
+    methods:  GET
+
+back_rate_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/Rate:new" }
+    methods:  [GET, POST]
+
+back_rate_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/Rate:edit" }
+    methods:  [GET, POST]
+
+back_rate_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/Rate:delete" }
+    methods:  DELETE
+
+back_rate_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/Rate:deleted" }

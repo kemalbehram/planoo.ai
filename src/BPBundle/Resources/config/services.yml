@@ -1,0 +1,21 @@
+services:
+    BPBundle\Security\BusinessPlanVoter:
+        public:     false
+        class: BPBundle\Security\BusinessPlanVoter
+        tags:
+           - { name: security.voter }
+        arguments: 
+            $decisionManager: '@security.access.decision_manager'
+            
+#    iz_auth_privacy_policy_handler:
+#        class: BPBundle\Security\IzAuthPrivacyPolicyHandler
+#        arguments:
+#            $em: '@doctrine.orm.entity_manager'
+#            $router: '@router'
+        
+    # TWIG EXTENSIONS
+    izypitch.twig_extension:
+        class: BPBundle\Service\IZTwigFilter
+        public: true
+        tags:
+            - { name: twig.extension }

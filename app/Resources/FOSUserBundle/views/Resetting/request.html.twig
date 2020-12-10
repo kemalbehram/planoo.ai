@@ -1,0 +1,21 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Réinitialiser le mot de passe' %}
+
+{% block login_form_panel %}
+    <div class="row pull_low">
+        <div class="col s12">
+            <center>
+                <h5>Réinitialisez votre mot de passe Planoo.ai</h5>
+            </center>
+        </div>
+        <div class="col s12">
+            <center>Vous n'avez pas encore de compte ?
+                <a href="{{ path('fos_user_registration_register') }}" class="izy-color-primary-font">S'inscrire</a>
+            </center>
+        </div>
+        <div class="col s12">
+            {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+        </div>
+    </div>
+{% endblock login_form_panel %}

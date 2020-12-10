@@ -1,0 +1,106 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+{% if bp %}
+ {% set steps = bp.steps %}
+{% endif %}
+
+{% import "Frontend/_components/menu_macro.html.twig" as menu %}
+
+{{ menu.menu_title('move_to_inbox', 'Business Plan Financier', true, currentRoute in ['financial_information_index', 'financial_information_edit', 'financial_financiere_index', 'financial_season_index', 'financial_income_index', 'financial_charge_index', 'financial_staff_index', 'financial_bfr_index', 'financial_investissement_index', 'financial_funding_index'],path('financial_information_edit', {hash:bp.hash})) }}
+
+{% if steps is defined and currentRoute in ['financial_information_index', 'financial_information_edit', 'financial_financiere_index', 'financial_season_index', 'financial_income_index', 'financial_charge_index', 'financial_staff_index', 'financial_bfr_index', 'financial_investissement_index', 'financial_funding_index'] %}
+    {{ menu.menu_item('business', 'Votre entreprise', path('financial_information_index'), currentRoute in ['financial_information_index',  'financial_information_edit'], 1 in steps) }}
+
+    {% if 1 in steps %}
+        {{ menu.menu_item('settings', 'Configuration BP', path('financial_financiere_index'), currentRoute == 'financial_financiere_index', 2 in steps) }}
+    {% endif %}
+
+    {% if 1 in steps and 2 in steps %}
+        {{ menu.menu_item('timeline', 'Saisonnalité', path('financial_season_index'), currentRoute == 'financial_season_index', 3 in steps) }}
+        {{ menu.menu_item('shop_two', 'Revenus', path('financial_income_index'), currentRoute == 'financial_income_index', 4 in steps) }}
+        {{ menu.menu_item('bookmarks', 'Charges', path('financial_charge_index'), currentRoute == 'financial_charge_index', 5 in steps) }}
+        {{ menu.menu_item('people_alt', 'Personnel', path('financial_staff_index'), currentRoute == 'financial_staff_index', 6 in steps) }}
+        {{ menu.menu_item('speed', 'BFR', path('financial_bfr_index'), currentRoute == 'financial_bfr_index', 7 in steps) }}
+        {{ menu.menu_item('dashboard', 'Investissements', path('financial_investissement_index'), currentRoute == 'financial_investissement_index', 8 in steps) }}
+        {{ menu.menu_item('account_balance', 'Financements', path('financial_funding_index'), currentRoute == 'financial_funding_index', 9 in steps) }}
+
+
+    {% else %}
+        <li style="line-height: 22.5px !important;">
+            <center>
+                <p>
+                    <i>Veuillez remplir les 2 premières étapes pour accèder à la suite des sections</i>
+                </p>
+            </center>
+        </li>
+    {% endif %}
+
+    {% if bp.isNew %}
+        {{ menu.menu_button('search', 'Prévisualisez votre BP', true, '') }}
+    {% elseif  bp.isFinancialCompleted == false %}
+        {{ menu.menu_button('search', 'Prévisualisez votre BP', false, 'createOrUpdatePreviewWindow()') }}
+    {% else %}
+        {{ menu.menu_button('cloud_download', 'Téléchargez votre PDF', false, "downloadBpPdf('" ~ bp.hash ~ "', '" ~ bp.id ~ "', '" ~ bp.catalog.id ~ "'," ~ bp.isTrial ~ ");") }}
+    {% endif %}
+{% endif %}
+
+{% set boolRouteIsFormInternalServiceAccomp = orderId is defined and orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID') %}
+{% set boolRouteIsFormInternalServiceProject = orderId is defined and orderId == constant('PromotionBundle\\Entity\\Catalog::CATALOG_PREZ_PROJECT_FORMULA_ID') %}
+
+{{ menu.menu_title('people_alt', 'Accompagnement', bp.catalog.nbAdviceHour > 0, boolRouteIsFormInternalServiceAccomp ,path('back_order_BP_internal_service', {'idBusinessPlan': bp.id,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_1H_EXPERT_FORMULA_ID')}))  }}
+{{ menu.menu_title('subject', 'Présentation de projet', bp.catalog.hasWording, currentRoute in ['wording_custom_writing_index', 'wording_market_study_index'] or boolRouteIsFormInternalServiceProject,path('wording_custom_writing_index', {hash:bp.hash})) }}
+
+{% if (steps is defined and currentRoute in ['wording_custom_writing_index', 'wording_market_study_index']) or boolRouteIsFormInternalServiceProject %}
+    {{ menu.menu_item('content_copy', 'Rédaction personnalisée', path('wording_custom_writing_index'), currentRoute == 'wording_custom_writing_index', steps is defined and 11 in steps) }}
+    {{ menu.menu_item('multiline_chart', 'Etude de marché', path('wording_market_study_index'), currentRoute == 'wording_market_study_index', steps is defined and 12 in steps) }}
+    
+
+    {% if not bp.isWordingCompleted %}
+        {{ menu.menu_button('send', 'Envoyez votre demande',  true, '') }}
+    {% else %}
+        {{ menu.menu_button('send', 'Envoyez votre demande',  false, '', path('back_order_BP_internal_service', {'idBusinessPlan': bp.id,'idCatalog': constant('PromotionBundle\\Entity\\Catalog::CATALOG_PREZ_PROJECT_FORMULA_ID')})) }}
+    {% endif %}
+    
+{% endif %}
+
+<div class="nav-empty-space"></div>
+
+{% if getNextFormula(bp) %}
+    {{ menu.menu_button('autorenew', 'Changez de Formule', false, '', path('promotion_catalog_one', {'bpHash': bp.hash})) }}
+{% endif %}
+
+{% embed 'Frontend/_components/modal.html.twig' with {
+        'id': 'ask-for-formula-end-trial-pdf',
+        'targetCTACaption': 'Réglez votre formule'} %}
+    {% block modal_title %}
+        <h4>Vous avez finalisé votre Business Plan Financier ?</h4>
+    {% endblock modal_title %}
+    {% block modal_content %}
+        <p>Vous pouvez visualiser votre Business Plan avant de le télécharger : <a onclick="createOrUpdatePreviewWindow();">Cliquez ici</a></p>
+        <p>Pour télécharger immédiatement votre Business Plan au format .pdf, vous devez procéder au règlement de votre formule.</p>
+    {% endblock modal_content %}
+{% endembed %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        function createOrUpdatePreviewWindow() {
+            window.open( "{{ path('financial_businessPlan_pdf', {hash: bp.hash,pdf:false}) }}", "{{ bp.hash }}", "menubar=no,location=no,resizable=yes,scrollbars=no,status=no,toolbar=no,dependent=yes,height=610,width=861" );
+            Cookies.set( "{{ bp.hash }}", true, { expires: 1 } );
+        }
+
+        function downloadBpPdf( bpHash, bpId, catalogId, isTrial ) {
+            if ( isTrial ) { // Move the modal the the modal container in the main page, otherwise the modal is displayed is the menu area (due to twig include wich do not override block)
+                
+                openModal("#ask-for-formula-end-trial-pdf", true);
+
+                $( "#ask-for-formula-end-trial-pdf" ).on( "click", "#ask-for-formula-end-trial-pdf-cta", function ( e ) {
+                    window.location.href = "{{ path('promotion_catalog_add_item', {'businessPlanId': 999999999999, 'catalogId': 888888888888}) }}".replace( "999999999999", bpId ).replace( "888888888888", catalogId );
+                } );
+            } else {
+                window.open( "{{ path('financial_businessPlan_pdf', {hash: 999999999999}) }}".replace( "999999999999", bpHash ), "_blank" );
+            }
+        }
+
+    </script>
+{% endblock javascripts %}

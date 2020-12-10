@@ -1,0 +1,36 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <h1>ChargeStaffType</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chargeStaffType.id }}</td>
+            </tr>
+            <tr>
+                <th>Domain</th>
+                <td>{{ chargeStaffType.domain }}</td>
+            </tr>
+            <tr>
+                <th>Deletedat</th>
+                <td>{% if chargeStaffType.deletedAt %}{{ chargeStaffType.deletedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_chargestafftype_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_chargestafftype_edit', { 'id': chargeStaffType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

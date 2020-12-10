@@ -1,0 +1,23 @@
+back_status_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/Status:index" }
+    methods:  GET
+
+back_status_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/Status:new" }
+    methods:  [GET, POST]
+
+back_status_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/Status:edit" }
+    methods:  [GET, POST]
+
+back_status_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/Status:delete" }
+    methods:  DELETE
+
+back_status_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/Status:deleted" }

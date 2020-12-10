@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "izypitch-209719",
+  "private_key_id": "a1e15d7d721f794d6ff194044d6b634d2f45a609",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCblEuqfn9iBcmz\nwlv5FfKV+Rh0JBMEY8K3oHi6J8jYgSOLOsI/zxyTVusNNCYUFwX79ALRX2+Hr6D/\n/TPFD+mAt262HCDoqzbpiYRbIhYHysxEO5FsbHiQEzRQiI8j2jrBCqV3KJ5QeE9B\nciMntnhM6QCoXhcD4qANhJwP6OD/IrugGphT2kHmESp54g3NADLqu/e/4rU2UpM7\nbT+CyP5rG9CmPqj1wGIKvsgeWPNSQmNDDlZt6i54kodClLEtn8yawAt7I7ZCOaQp\nWnDV5YOszIOcb1rBcER3pZeVCccSCUG32pVMWdLDIKAS1SxOzdHCP7o7OE0undUh\n9pWgERE7AgMBAAECggEABKbU8laQ6XXh14GWrWZmF+zYOdTASs/OyR2/rlU1MJ//\n15BcsXq4UIF3SrBF+TDNCYD8upTfaU+rgSvpadl1cldJtKE3rK092ZK2heEJhpce\nL2YWjYbavfgNBuFmYjyKqC3wz5TD0wUd3YeTnILcqvQGhII3rvKONYlC/0jHvWkY\n/tZe0LYIbS1EArq5k/L8tcG29ZdsW4IcStJmYyljwAxsaReCS6xPvucLO+YWSctj\nAFoWqBIAIHrec49rH2o/bqndyuKCPaaaRW6TXrNeugkhy+p8zICJvZL11ZyOrxQJ\nP1vOPDOnwzWzyjmh0nLt4lCi6gvtsgDbkaxMCRlNwQKBgQDSInDArXUexnS5Zj8k\ng3rjhaT+pxv8Shl2pisYq8wZJybGkd+GmoMgA/S+E+kYOZXApcOAWG6FhKazq5Qj\nDRk1jl0GUyWinLDrXUrJL9YHi1SedBA0AfUi7i4ZpStgFmhWvDXe86xsDHJnWWJK\ntKOsS+VNynQY6HZy+IAqpU1BewKBgQC9iYEgV/ZU7/c3REVk66S1qJP4/dAzaXN4\nkPzAZ9ZulQAE2gyD/Xyya0h8fmiD5+uyyIY2rPIx7+/isEyRJ1YTPRQdr01L/9Sj\nGv23jSQi6YFS1BF0WlE6Nt9d/BkneLFm6f/TSI6S0vhMMzh5/Vtr6egUKl53Cvbn\njA1aAl0DQQKBgBYe4AW4fNLPi2wU8mKyoJYg9HyGNPD7D/EojvLa6vJe57sRkhlG\nXLVbFUGJMQmGzlfoW0tAg+n0S+QwFLkX4OZ9ZReMWzLiEdHFEWFacsp6hV7k0uvW\npOqXbizu8UD9OuCekYE135nEOardgvZgS7aQisQEovIYTpfNxxg2LIrPAoGAGTu2\nMi0jwVkVK4luR6pLilfAI3T/A+k1E0cSLzdjx+MUVpEE+4mC0WoRA2n81hrJOUsS\n+zJ5KAbOg/p+pxB6mCMYi38sJkMP9wr/3jDvL6qwqetLy5a+m6Z0hFmsq6GY1J+w\njFtrh8aIgfSLv0noouxIFm8xll2iU19E48fOxEECgYEAmUQ0ibtEfs/rbFjXB5X2\n6IZM0V81MJ58BpM9PoDs9JfC+AU6jvCVa3J/ytjOkDxXrCiPY7WO+n7Tizjb1hVM\ncaEKWditgw1erfaRqiCMKppkLswMH0oBIRgjiXjHiQnFJ9XSBfk5xw3tI+44RcJg\n51ol4IXbxbSoEr/W3Nw4Bqs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dashboard-izypitch@izypitch-209719.iam.gserviceaccount.com",
+  "client_id": "104869061980615910781",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dashboard-izypitch%40izypitch-209719.iam.gserviceaccount.com"
+}

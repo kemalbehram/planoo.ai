@@ -1,0 +1,19 @@
+# ******************************** COUPON ADMIN *********************************
+promotion_admin_coupon:
+    resource: "@PromotionBundle/Resources/config/backend/coupon.yml"
+    prefix:   /admin/coupon
+
+# ******************************** COUPON *********************************
+promotion_coupon:
+        resource: "@PromotionBundle/Resources/config/frontend/coupon.yml"
+        prefix:   /coupon
+
+# ******************************** CATALOG *********************************
+promotion_catalog:
+        resource: "@PromotionBundle/Resources/config/frontend/catalog.yml"
+        prefix:   /catalog
+
+# ******************************** CATALOG ADMIN *********************************
+promotion_back_catalog:
+    resource: "@PromotionBundle/Resources/config/backend/catalog.yml"
+    prefix:   /admin/catalog

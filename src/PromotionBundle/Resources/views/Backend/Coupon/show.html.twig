@@ -1,0 +1,87 @@
+{% extends "::Backend/base.html.twig" %}
+
+{% block content %}
+    <h3>{{ coupon.name }}</h3>
+    <hr>
+
+    {% block fil_ariane %}
+        <ol class="breadcrumb record_actions">
+            <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+            <li ><a href="{{ path('promotion_admin_coupon_index',{ 'isAdminView': 'true' }) }}">Liste des coupons</a></li>
+            <li class="active"><em>édition</em></li>
+        </ol>
+    {% endblock fil_ariane %}
+
+    <div class="">
+
+        <table>
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ coupon.id }}</td>
+                </tr>
+                <tr>
+                    <th>Code</th>
+                    <td>{{ coupon.code }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ coupon.name }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ coupon.description }}</td>
+                </tr>
+                <tr>
+                    <th>Exclusive</th>
+                    <td>{% if coupon.exclusive %}Yes : {{ coupon.exclusiveUser.username|capitalize }}{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Used</th>
+                    <td>{{ coupon.used }}</td>
+                </tr>
+                <tr>
+                    <th>Startsat</th>
+                    <td>{% if coupon.startsAt %}{{ coupon.startsAt|date('d/m/Y à H:i:s') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Endsat</th>
+                    <td>{% if coupon.endsAt %}{{ coupon.endsAt|date('d/m/Y à H:i:s') }}{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <hr>
+                <h3 class="text-center">Regle</h3>
+                <ul>
+                    <li>{{ coupon.rule.type }}</li>
+                    <li>{{ coupon.rule.configuration }}</li>
+                </ul>
+                <hr>
+            </div>
+            <div class="col-sm-6">
+                <hr>
+                <h3 class="text-center">Action</h3>
+                <ul>
+                    <li>{{ coupon.action.type }}</li>
+                    <li>{{ coupon.action.configuration }}</li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 text-right">
+            <a href="{{ path('promotion_admin_coupon_edit', { 'id': coupon.id }) }}" class="btn btn-warning">Edit</a>
+        </div>
+        <div class="col-sm-6 text-left">
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}

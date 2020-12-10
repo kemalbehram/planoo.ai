@@ -1,0 +1,14 @@
+partner_back_partner_index:
+    path:     /
+    defaults: { _controller: "PartnersBundle:Backend/Partner:index" }
+    methods:  GET
+
+partner_back_partner_new:
+    path:     /new
+    defaults: { _controller: "PartnersBundle:Backend/Partner:new" }
+    methods:  [GET, POST]
+
+partner_back_partner_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PartnersBundle:Backend/Partner:edit" }
+    methods:  [GET, POST]

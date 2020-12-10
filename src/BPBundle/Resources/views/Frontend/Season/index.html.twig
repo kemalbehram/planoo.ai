@@ -1,0 +1,97 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col s10 offset-s1">
+                <div class="row">
+                    <div class="col s12 " id="sliders">
+                        {% for slider in form.saisonnalites %}
+                            <div class="col s1 ">
+                                {{form_label(slider)}}
+                                {{ form_widget(slider) }}
+                                <div class="slider" id="slider-{{loop.index-1}}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"><!--button-->
+            <div class="input-field col s12">
+                <button class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock content %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        // Range design on inputs form
+        var sliders = document.getElementsByClassName('slider');
+        for (var i = 0; i < sliders.length; i++) {
+            var input = document.getElementById('saisonnalite_bp_saisonnalites_' + i + '_saisonCA');
+            if (i < sliders.length - 1) {
+                noUiSlider.create(sliders[i], {
+                    start: input.value, // 4 handles, starting at...
+                    connect: [true, false], // Display a colored bar between the handles
+                    direction: 'rtl', // Put '0' at the bottom of the slider
+                    orientation: 'vertical', // Orient the slider vertically
+                    behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                    step: 10,
+                    tooltips: false,
+                    range: {
+                        'min': 0,
+                        'max': 100
+                    }
+                });
+            } else {
+                noUiSlider.create(sliders[i], {
+                    start: input.value, // 4 handles, starting at...
+                    connect: [true, false], // Display a colored bar between the handles
+                    direction: 'rtl', // Put '0' at the bottom of the slider
+                    orientation: 'vertical', // Orient the slider vertically
+                    behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+                    step: 10,
+                    tooltips: false,
+                    range: {
+                        'min': 0,
+                        'max': 100
+                    },
+                    //pips: {// Show a scale with the slider
+                    //    mode: 'positions',
+                    //    values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                    //    stepped: true,
+                    //    density: 4
+                    //}
+                });
+            }
+            document.getElementById('saisonnalite_bp_saisonnalites_' + i + '_saisonCA').style.display = 'none';
+            sliders[i].noUiSlider.on('change', function (values, handle) {
+                var input = document.getElementById('saisonnalite_bp_saisonnalites_' + this.target.id.substring(7) + '_saisonCA');
+                input.value = values[handle];
+            });
+        }
+
+        // labels on inputs form
+        var labels = $('.required');
+        var months = ['Janvier', 'Fév.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.']
+
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].innerHTML = months[i];
+        }
+
+    </script>
+{% endblock javascripts %}

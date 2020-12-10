@@ -1,0 +1,30 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Demande envoyée' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block login_form_panel %}
+    <div class="row">
+        <div class="col s12">
+            <center>
+                <h5>Réinitialisez votre mot de passe Planoo.ai</h5>
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+                <a style="width:100%;" href="{{ path('fos_user_security_login') }}" class="btn izy-color-primary-bg waves-effect waves-light">
+                    Connectez-vous
+                </a>
+        </div>
+    </div>
+    
+
+{% endblock login_form_panel %}

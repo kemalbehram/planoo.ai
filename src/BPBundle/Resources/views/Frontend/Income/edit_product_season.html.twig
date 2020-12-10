@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col s10 offset-s1">
+        <br>
+        {{ form_start(form) }}
+        <div class="modal-content"><!-- content -->
+            <h5 class="flow-text upper center">Saisonnalité des ventes</h5>
+            <div class="row">
+                <center>
+                    <div>Pour définir la saisonnalité des ventes, augmenter ou diminuer l'indice des mois en fonction de l'activité.</div>
+                    <br/>
+                    <div><i>Par exemple, si vous vendez des glaces, vous pouvez indiquer que les mois de juin, juillet et août présentent plus de vente que le reste de l'année en augmentant l'indice des ces mois.</i></div>
+                </center>
+            </div>
+            <div class="row pull_low">
+                <div class="col s10 offset-s1 " id="sliders">
+                    {% for slider in form.productSeasons %}
+                        <div class="col s1 ">
+                            {{form_label(slider)}}
+                            {{ form_widget(slider) }}
+                            <div class="slider" id="slider-{{loop.index-1}}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="deleteProductSeasonsAction(this);" class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-url="{{ path('financial_income_product_seasons_delete', {id:idIncome}) }}">Réinitialiser</button>
+            <button type="button" onclick="saveProductSeasonsAction(this);" class="submit btn waves-effect waves-light izy-color-primary-bg z-depth-0 edit-income" data-url="{{ path('financial_income_product_seasons_update', {id:idIncome}) }}">Valider</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>

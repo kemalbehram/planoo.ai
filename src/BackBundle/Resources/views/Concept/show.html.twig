@@ -1,0 +1,61 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    <h1>Concept</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ concept.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ concept.translate.title|capitalize }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('back_concept_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('back_concept_edit', { 'id': concept.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+
+
+    <hr>
+
+
+    <table>
+        <tbody>
+        {% for definition in concept.definitions %}
+            <tr>
+                <th>Id</th>
+                <td>{{ definition.id }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ definition.logo }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ definition.translate.name }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ definition.translate.content|raw }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

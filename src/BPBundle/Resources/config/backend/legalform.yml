@@ -1,0 +1,28 @@
+back_legalform_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/LegalForm:index" }
+    methods:  GET
+
+back_legalform_show:
+    path:     /{id}/show
+    defaults: { _controller: "BPBundle:Backend/LegalForm:show" }
+    methods:  GET
+
+back_legalform_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/LegalForm:new" }
+    methods:  [GET, POST]
+
+back_legalform_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/LegalForm:edit" }
+    methods:  [GET, POST]
+
+back_legalform_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/LegalForm:delete" }
+    methods:  DELETE
+
+back_legalform_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/LegalForm:deleted" }

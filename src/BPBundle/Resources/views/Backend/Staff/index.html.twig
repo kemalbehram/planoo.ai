@@ -1,0 +1,30 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+
+    <div class="row">
+        {% block fil_ariane %}
+            <ol class="breadcrumb record_actions">
+                <li ><a href="{{ path('back_homepage') }}">Dashboard</a></li>
+                <li class="active"><em>Liste des pôles et status</em></li>
+            </ol>
+        {% endblock fil_ariane %}
+
+
+        {% for message in app.session.flashbag.get("info") %}
+
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="panel-pole">
+            {{ render(controller('BPBundle:Backend/Pole:index')) }}
+        </div>
+        <hr>
+        <div class="panel-status">
+            {{ render(controller('BPBundle:Backend/Status:index')) }}
+        </div>
+    </div>
+
+{% endblock content %}

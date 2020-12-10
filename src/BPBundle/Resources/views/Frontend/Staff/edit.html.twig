@@ -1,0 +1,79 @@
+<div>
+    {{ form_start(editForm,{'name':'form'~idStaff}) }}
+    <div class="modal-content"><!-- content -->
+        <h5 class="flow-text upper center">{% if action =='create' %}Ajoutez{% else %}Editez{% endif %} une charge de personnel</h5><br>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">account_circle</i>
+                {{ form_widget (editForm.name) }}
+                {{ form_errors (editForm.name) }}
+                {{ form_label  (editForm.name) }}
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">list</i>
+                {{ form_widget (editForm.pole) }}
+                {{ form_label  (editForm.pole) }}
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">list</i>
+                {{ form_widget (editForm.status) }}
+                {{ form_label  (editForm.status) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">euro_symbol</i>
+                {{ form_widget (editForm.income) }}
+                {{ form_errors (editForm.income) }}
+                {{ form_label  (editForm.income) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">create</i>
+                {{ form_widget (editForm.hours) }}
+                {{ form_errors (editForm.hours) }}
+                {{ form_label  (editForm.hours) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">today</i>
+                {{ form_widget (editForm.createdAt) }}
+                {{ form_errors (editForm.createdAt) }}
+                {{ form_label  (editForm.createdAt) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix grey-text">today</i>
+                {{ form_widget (editForm.finishedAt) }}
+                {{ form_errors (editForm.finishedAt) }}
+                {{ form_label  (editForm.finishedAt) }}
+            </div>
+        </div>
+
+    </div><!-- /.content -->
+    <div class="modal-footer"><!-- footer -->
+        <button type="button" class="btn modal-action modal-close waves-effect waves-light black-text grey lighten-2 z-depth-0" data-dismiss="modal">Annuler</button>
+        <button type="button" onclick="saveAction(this, '{{action}}');" class="submit btn waves-effect waves-light izy-color-primary-bg z-depth-0 edit-income" 
+                {% if action =='create' %}
+                    data-url="{{ path('financial_staff_create', {idBusinessPlan:idBusinessPlan}) }}"
+                {% else %}
+                    data-url="{{ path('financial_staff_update', {id:idStaff}) }}"
+                {% endif %}
+                >Enregistrez</button>
+    </div><!-- /.footer  -->
+    {{ form_end(editForm) }}
+</div>

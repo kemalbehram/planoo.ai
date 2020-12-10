@@ -1,0 +1,104 @@
+{% extends '::Frontend/layout_login.html.twig' %}
+
+{% set header='Connexion' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block login_wording_panel %}
+     <div class="left-align white-text row">
+        <div class="col s12 offset-m1" id="titre1-placeholder">
+            <titre class="titre1">
+                Décrochez vos financements
+                <br/>
+                rapidement !
+            </titre>
+        </div>
+    </div>
+
+     <div class="left-align white-text row" id="titre2-placeholder">
+        <div class="col offset-s1">
+            <h1 class="titre2">
+                Réalisez facilement<br/>
+                votre Business Plan en ligne
+            </h1>
+        </div>
+    </div>
+{% endblock login_wording_panel %}
+
+{% block login_form_panel %}
+    <div class="col s12">
+        <center>
+            <h5>Connectez-vous à votre espace Planoo.ai</h5>
+        </center>
+    </div>
+    <div class="col s12">
+        <center>Vous n'avez pas encore de compte ?
+            <a href="{{ path('fos_user_registration_register') }}" class="izy-color-primary-font">S'inscrire</a>
+        </center>
+    </div>
+    <div class="col s12">
+
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
+
+            <div class="row pull_low">
+                {% if error %}
+                    <div class="card red lighten-5 z-depth-0">
+                        <div class="card-content red-text">
+                            <p>
+                                <i class="material-icons left">error</i>
+                                {{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col s12">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+
+                    <label for="username">{{ 'form.email'|trans }}</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="email"/>
+                    <span class="helper-text" data-error="Cette valeur n'est pas valide."></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <label for="password">{{ 'security.login.password'|trans }}</label>
+                    <input type="password" id="password" name="_password" required="required" autocomplete="current-password"/>
+                    <span class="helper-text" data-error="Cette valeur n'est pas valide."></span>
+                    <label>
+                        <b>
+                            <a class="izy-color-primary-font right" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié ?</a>
+                        </b>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <label>
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                        <span for="remember_me">{{ 'security.login.remember_me'|trans }}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <button type="submit" id="_submit" name="_submit" style="width: 100%;" class="btn izy-color-primary-bg waves-effect waves-light">
+                        {{ 'security.login.submit'|trans }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock login_form_panel %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeeNOwUAAAAAO8MD4XnlPExkMjZMXsNCLk45Iyu"></script>
+    <script>
+        grecaptcha.ready( function () {
+            grecaptcha.execute( "6LeeNOwUAAAAAO8MD4XnlPExkMjZMXsNCLk45Iyu", { action: "homepage" } ).then( function ( token ) {
+                var recaptchaResponse = document.getElementById( "recaptchaResponse" );
+                recaptchaResponse.value = token;
+            } );
+        } );
+    </script>
+{% endblock %}

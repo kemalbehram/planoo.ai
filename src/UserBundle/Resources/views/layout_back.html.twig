@@ -1,0 +1,29 @@
+{% extends '::Backend/base.html.twig'%}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col-sm-8 col-sm-offset-2">
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {% block fos_user_content %}{% endblock fos_user_content %}
+    </div>
+{% endblock content %}
+
+
+
+
+
+

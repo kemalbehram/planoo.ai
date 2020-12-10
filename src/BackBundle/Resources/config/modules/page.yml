@@ -1,0 +1,28 @@
+back_page_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Page:index" }
+    methods:  GET
+
+back_page_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Page:show" }
+    methods:  GET
+
+back_page_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Page:new" }
+    methods:  [GET, POST]
+
+back_page_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Page:edit" }
+    methods:  [GET, POST]
+
+back_page_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Page:delete" }
+    methods:  DELETE
+
+back_page_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BackBundle:Page:deleted" }

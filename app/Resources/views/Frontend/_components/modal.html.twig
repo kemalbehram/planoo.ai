@@ -1,0 +1,46 @@
+<!-- Modal Structure -->
+{% set modalId = id is defined ? id : null %}
+{% set targetCTAUrl = targetCTAUrl is defined ? targetCTAUrl : '#' %}
+{% set targetCloseUrl = targetCloseUrl is defined ? targetCloseUrl : '#!' %}
+{# modalType : form, information,information-left-align-content  #}
+{% set modalType = type is defined ? type : 'information' %}
+
+<div id="{{ modalId }}" class="{{modalId ? 'modal' : ''}} {{modalType == 'form' ? 'modal-fixed-footer' : ''}} popup-{{modalType}}">
+    <div class="modal-content center">
+        {% if modalType != 'form' %}
+            <a href="#!" class="right modal-close">
+                <i class="material-icons black-text">cancel</i>
+            </a>
+            <div class="modal-logo">
+                    <img src="{{ asset('build/images/Picto-Planoo-fond-violet.svg') }}" alt="logo" width="64px">
+            </div>
+        {% endif %}
+
+        {% block modal_title %}{% endblock modal_title %}
+         <hr/>
+         <div class="modal-text">
+            {% block modal_content %}
+            
+            {% endblock modal_content %}
+        </div>
+    </div>
+    <div class="modal-footer">
+        {% block modal_footer %}
+            {% if targetCloseCaption is defined %}
+                <a id="{{modalId}}-close" href={{targetCloseUrl}} class="btn black {% if targetCloseUrl == '#!' %}close-on-action{% endif %}">{{targetCloseCaption}}</a>
+            {% endif %}
+            {% if targetCloseCaption is defined and targetCTACaption is defined %}
+                <span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            {% endif %}
+            {% if targetCTACaption is defined %}
+                <a id="{{modalId}}-cta" href="{{targetCTAUrl}}" class="btn izy-color-secondary-bg {% if targetCTAUrl == '#' %}close-on-action{% endif %}">{{targetCTACaption}}</a>
+            {% endif %}
+            {% if targetCTA2Caption is defined and targetCTA2Caption is not null %}
+                <span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            {% endif %}
+            {% if targetCTA2Caption is defined and targetCTA2Caption is not null %}
+                <a id="{{modalId}}-cta2" href="{{targetCTA2Url}}" class="btn izy-color-secondary-bg {% if targetCTA2Url == '#' %}close-on-action{% endif %}">{{targetCTA2Caption}}</a>
+            {% endif %}
+        {% endblock %}
+    </div>
+</div>

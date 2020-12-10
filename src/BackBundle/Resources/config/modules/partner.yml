@@ -1,0 +1,28 @@
+back_partner_index:
+    path:     /
+    defaults: { _controller: "BackBundle:Partner:index" }
+    methods:  GET
+
+back_partner_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:Partner:show" }
+    methods:  GET
+
+back_partner_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:Partner:new" }
+    methods:  [GET, POST]
+
+back_partner_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:Partner:edit" }
+    methods:  [GET, POST]
+
+back_partner_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackBundle:Partner:delete" }
+    methods:  DELETE
+
+back_partner_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BackBundle:Partner:deleted" }

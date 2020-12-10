@@ -1,0 +1,53 @@
+{% extends "::Backend/base.html.twig" %}
+
+
+{% block content %}
+    {% for message in app.session.flashbag.get("info") %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <section class="content-header">
+        <div class="col-xs-6">
+            <h1>
+                Catalogue
+                <small>Liste des produits</small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="{{ path('promotion_back_catalog_new') }}" class="btn btn-app pull-right"><i class="fa fa-plus-square-o"></i>Créer</a>
+            </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table class="table">
+                            <thead>
+                                <tr class="filters">
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Prix</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for catalog in catalogs %}
+                                    <tr>
+                                        <td><a href="{{ path('promotion_back_catalog_edit', { 'id': catalog.id }) }}">{{ catalog.name }}</a></td>
+                                        <td><a href="{{ path('promotion_back_catalog_edit', { 'id': catalog.id }) }}">{{ catalog.description }}</a></td>
+                                        <td>{{ catalog.price }}</td>
+                                        <td><a href="{{ path('promotion_back_catalog_deleted', { 'id': catalog.id }) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

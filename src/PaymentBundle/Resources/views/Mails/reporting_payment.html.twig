@@ -1,0 +1,40 @@
+<html>
+    <body>
+        <h1 class="flow-text center izy-color-primary-font">Planoo.ai - Reporting paiements fin de période d'essai - {{myDate|date('d/m/Y')}}</h1>
+
+        <h2>Paiements OK :</h2>
+        {% if paymentsOk|length > 0 %}
+            <ul>
+                {% for p in paymentsOk %}
+                    <li>{{p.id}} : {{p.amount / 100}}€ [SripteToken = {{p.stripeToken}}]</li>
+                    {% endfor %}
+            </ul>
+        {% else %}
+            <p> Aucun paiement </p>
+        {% endif %}
+
+        <h2>BP Activés :</h2>
+        {% if bpOk|length > 0 %}
+            <ul>
+                {% for bp in bpOk %}
+                    <li>{{bp.user.username}} : {{bp.hash}}</li>
+                    {% endfor %}
+            </ul>
+        {% else %}
+            <p> Aucun </p>
+        {% endif %}
+
+        <h2>Paiements en erreur :</h2>
+        {% if paymentsError|length > 0 %}
+            <ul>
+                {% for entity in paymentsError %}
+                    {% set p = entity['payment']%}
+                    {% set e = entity['exception'] %}
+                    <li>{{p.id}} : {{p.amount / 100}}€ [SripteToken = {{p.stripeToken}}] ==> {{e.message}}</li>
+                    {% endfor %}
+            </ul>
+        {% else %}
+            <p> Aucun paiement </p>
+        {% endif %}
+    </body>
+</html>

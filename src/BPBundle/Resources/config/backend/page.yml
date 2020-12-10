@@ -1,0 +1,28 @@
+bp_back_page_index:
+    path:     /
+    defaults: { _controller: "BPBundle:Backend/Page:index" }
+    methods:  GET
+
+bp_back_page_show:
+    path:     /{id}/show
+    defaults: { _controller: "BPBundle:Backend/Page:show" }
+    methods:  GET
+
+bp_back_page_new:
+    path:     /new
+    defaults: { _controller: "BPBundle:Backend/Page:new" }
+    methods:  [GET, POST]
+
+bp_back_page_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BPBundle:Backend/Page:edit" }
+    methods:  [GET, POST]
+
+bp_back_page_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BPBundle:Backend/Page:delete" }
+    methods:  DELETE
+
+bp_back_page_deleted:
+    path:     /remove/{id}
+    defaults: { _controller: "BPBundle:Backend/Page:deleted" }

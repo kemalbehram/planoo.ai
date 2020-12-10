@@ -1,0 +1,12 @@
+promotion_coupon_checker:
+    path:     /check-coupon
+    defaults: { _controller: "PromotionBundle:Frontend/Coupon:checkerCoupon" }
+    methods:  POST
+
+promotion_coupon_remove:
+    path:     /remove/{idCoupon}/{idCart}
+    defaults: { _controller: "PromotionBundle:Frontend/Coupon:removeCoupon" }
+    
+promotion_coupon_mark_as_sent:
+    path:     /mark/{idCoupon}
+    defaults: { _controller: "PromotionBundle:Frontend/Coupon:markCouponAsSent" }

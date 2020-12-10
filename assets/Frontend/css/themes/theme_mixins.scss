@@ -1,0 +1,214 @@
+// COMMON colors
+body {
+  background: white;
+}
+
+li a:hover {
+  color: grey;
+}
+
+nav {
+  background-color: white;
+}
+
+.info {
+  -webkit-box-shadow: 0 0 0 6px #fff;
+  box-shadow: 0 0 0 6px #fff;
+  background-color: #fff;
+}
+
+input[type="radio"]:checked:before {
+  background: orange !important;
+}
+
+@mixin generate_theme(
+  $main-color,
+  $light-color,
+  $dark-color,
+  $secondary-color
+) {
+  a {
+    color: $main-color;
+  }
+
+  h4 {
+    color: $main-color;
+  }
+
+  hr {
+    border-top-color: $main-color !important;
+  }
+
+  .catalog-container {
+    background: linear-gradient(180deg, $main-color 254px, #ffffff 0%);
+  }
+
+  .modal {
+    hr {
+      border-color: $main-color !important;
+    }
+
+    h4 {
+      color: $main-color;
+      font-weight: bold;
+    }
+  }
+  /*RANGE SLIDER*/
+  input[type="range"] + .thumb {
+    background-color: $main-color !important;
+  }
+
+  .flow-text {
+    // TODO USELESS
+    color: $main-color;
+  }
+
+  .izy-color-primary-font {
+    color: $main-color !important;
+  }
+
+  .izy-color-primary-bg {
+    background-color: $main-color !important;
+  }
+
+  .izy-color-primary-light-font {
+    color: $light-color !important;
+  }
+
+  .izy-color-primary-light-bg {
+    background-color: $light-color !important;
+  }
+
+  .izy-color-primary-dark-font {
+    color: $dark-color !important;
+  }
+
+  .izy-color-primary-dark-bg {
+    background-color: $dark-color !important;
+  }
+
+  .pagination .active {
+    background-color: $main-color !important;
+  }
+
+  svg g {
+    fill: $main-color;
+  }
+
+  /*cards **********************************/
+  .card
+    .card-action
+    a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+    color: $main-color;
+  }
+
+  .card
+    .card-action
+    a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
+    // TODO 70 opcity check
+    color: $main-color;
+    opacity: 0.7;
+  }
+
+  /*PROGRESS BAR *******************************************************/
+  .progress .indeterminate {
+    background-color: $main-color;
+  }
+
+  .progress {
+    background-color: $main-color;
+    opacity: 0.54;
+  }
+
+  /********************************************************/
+
+  /*PICKER DATE************************************************/
+  .datepicker-date-display {
+    background-color: $main-color !important;
+  }
+
+  .datepicker-table td.is-today {
+    color: $main-color !important;
+  }
+
+  .datepicker-table td.is-selected,
+  .datepicker-table td.is-selected:hover,
+  .datepicker-day-button:focus {
+    background-color: $main-color !important;
+  }
+
+  .datepicker-cancel,
+  .datepicker-today,
+  .datepicker-done {
+    color: $main-color !important;
+  }
+
+  .slider .indicators .indicator-item.active {
+    background-color: $main-color !important;
+  }
+
+  .slider .noUi-connect {
+    background: $main-color !important;
+  }
+
+  [type="checkbox"].filled-in:checked + label:after {
+    border-color: $main-color !important;
+    background-color: $main-color;
+  }
+
+  input:not([type]):focus:not([readonly]),
+  input[type="text"]:not(.browser-default):focus:not([readonly]),
+  input[type="password"]:not(.browser-default):focus:not([readonly]),
+  input[type="email"]:not(.browser-default):focus:not([readonly]),
+  input[type="url"]:not(.browser-default):focus:not([readonly]),
+  input[type="time"]:not(.browser-default):focus:not([readonly]),
+  input[type="date"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+  input[type="tel"]:not(.browser-default):focus:not([readonly]),
+  input[type="number"]:not(.browser-default):focus:not([readonly]),
+  input[type="search"]:not(.browser-default):focus:not([readonly]),
+  textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid $main-color;
+    -webkit-box-shadow: 0 1px 0 0 $main-color;
+    box-shadow: 0 1px 0 0 $main-color;
+  }
+
+  input:not([type]):focus:not([readonly]) + label,
+  input[type="text"]:focus:not([readonly]) + label,
+  input[type="password"]:focus:not([readonly]) + label,
+  input[type="email"]:focus:not([readonly]) + label,
+  input[type="url"]:focus:not([readonly]) + label,
+  input[type="time"]:focus:not([readonly]) + label,
+  input[type="date"]:focus:not([readonly]) + label,
+  input[type="datetime"]:focus:not([readonly]) + label,
+  input[type="datetime-local"]:focus:not([readonly]) + label,
+  input[type="tel"]:focus:not([readonly]) + label,
+  input[type="number"]:focus:not([readonly]) + label,
+  input[type="search"]:focus:not([readonly]) + label,
+  textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: $main-color !important;
+  }
+
+  .dropdown-content li > a,
+  .dropdown-content li > span {
+    color: $main-color !important;
+  }
+
+  .picker__close,
+  .picker__today {
+    color: $main-color !important;
+  }
+
+  #login-body {
+    background-image: linear-gradient(to bottom, $main-color, $secondary-color);
+  }
+
+  .izy-color-secondary-font {
+    color: $secondary-color !important;
+  }
+
+  .izy-color-secondary-bg {
+    background-color: $secondary-color !important;
+  }
+}

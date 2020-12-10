@@ -1,0 +1,121 @@
+{% extends 'BPBundle::Frontend/bp_form_layout.html.twig' %}
+
+{% block content %}
+    <div class="col s12 m10 offset-m1"><!-- FORM STEP 1 BP -->
+        <div class="row">
+            <div class="col s12">
+                {{ form_start(form) }}
+                <span class="form-msg-error is_invisible amber darken-3"></span>
+                <div class="row"><!-- capital social-->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text ">create</i>
+                        {{ form_widget (form.capital) }}
+                        {{ form_label (form.capital) }}
+                        {{ form_errors (form.capital) }}
+                    </div>
+                </div>
+
+                <div class="row"><!-- Horizon du prévisionnel -->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text ">list</i>
+                        {{ form_widget (form.accountingPeriod) }}       {# input #}
+                        {{ form_errors (form.accountingPeriod) }}
+                        {{ form_label  (form.accountingPeriod) }}
+                    </div>
+                </div>
+
+                <div class="row"><!-- date de création -->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">today</i>
+                        {{ form_widget (form.createdAt) }}       {# input #}
+                        {{ form_errors (form.createdAt) }}
+                        {{ form_label  (form.createdAt) }}
+                    </div>
+                </div>
+
+                <div class="row"><!-- date de clôture du 1er Exercice -->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">today</i>
+                        {{ form_widget (form.closingDate) }}       {# input #}
+                        {{ form_errors (form.closingDate) }}
+                        {{ form_label  (form.closingDate) }}
+                    </div>
+                </div>
+
+                <div class="row"><!-- TVA -->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">account_balance</i>
+                        {{ form_widget (form.tva) }}       {# input #}
+                        {{ form_label  (form.tva) }}
+                    </div>
+                </div>
+
+                <div class="row"><!-- TVA -->
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix grey-text">account_balance</i>
+                        {{ form_widget (form.tvaSurEncaissement) }}       {# input #}
+                        {{ form_label  (form.tvaSurEncaissement) }}
+                    </div>
+                </div>
+
+                <div class="row"><!--button-->
+                    <div class="input-field col s12">
+                        <button id="financeButton" class="btn-large izy-color-primary-bg waves-effect waves-light right z-depth-0" type="submit" name="action">Enregistrez et continuez</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div><!-- FIN FORM STEP 1 -->
+
+    <!-- <div class="col m4"><!- BLOCK QUESTIONS -> -->
+    <!-- <div class="card">
+      <div class="card-content center">
+          <span class="card-title activator izy-color-primary-font"><b>Question</b></span>
+      </div>
+    </div> -->
+    <!-- </div><!- FIN BLOCK QUESTIONS -> -->
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        function setClosingDate(startDate) {
+            var $inputClosing = $('#finance_closingDate');
+            var tmpDatepickerDefaultOptionsClosing = Object.assign({}, datepickerAllDatesOptions);
+
+            if (startDate) {
+                var dateMin = new Date(startDate);
+                dateMin.setMonth(dateMin.getMonth() + 1, 1);
+                tmpDatepickerDefaultOptionsClosing.minDate = dateMin;
+                var dateMax = new Date(startDate);
+                dateMax.setDate(dateMax.getDate() + 365 * 2);
+                tmpDatepickerDefaultOptionsClosing.maxDate = dateMax;
+                $inputClosing.datepicker(tmpDatepickerDefaultOptionsClosing);
+
+                var dateParts = $inputClosing.val().split("/");
+                var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+                if (dateObject < dateMin || dateObject > dateMax) {
+                    $inputClosing.val(null);
+                }
+            }
+        }
+        $(document).ready(function () {
+
+            var $inputCreated = $('#finance_createdAt');
+
+            var tmpDatepickerDefaultOptionsCreated = Object.assign({}, datepickerAllDatesOptions);
+            tmpDatepickerDefaultOptionsCreated.onSelect = function () {
+                setClosingDate(this.date);
+            };
+            $inputCreated.datepicker(tmpDatepickerDefaultOptionsCreated);
+
+            var dateParts = $inputCreated.val().split("/");
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+            setClosingDate(dateObject);
+        });
+    </script>
+{% endblock javascripts %}

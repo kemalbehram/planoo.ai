@@ -1,0 +1,15 @@
+
+<footer class="page-footer white {% if fullWidth is defined and fullWidth %}full-width{% endif %}">
+    <div class="row center-align">
+        <hr>
+        <span class="izy-color-primary-font">
+            <p>Copyright © {{ 'now'|date('Y') }} {% if not white_mark %}Planoo.ai{% endif %} - All rights reserved</p>
+            {% if white_mark %}<p><a class="izy-color-primary-font" href="https://planoo.ai/mentions-legales/">Mentions légales</a> | <a class="izy-color-primary-font" href="{{ path('front_contact') }}">Contact</a> | <a class="izy-color-primary-font" href="https://planoo.ai/cgu-cgv/">Conditions Générales de Vente</a> | <a class="izy-color-primary-font" href="https://planoo.ai/politique-de-confidentialite/">Politique de confidentialité</a></p>{% endif %}
+        </span>
+    </div>
+</footer>
+
+{% if app.environment != 'prod' %}
+    <script type="text/javascript" src="https://planoo.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/o2joag/b/24/a44af77267a987a660377e5c46e0fb64/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=fr-FR&collectorId=6a58fdb1"></script>
+{% endif %}
+

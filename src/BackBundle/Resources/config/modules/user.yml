@@ -1,0 +1,34 @@
+back_user_index:
+    path:     /{isAdminView}
+    defaults: { _controller: "BackBundle:User:index", isAdminView: false}
+    methods:  GET
+
+back_user_show:
+    path:     /{id}/show
+    defaults: { _controller: "BackBundle:User:show" }
+    methods:  GET
+
+back_user_new:
+    path:     /new
+    defaults: { _controller: "BackBundle:User:form"}
+
+back_user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackBundle:User:form"}
+    requirements:
+        id:  \d+
+
+back_user_delete:
+    path:     /{id}/remove
+    defaults: { _controller: "BackBundle:User:delete"}
+    requirements:
+        id:  \d+
+
+back_user_activate_desactivate:
+    path:     /activate-desactivate/{id}
+    defaults: { _controller: BackBundle:User:activate_or_desactivate}
+
+back_ajax_user_list:
+    path:     /ajax-user-list/{isAdminView}
+    defaults: { _controller: "BackBundle:User:ajaxUserListDataTable"}
+    methods:  GET
